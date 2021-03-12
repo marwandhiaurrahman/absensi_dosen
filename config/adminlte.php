@@ -232,37 +232,56 @@ return [
         [
             'text' => 'Dashboard',
             'url'  => 'dashboard',
-            'icon' =>'fa fa-home'
+            'icon' => 'fa fa-home'
         ],
         [
             'text'        => 'Product',
             'url'         => 'products',
             'icon'        => 'fa fa-box',
-            'can'=>'product-list',
-            'active' => ['products','regex:@^products/[0-9]+$@','regex:@^products/[0-9]/edit+$@','products/create']
+            'can' => 'product-list',
+            'active' => ['products', 'regex:@^products/[0-9]+$@', 'regex:@^products/[0-9]/edit+$@', 'products/create']
         ],
         [
             'text'        => 'Fakultas',
             'url'         => 'fakultas',
             'icon'        => 'fa fa-book',
             // 'can'=>'product-list',
-            'active' => ['fakultas','regex:@^fakultas/[0-9]+$@','regex:@^fakultas/[0-9]/edit+$@','fakultas/create']
+            'active' => ['fakultas', 'regex:@^fakultas/[0-9]+$@', 'regex:@^fakultas/[0-9]/edit+$@', 'fakultas/create']
         ],
         [
             'text'        => 'Program Studi',
             'url'         => 'prodi',
             'icon'        => 'fa fa-book',
             // 'can'=>'product-list',
-            'active' => ['prodi','regex:@^prodi/[0-9]+$@','regex:@^prodi/[0-9]/edit+$@','prodi/create']
+            'active' => ['prodi', 'regex:@^prodi/[0-9]+$@', 'regex:@^prodi/[0-9]/edit+$@', 'prodi/create']
         ],
         [
             'text'        => 'Kelas',
             'url'         => 'kelas',
             'icon'        => 'fa fa-book',
             // 'can'=>'product-list',
-            'active' => ['kelas','regex:@^kelas/[0-9]+$@','regex:@^kelas/[0-9]/edit+$@','kelas/create']
+            'active' => ['kelas', 'regex:@^kelas/[0-9]+$@', 'regex:@^kelas/[0-9]/edit+$@', 'kelas/create']
         ],
-
+        [
+            'text'    => 'Ruangan Belajar',
+            'icon'    => 'fa fa-home',
+            'submenu' => [
+                [
+                    'text'        => 'Ruangan',
+                    'url'         => 'ruangan',
+                    'shift'   => 'ml-3',
+                    // 'can'=>'product-list',
+                    'active' => ['ruangan', 'regex:@^ruangan/[0-9]+$@', 'regex:@^ruangan/[0-9]/edit+$@', 'ruangan/create']
+                ],
+                [
+                    'text'        => 'Gedung',
+                    'url'         => 'gedung',
+                    'shift'   => 'ml-3',
+                    // 'can'=>'product-list',
+                    'active' => ['gedung', 'regex:@^gedung/[0-9]+$@', 'regex:@^gedung/[0-9]/edit+$@', 'gedung/create']
+                ],
+            ],
+        ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
@@ -273,15 +292,15 @@ return [
             'text'        => 'User',
             'url'         => 'users',
             'icon'        => 'fa fa-users',
-            'can'=>'user-list',
-            'active' => ['users','regex:@^users/[0-9]+$@','regex:@^users/[0-9]/edit+$@','users/create']
+            'can' => 'user-list',
+            'active' => ['users', 'regex:@^users/[0-9]+$@', 'regex:@^users/[0-9]/edit+$@', 'users/create']
         ],
         [
             'text'        => 'Role',
             'url'         => 'roles',
             'icon'        => 'fa fa-id-card',
-            'can'=>'role-list',
-            'active' => ['roles','regex:@^roles/[0-9]+$@','regex:@^roles/[0-9]/edit+$@','roles/create']
+            'can' => 'role-list',
+            'active' => ['roles', 'regex:@^roles/[0-9]+$@', 'regex:@^roles/[0-9]/edit+$@', 'roles/create']
         ],
     ],
 

@@ -16,7 +16,7 @@ class User extends Authenticatable
     public function adminlte_image()
     {
         if (empty($this->foto)) {
-            return 'https://picsum.photos/300/300';
+            return asset('vendor/adminlte/dist/img/avatar.png');
         } else {
             return asset('storage/profile-image/'.$this->foto);
         }

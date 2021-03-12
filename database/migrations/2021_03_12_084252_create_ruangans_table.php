@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKelasTable extends Migration
+class CreateRuangansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateKelasTable extends Migration
      */
     public function up()
     {
-        Schema::create('kelas', function (Blueprint $table) {
+        Schema::create('ruangans', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->integer('lantai');
             $table->string('kode');
-            $table->string('tahun');
-            $table->foreignId('prodi_id')->unsigned()->references('id')->on('prodis')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('gedung_id')->unsigned()->references('id')->on('gedungs')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateKelasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kelas');
+        Schema::dropIfExists('ruangans');
     }
 }

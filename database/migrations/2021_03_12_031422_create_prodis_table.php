@@ -17,7 +17,7 @@ class CreateProdisTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('kode');
-            $table->foreignId('fakultas_id')->unsigned()->references('id')->on('fakultas')->onDelete('cascade');
+            $table->foreignId('fakultas_id')->unsigned()->references('id')->on('fakultas')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

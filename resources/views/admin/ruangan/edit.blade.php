@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Edit Program Studi')
+@section('title', 'Edit Ruangan')
 
 @section('content_header')
-<h1>Edit Program Studio</h1>
+<h1>Edit Ruangan</h1>
 @stop
 
 @section('content')
@@ -18,24 +18,24 @@
 </div>
 @endif
 
-{!! Form::model($prodi, ['method' => 'PATCH','route' => ['prodi.update', $prodi->id],'files' => false]) !!}
+{!! Form::model($ruangan, ['method' => 'PATCH','route' => ['ruangan.update', $ruangan->id],'files' => false]) !!}
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Name:</strong>
-            {!! Form::text('name', null, ['class'=>'form-control', 'placeholder'=>'Nama Program Studio', 'required']) !!}
+            <strong>Name :</strong>
+            {!! Form::text('name', null, ['class'=>'form-control', 'placeholder'=>'Nama Ruangan', 'required']) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Kode:</strong>
-            {!! Form::text('kode', null, ['class'=>'form-control', 'placeholder'=>'Kode Program Studio', 'required']) !!}
+            <strong>Lantai :</strong>
+            {!! Form::number('lantai', null, ['class'=>'form-control', 'placeholder'=>'Kode Ruangan', 'required']) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Kode:</strong>
-            {!! Form::select('fakultas_id', $fakultas->pluck('name','id'), null, ['class'=>'form-control', 'placeholder'=>'Pilih Fakultas', 'required']) !!}
+            <strong>Gedung :</strong>
+            {!! Form::select('gedung_id', $gedungs->pluck('name','id'), null, ['class'=>'form-control', 'placeholder'=>'Pilih Gedung', 'required']) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
