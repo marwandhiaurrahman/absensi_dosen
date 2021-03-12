@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Program Studi')
 
 @section('content_header')
-<h1>Product</h1>
+<h1>Program Studi</h1>
 @stop
 
 @section('content')
@@ -12,11 +12,11 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Product</h3>
+                    <h3 class="card-title">Data Program Studi</h3>
                     <div class="card-tools">
-                        @can('product-create')
-                        <a class="btn btn-sm btn-success" href="{{ route('products.create') }}"> Create New Product</a>
-                        @endcan
+                        {{-- @can('prodi-create') --}}
+                        <a class="btn btn-sm btn-success" href="{{ route('prodi.create') }}">+ Tambah Program Studi</a>
+                        {{-- @endcan --}}
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -31,28 +31,30 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Name</th>
-                                            <th>Details</th>
+                                            <th>Kode</th>
+                                            <th>Fakultas</th>
                                             <th width="280px">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($products as $product)
+                                        @foreach ($prodis as $prodi)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            <td>{{ $product->name }}</td>
-                                            <td>{{ $product->detail }}</td>
+                                            <td>{{ $prodi->name }}</td>
+                                            <td>{{ $prodi->kode }}</td>
+                                            <td>{{ $prodi->fakultas->name }}</td>
                                             <td>
-                                                <form action="{{ route('products.destroy',$product->id) }}"
+                                                <form action="{{ route('prodi.destroy',$prodi->id) }}"
                                                     method="POST">
-                                                    @can('product-edit')
+                                                    {{-- @can('prodi-edit') --}}
                                                     <a class="btn btn-xs btn-primary"
-                                                        href="{{ route('products.edit',$product->id) }}">Edit</a>
-                                                    @endcan
+                                                        href="{{ route('prodi.edit',$prodi->id) }}">Edit</a>
+                                                    {{-- @endcan --}}
                                                     @csrf
                                                     @method('DELETE')
-                                                    @can('product-delete')
+                                                    {{-- @can('prodi-delete') --}}
                                                     <button type="submit" class="btn btn-xs btn-danger">Delete</button>
-                                                    @endcan
+                                                    {{-- @endcan --}}
                                                 </form>
                                             </td>
                                         </tr>

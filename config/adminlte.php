@@ -248,6 +248,13 @@ return [
             // 'can'=>'product-list',
             'active' => ['fakultas','regex:@^fakultas/[0-9]+$@','regex:@^fakultas/[0-9]/edit+$@','fakultas/create']
         ],
+        [
+            'text'        => 'Program Studi',
+            'url'         => 'prodi',
+            'icon'        => 'fa fa-book',
+            // 'can'=>'product-list',
+            'active' => ['prodi','regex:@^prodi/[0-9]+$@','regex:@^prodi/[0-9]/edit+$@','prodi/create']
+        ],
 
         ['header' => 'account_settings'],
         [

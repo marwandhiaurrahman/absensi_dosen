@@ -26,10 +26,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('profile', [UserController::class, 'profile'])->name('profile');
     Route::patch('updateprofile/{id}', [UserController::class, 'updateprofile'])->name('updateprofile');
 
-
     Route::resource('roles', App\Http\Controllers\RoleController::class);
     Route::resource('users', App\Http\Controllers\UserController::class);
     Route::resource('products', App\Http\Controllers\ProductController::class);
     Route::resource('fakultas', App\Http\Controllers\FakultaController::class);
-
+    Route::resource('prodi', App\Http\Controllers\ProdiController::class);
 });

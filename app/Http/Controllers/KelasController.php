@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Fakulta;
-use App\Models\Prodi;
+use App\Models\Kelas;
 use Illuminate\Http\Request;
-use RealRashid\SweetAlert\Facades\Alert;
 
-
-class ProdiController extends Controller
+class KelasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +14,7 @@ class ProdiController extends Controller
      */
     public function index()
     {
-        $prodis = Prodi::latest()->get();
-        return view('admin.prodi.index', compact('prodis'))->with('i', (request()->input('page', 1) - 1));
+        //
     }
 
     /**
@@ -28,8 +24,7 @@ class ProdiController extends Controller
      */
     public function create()
     {
-        $fakultas = Fakulta::get();
-        return view('admin.prodi.create', compact('fakultas'));
+        //
     }
 
     /**
@@ -40,24 +35,16 @@ class ProdiController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate([
-            'name' => 'required',
-            'kode' => 'required',
-            'fakultas_id' => 'required',
-
-        ]);
-        Prodi::updateOrCreate($request->only(['name', 'kode','fakultas_id']));
-        Alert::success('Success Information', 'Fakultas "' . $request->name . '" berhasil ditambahkan');
-        return redirect('prodi');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Prodi  $prodi
+     * @param  \App\Models\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function show(Prodi $prodi)
+    public function show(Kelas $kelas)
     {
         //
     }
@@ -65,10 +52,10 @@ class ProdiController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Prodi  $prodi
+     * @param  \App\Models\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function edit(Prodi $prodi)
+    public function edit(Kelas $kelas)
     {
         //
     }
@@ -77,10 +64,10 @@ class ProdiController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Prodi  $prodi
+     * @param  \App\Models\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Prodi $prodi)
+    public function update(Request $request, Kelas $kelas)
     {
         //
     }
@@ -88,10 +75,10 @@ class ProdiController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Prodi  $prodi
+     * @param  \App\Models\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Prodi $prodi)
+    public function destroy(Kelas $kelas)
     {
         //
     }
