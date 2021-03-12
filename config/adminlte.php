@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'User Role Management',
+    'title' => 'Absensi Dosen',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -240,6 +240,13 @@ return [
             'icon'        => 'fa fa-box',
             'can'=>'product-list',
             'active' => ['products','regex:@^products/[0-9]+$@','regex:@^products/[0-9]/edit+$@','products/create']
+        ],
+        [
+            'text'        => 'Fakultas',
+            'url'         => 'fakultas',
+            'icon'        => 'fa fa-book',
+            // 'can'=>'product-list',
+            'active' => ['fakultas','regex:@^fakultas/[0-9]+$@','regex:@^fakultas/[0-9]/edit+$@','fakultas/create']
         ],
 
         ['header' => 'account_settings'],
