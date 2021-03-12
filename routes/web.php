@@ -31,4 +31,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('products', App\Http\Controllers\ProductController::class);
     Route::resource('fakultas', App\Http\Controllers\FakultaController::class);
     Route::resource('prodi', App\Http\Controllers\ProdiController::class);
+    Route::resource('kelas', App\Http\Controllers\KelasController::class);
+
 });

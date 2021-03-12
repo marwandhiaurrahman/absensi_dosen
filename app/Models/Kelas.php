@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Kelas extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name', 'kode', 'prodi_id', 'tahun',
+    ];
+
+    /**
+     * Get the user that owns the Kelas
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function prodi()
+    {
+        return $this->belongsTo(Kelas::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Fakulta;
 use Illuminate\Database\Seeder;
 
 class FakultaSeeder extends Seeder
@@ -13,6 +14,23 @@ class FakultaSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $fakultas = [
+            [
+                'name' => 'Fakultas Ilmu Komputer',
+                'kode' => 'FKOM'
+            ],
+            [
+                'name' => 'Fakultas Ekonomi',
+                'kode' => 'FE'
+            ],
+            [
+                'name' => 'Fakultas Hukum',
+                'kode' => 'FH'
+            ],
+        ];
+
+        foreach ($fakultas as $fakulta) {
+            Fakulta::create($fakulta);
+        }
     }
 }

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kelas;
+use App\Models\Prodi;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class KelasController extends Controller
 {
@@ -14,7 +17,8 @@ class KelasController extends Controller
      */
     public function index()
     {
-        //
+        $kelass = Kelas::latest()->get();
+        return view('admin.kelas.index', compact('kelass'))->with('i', (request()->input('page', 1) - 1));
     }
 
     /**
@@ -24,7 +28,8 @@ class KelasController extends Controller
      */
     public function create()
     {
-        //
+        $prodi = Prodi::get();
+        return view('admin.kelas.create', compact('prodi'));
     }
 
     /**
@@ -35,7 +40,16 @@ class KelasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'name' => 'required',
+            'tahun' => 'required',
+            'prodi_id' => 'required',
+        ]);
+
+        $request['kode'] = Prodi::find($request->prodi_id)->kode.$request->tahun. $request->name ;
+        Kelas::create($request->all());
+        Alert::success('Success Information', 'Kelas "' . $request->name . '" berhasil ditambahkan');
+        return redirect('kelas');
     }
 
     /**
@@ -55,9 +69,10 @@ class KelasController extends Controller
      * @param  \App\Models\Kelas  $kelas
      * @return \Illuminate\Http\Response
      */
-    public function edit(Kelas $kelas)
+    public function edit(Kelas $kela)
     {
-        //
+        $prodi = Prodi::get();
+        return view('admin.kelas.edit', compact('kela','prodi'));
     }
 
     /**
@@ -69,7 +84,15 @@ class KelasController extends Controller
      */
     public function update(Request $request, Kelas $kelas)
     {
-        //
+        request()->validate([
+            'name' => 'required',
+            'kode' => 'required',
+            'fakultas_id' => 'required',
+        ]);
+
+        $kelas->update($request->all());
+        Alert::success('Success Information', 'Kelas "' . $request->name . '" berhasil diperbaharui');
+        return redirect('kelas');
     }
 
     /**
@@ -80,6 +103,8 @@ class KelasController extends Controller
      */
     public function destroy(Kelas $kelas)
     {
-        //
+        $kelas->delete();
+        Alert::success('Success Information', 'Kelas "' . $kelas->name . '" berhasil dihapus');
+        return redirect('kelas');
     }
 }

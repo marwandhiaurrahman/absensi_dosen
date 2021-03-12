@@ -255,6 +255,13 @@ return [
             // 'can'=>'product-list',
             'active' => ['prodi','regex:@^prodi/[0-9]+$@','regex:@^prodi/[0-9]/edit+$@','prodi/create']
         ],
+        [
+            'text'        => 'Kelas',
+            'url'         => 'kelas',
+            'icon'        => 'fa fa-book',
+            // 'can'=>'product-list',
+            'active' => ['kelas','regex:@^kelas/[0-9]+$@','regex:@^kelas/[0-9]/edit+$@','kelas/create']
+        ],
 
         ['header' => 'account_settings'],
         [

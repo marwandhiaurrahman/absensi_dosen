@@ -47,7 +47,7 @@ class ProdiController extends Controller
 
         ]);
         Prodi::updateOrCreate($request->only(['name', 'kode','fakultas_id']));
-        Alert::success('Success Information', 'Fakultas "' . $request->name . '" berhasil ditambahkan');
+        Alert::success('Success Information', 'Kelas "' . $request->name . '" berhasil ditambahkan');
         return redirect('prodi');
     }
 
@@ -70,7 +70,8 @@ class ProdiController extends Controller
      */
     public function edit(Prodi $prodi)
     {
-        //
+        $fakultas = Fakulta::get();
+        return view('admin.prodi.edit', compact('prodi','fakultas'));
     }
 
     /**
@@ -82,7 +83,15 @@ class ProdiController extends Controller
      */
     public function update(Request $request, Prodi $prodi)
     {
-        //
+        request()->validate([
+            'name' => 'required',
+            'kode' => 'required',
+            'fakultas_id' => 'required',
+        ]);
+
+        $prodi->update($request->all());
+        Alert::success('Success Information', 'Kelas "' . $request->name . '" berhasil diperbaharui');
+        return redirect('prodi');
     }
 
     /**
@@ -93,6 +102,8 @@ class ProdiController extends Controller
      */
     public function destroy(Prodi $prodi)
     {
-        //
+        $prodi->delete();
+        Alert::success('Success Information', 'Kelas "' . $prodi->name . '" berhasil dihapus');
+        return redirect('prodi');
     }
 }

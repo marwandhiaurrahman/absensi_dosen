@@ -3,7 +3,7 @@
 @section('title', 'Edit Product')
 
 @section('content_header')
-<h1>Edit Program Studio</h1>
+<h1>Edit Fakultas</h1>
 @stop
 
 @section('content')
@@ -18,24 +18,30 @@
 </div>
 @endif
 
-{!! Form::model($prodi, ['method' => 'PATCH','route' => ['prodi.update', $prodi->id],'files' => false]) !!}
+{!! Form::model($kela, ['method' => 'PATCH','route' => ['kelas.update', $kela->id],'files' => false]) !!}
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
+            <strong>Kode:</strong>
+            {!! Form::text('kode', null, ['class'=>'form-control', 'placeholder'=>'Kode Fakultas', 'required']) !!}
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="form-group">
             <strong>Name:</strong>
-            {!! Form::text('name', null, ['class'=>'form-control', 'placeholder'=>'Nama Program Studio', 'required']) !!}
+            {!! Form::text('name', null, ['class'=>'form-control', 'placeholder'=>'Nama Fakultas', 'required']) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Kode:</strong>
-            {!! Form::text('kode', null, ['class'=>'form-control', 'placeholder'=>'Kode Program Studio', 'required']) !!}
+            <strong>Name:</strong>
+            {!! Form::text('tahun', null, ['class'=>'form-control', 'placeholder'=>'Nama Fakultas', 'required']) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Kode:</strong>
-            {!! Form::select('fakultas_id', $fakultas->pluck('name','id'), null, ['class'=>'form-control', 'placeholder'=>'Pilih Fakultas', 'required']) !!}
+            <strong>Program Studi:</strong>
+            {!! Form::select('prodi_id', $prodi->pluck('name','id'), null, ['class'=>'form-control', 'placeholder'=>'Pilih Fakultas', 'required']) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">

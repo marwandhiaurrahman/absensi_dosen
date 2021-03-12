@@ -21,5 +21,14 @@ class Prodi extends Model
     {
         return $this->belongsTo(Fakulta::class);
     }
+    /**
+     * Get all of the comments for the Prodi
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function kelas()
+    {
+        return $this->hasMany(Kelas::class);
+    }
 
 }

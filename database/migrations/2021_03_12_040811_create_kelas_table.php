@@ -15,6 +15,10 @@ class CreateKelasTable extends Migration
     {
         Schema::create('kelas', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('kode');
+            $table->string('tahun');
+            $table->foreignId('prodi_id')->unsigned()->references('id')->on('prodis')->onDelete('cascade');
             $table->timestamps();
         });
     }
