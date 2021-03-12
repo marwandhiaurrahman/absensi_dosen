@@ -21,13 +21,17 @@ class UserSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => bcrypt('qweqwe')
         ]);
-
         $role = Role::create(['name' => 'Admin']);
-
         $permissions = Permission::pluck('id', 'id')->all();
-
         $role->syncPermissions($permissions);
-
         $user->assignRole([$role->id]);
+
+        $dosen = User::create([
+            'name' => 'Marwan Dhiaur Rahman S.Kom,',
+            'email' => 'marwan@gmail.com',
+            'password' => bcrypt('qweqwe')
+        ]);
+        $dosenrole = Role::create(['name' => 'Dosen']);
+        $dosen->assignRole([$dosenrole->id]);
     }
 }

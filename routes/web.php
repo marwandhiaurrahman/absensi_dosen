@@ -34,4 +34,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('kelas', App\Http\Controllers\KelasController::class);
     Route::resource('gedung', App\Http\Controllers\GedungController::class);
     Route::resource('ruangan', App\Http\Controllers\RuanganController::class);
+    Route::resource('matkul', App\Http\Controllers\MatkulController::class);
 });

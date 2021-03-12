@@ -282,6 +282,13 @@ return [
                 ],
             ],
         ],
+        [
+            'text'        => 'Mata Kuliah',
+            'url'         => 'matkul',
+            // 'can'=>'product-list',
+            'icon'        => 'fa fa-book',
+            'active' => ['matkul', 'regex:@^matkul/[0-9]+$@', 'regex:@^matkul/[0-9]/edit+$@', 'matkul/create']
+        ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
