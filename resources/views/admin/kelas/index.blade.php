@@ -39,19 +39,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($kelass as $kelas)
+                                        @foreach ($kelass as $kela)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            <td>{{ $kelas->kode }}</td>
-                                            <td>{{ $kelas->name }}</td>
-                                            <td>{{ $kelas->tahun }}</td>
-                                            <td>{{ $kelas->prodi->name }}</td>
-                                            <td></td>
+                                            <td>{{ $kela->kode }}</td>
+                                            <td>{{ $kela->name }}</td>
+                                            <td>{{ $kela->tahun }}</td>
+                                            <td>{{ $kela->prodi->name }}</td>
+                                            <td>{{ $kela->prodi->fakultas->name }}</td>
                                             <td>
-                                                <form action="{{ route('kelas.destroy',$kelas->id) }}" method="POST">
+                                                <form action="{{ route('kelas.destroy',$kela) }}" method="POST">
                                                     {{-- @can('kelas-edit') --}}
                                                     <a class="btn btn-xs btn-primary"
-                                                        href="{{ route('kelas.edit',$kelas->id) }}">Edit</a>
+                                                        href="{{ route('kelas.edit',$kela) }}">Edit</a>
                                                     {{-- @endcan --}}
                                                     @csrf
                                                     @method('DELETE')
@@ -63,16 +63,6 @@
                                         </tr>
                                         @endforeach
                                     </tbody>
-                                    <tfoot>
-                                        <tr>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Name</th>
-                                            <th>Details</th>
-                                            <th width="280px">Action</th>
-                                        </tr>
-                                        </tr>
-                                    </tfoot>
                                 </table>
                             </div>
                         </div>

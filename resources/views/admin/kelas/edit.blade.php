@@ -18,7 +18,7 @@
 </div>
 @endif
 
-{!! Form::model($kela, ['method' => 'PATCH','route' => ['kelas.update', $kela->id],'files' => false]) !!}
+{!! Form::model($kela, ['method' => 'PATCH','route' => ['kelas.update', $kela],'files' => false]) !!}
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">

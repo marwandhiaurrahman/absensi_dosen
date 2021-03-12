@@ -20,4 +20,15 @@ class Fakulta extends Model
     {
         return $this->hasMany(Prodi::class);
     }
+    public function kelas()
+    {
+        return $this->hasManyThrough(
+            Kelas::class,
+            Prodi::class,
+            'prodi_id',
+            'fakultas_id',
+            'id',
+            'id'
+        );
+    }
 }

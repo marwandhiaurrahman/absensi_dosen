@@ -19,6 +19,6 @@ class Kelas extends Model
      */
     public function prodi()
     {
-        return $this->belongsTo(Kelas::class);
+        return $this->belongsTo(Prodi::class);
     }
 }
