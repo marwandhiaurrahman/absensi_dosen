@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Auth::routes();
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+
+    Route::get('profile', [UserController::class, 'profile'])->name('profile');
+    Route::patch('updateprofile/{id}', [UserController::class, 'updateprofile'])->name('updateprofile');
+
+
+    Route::resource('roles', App\Http\Controllers\RoleController::class);
+    Route::resource('users', App\Http\Controllers\UserController::class);
+    Route::resource('products', App\Http\Controllers\ProductController::class);
 });
