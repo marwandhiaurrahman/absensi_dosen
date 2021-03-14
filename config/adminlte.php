@@ -289,6 +289,13 @@ return [
             'icon'        => 'fa fa-book',
             'active' => ['matkul', 'regex:@^matkul/[0-9]+$@', 'regex:@^matkul/[0-9]/edit+$@', 'matkul/create']
         ],
+        [
+            'text'        => 'Jadwal Kuliah',
+            'url'         => 'jadwal',
+            // 'can'=>'product-list',
+            'icon'        => 'fa fa-calendar-alt',
+            'active' => ['jadwal', 'regex:@^jadwal/[0-9]+$@', 'regex:@^jadwal/[0-9]/edit+$@', 'jadwal/create']
+        ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
