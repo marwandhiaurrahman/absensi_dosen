@@ -45,12 +45,12 @@ return [
     |
     */
 
-    'logo' => '<b>Admin User Role</b>',
+    'logo' => '<b>Absensi Dosen</b>',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'User Role Management',
+    'logo_img_alt' => 'Absensi Dosen',
 
     /*
     |--------------------------------------------------------------------------
@@ -190,10 +190,10 @@ return [
     'dashboard_url' => 'dashboard',
     'logout_url' => 'logout',
     'login_url' => 'login',
-    'register_url' => 'register',
-    'password_reset_url' => 'password/reset',
-    'password_email_url' => 'password/email',
-    'profile_url' => false,
+    'register_url' => false,
+    'password_reset_url' => false,
+    'password_email_url' => false,
+    'profile_url' => 'profile',
 
     /*
     |--------------------------------------------------------------------------
