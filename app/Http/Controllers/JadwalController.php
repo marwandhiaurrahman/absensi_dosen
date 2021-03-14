@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jadwal;
+use App\Models\JamKuliah;
 use App\Models\Kelas;
 use App\Models\Matkul;
 use App\Models\Ruangan;
@@ -21,7 +22,8 @@ class JadwalController extends Controller
     public function index()
     {
         $jadwals = Jadwal::get();
-        return view('admin.jadwal.index',compact('jadwals'));
+        $jamkuls = JamKuliah::get();
+        return view('admin.jadwal.index',compact('jadwals','jamkuls'));
     }
 
     /**
@@ -34,7 +36,8 @@ class JadwalController extends Controller
         $matkuls = Matkul::get();
         $ruangans = Ruangan::get();
         $kelass = Kelas::get();
-        return view('admin.jadwal.create', compact('matkuls', 'ruangans', 'kelass'));
+        $jamkuls = JamKuliah::get();
+        return view('admin.jadwal.create', compact('matkuls', 'ruangans', 'kelass','jamkuls'));
     }
 
     /**
@@ -55,7 +58,7 @@ class JadwalController extends Controller
 
         Jadwal::create($request->all());
         Alert::success('Success Information', 'Jadwal berhasil ditambahkan');
-        return redirect('kelas');
+        return redirect('jadwal');
     }
 
     /**

@@ -24,11 +24,12 @@
                     <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                         <div class="row">
                             <div class="col-sm-12">
-                                <table id="DataTable" class="table table-bordered table-striped dataTable dtr-inline"
-                                    role="grid" aria-describedby="example1_info">
+                                <table id="DataTable"
+                                    class="table text-xs table-bordered table-striped dataTable dtr-inline" role="grid"
+                                    aria-describedby="example1_info">
                                     <thead>
                                         <tr>
-                                            <th>Waktu</th>
+                                            <th width="60px">Waktu</th>
                                             <th>Senin</th>
                                             <th>Selasa</th>
                                             <th>Rabu</th>
@@ -37,19 +38,83 @@
                                             <th>Sabtu</th>
                                         </tr>
                                     </thead>
+
                                     <tbody>
-                                        @foreach ($jadwals as $jadwal)
+                                        @foreach ($jamkuls as $jamkul)
                                         <tr>
-                                            <td>{{$jadwal->jam}}</td>
-                                            <td>WEB1</td>
-                                            <td>Selasa</td>
-                                            <td>Rabu</td>
-                                            <td>Kamis</td>
-                                            <td>Jumat</td>
-                                            <td>Sabtu</td>
+                                            <td>{{$jamkul->masuk}} sd.<br>{{$jamkul->keluar}} {{$jamkul->sks}} SKS</td>
+                                            <td>
+                                                @foreach ($jadwals as $jadwal)
+                                                @if ($jadwal->hari == 1 && $jadwal->jam == $jamkul->id)
+                                                <button type="button" class="btn btn-xs btn-danger text-xs m-1"
+                                                    data-toggle="modal" data-target="#modal-pemasukan-tunai">
+                                                    {{$jadwal->matkul->name}}
+                                                </button>
+                                                @endif
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                @foreach ($jadwals as $jadwal)
+                                                @if ($jadwal->hari == 2 && $jadwal->jam == $jamkul->id)
+                                                <button type="button" class="btn btn-xs btn-danger text-xs m-1"
+                                                    data-toggle="modal" data-target="#modal-pemasukan-tunai">
+                                                    {{$jadwal->matkul->name}}
+                                                </button>
+                                                @endif
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                @foreach ($jadwals as $jadwal)
+                                                @if ($jadwal->hari == 3 && $jadwal->jam == $jamkul->id)
+                                                <button type="button" class="btn btn-xs btn-danger text-xs m-1"
+                                                    data-toggle="modal" data-target="#modal-pemasukan-tunai">
+                                                    {{$jadwal->matkul->name}}
+                                                </button>
+                                                @endif
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                @foreach ($jadwals as $jadwal)
+                                                @if ($jadwal->hari == 4 && $jadwal->jam == $jamkul->id)
+                                                <button type="button" class="btn btn-xs btn-danger text-xs m-1"
+                                                    data-toggle="modal" data-target="#modal-pemasukan-tunai">
+                                                    {{$jadwal->matkul->name}}
+                                                </button>
+                                                @endif
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                @foreach ($jadwals as $jadwal)
+                                                @if ($jadwal->hari == 5 && $jadwal->jam == $jamkul->id)
+                                                <button type="button" class="btn btn-xs btn-danger text-xs m-1"
+                                                    data-toggle="modal" data-target="#modal-pemasukan-tunai">
+                                                    {{$jadwal->matkul->name}}
+                                                </button>
+                                                @endif
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                @foreach ($jadwals as $jadwal)
+                                                @if ($jadwal->hari == 6 && $jadwal->jam == $jamkul->id)
+                                                <button type="button" class="btn btn-xs btn-danger text-xs m-1"
+                                                    data-toggle="modal" data-target="#modal-pemasukan-tunai">
+                                                    {{$jadwal->matkul->name}}
+                                                </button>
+                                                @endif
+                                                @endforeach
+                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
+                                    <tfoot>
+                                        <th>Waktu</th>
+                                        <th>Senin</th>
+                                        <th>Selasa</th>
+                                        <th>Rabu</th>
+                                        <th>Kamis</th>
+                                        <th>Jumat</th>
+                                        <th>Sabtu</th>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -62,6 +127,30 @@
         <!-- /.col -->
     </div>
     <!-- /.row -->
+</div>
+<div class="modal fade" id="modal-pemasukan-tunai">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Tambah Transaksi Pemasukan Kas</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+            </div>
+        </div>
+    </div>
 </div>
 @stop
 

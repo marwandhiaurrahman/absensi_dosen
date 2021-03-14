@@ -22,31 +22,41 @@
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Hari :</strong>
-            {!! Form::select('hari', ['Senin'=>'Senin','Selasa'=>'Selasa','Rabu'=>'Rabu','Kamis'=>'Kamis','Jumat'=>'Jumat','Sabtu'=>'Sabtu'], null, ['class'=>'form-control', 'placeholder'=>'Pilih Hari', 'required']) !!}
+            {!! Form::select('hari',
+            [1=>'Senin',2=>'Selasa',3=>'Rabu',4=>'Kamis',5=>'Jumat',6=>'Sabtu'],
+            null, ['class'=>'form-control', 'placeholder'=>'Pilih Hari', 'required']) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Jam :</strong>
-            {!! Form::select('jam', ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'], null, ['class'=>'form-control', 'placeholder'=>'Pilih Hari', 'required']) !!}
+            <select name="jam" class="form-control" required>
+                <option disabled>Pilih Jam Kuliah</option>
+                @foreach ($jamkuls as $jamkul)
+                <option value="{{$jamkul->id}}">{{$jamkul->masuk}} - {{$jamkul->keluar}} - {{$jamkul->sks}} SKS</option>
+                @endforeach
+            </select>
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Kelas :</strong>
-            {!! Form::select('kelas_id', $kelass->pluck('kode','id'), null, ['class'=>'form-control', 'placeholder'=>'Pilih Kelas', 'required']) !!}
+            {!! Form::select('kelas_id', $kelass->pluck('kode','id'), null, ['class'=>'form-control',
+            'placeholder'=>'Pilih Kelas', 'required']) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Mata Kuliah :</strong>
-            {!! Form::select('matkul_id', $matkuls->pluck('name','id'), null, ['class'=>'form-control', 'placeholder'=>'Pilih Mata Kuliah', 'required']) !!}
+            {!! Form::select('matkul_id', $matkuls->pluck('name','id'), null, ['class'=>'form-control',
+            'placeholder'=>'Pilih Mata Kuliah', 'required']) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Ruangan :</strong>
-            {!! Form::select('ruangan_id', $ruangans->pluck('kode','id'), null, ['class'=>'form-control', 'placeholder'=>'Pilih Ruangan', 'required']) !!}
+            {!! Form::select('ruangan_id', $ruangans->pluck('kode','id'), null, ['class'=>'form-control',
+            'placeholder'=>'Pilih Ruangan', 'required']) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
@@ -135,5 +145,5 @@
       });
 
     })
-  </script>
+</script>
 @stop

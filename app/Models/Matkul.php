@@ -20,4 +20,13 @@ class Matkul extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+    /**
+     * Get all of the jadwal for the Matkul
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function jadwal()
+    {
+        return $this->hasMany(Jadwal::class);
+    }
 }
