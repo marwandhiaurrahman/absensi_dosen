@@ -67,19 +67,5 @@
 @section('adminlte_js')
 @stack('js')
 @yield('js')
-<!-- DataTables -->
-<script>
-    $(function () {
-            $('#DataTable').DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": true,
-                "responsive": true,
-                "scrollX":true,
-            });
-        });
-</script>
+
 @stop

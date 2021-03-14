@@ -159,7 +159,19 @@
 @stop
 
 @section('js')
+<!-- DataTables -->
 <script>
-    console.log('Hi!');
+    $(function () {
+            $('#DataTable').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true,
+                "responsive": true,
+                "scrollX":true,
+            });
+        });
 </script>
 @stop
