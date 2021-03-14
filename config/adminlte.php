@@ -296,6 +296,13 @@ return [
             'icon'        => 'fa fa-calendar-alt',
             'active' => ['jadwal', 'regex:@^jadwal/[0-9]+$@', 'regex:@^jadwal/[0-9]/edit+$@', 'jadwal/create']
         ],
+        [
+            'text'        => 'Jam Kuliah',
+            'url'         => 'jamkul',
+            // 'can'=>'product-list',
+            'icon'        => 'fa fa-calendar-alt',
+            'active' => ['jamkul', 'regex:@^jamkul/[0-9]+$@', 'regex:@^jamkul/[0-9]/edit+$@', 'jamkul/create']
+        ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
