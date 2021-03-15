@@ -27,6 +27,7 @@ class AbsensiController extends Controller
         $matkuls = Matkul::get();
         $ruangans = Ruangan::get();
         $kelass = Kelas::get();
+
         return view('admin.absensi.index', compact('jadwals', 'jamkuls', 'matkuls', 'ruangans', 'kelass',))->with('i', (request()->input('page', 1) - 1));
     }
 

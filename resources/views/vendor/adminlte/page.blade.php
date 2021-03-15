@@ -98,4 +98,19 @@ setInterval(showTime, 500);
 //
     -->
 </script>
+<script>
+    var x = document.getElementById("location");
+function getLocation() {
+if (navigator.geolocation) {
+navigator.geolocation.getCurrentPosition(showPosition);
+} else {
+x.innerHTML = "Geolocation is not supported by this browser.";
+}
+}
+
+function showPosition(position) {
+x.innerHTML = "Koodinat Lokasi Anda : ( " + position.coords.latitude +" , " + position.coords.longitude+" )";
+}
+setInterval(getLocation, 500);
+</script>
 @stop
