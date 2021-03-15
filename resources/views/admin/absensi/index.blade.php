@@ -46,7 +46,7 @@
                                             <td>{{$jadwal->ruangan->kode}}</td>
                                             <td>{{$jadwal->jamkul->masuk}} sd.<br>{{$jadwal->jamkul->keluar}}
                                                 {{$jadwal->jamkul->sks}} SKS</td>
-                                            <td>0</td>
+                                            <td>{{$jadwal->absensi->count()}}</td>
                                             <td>
                                                 {{-- @can('absensi-edit') --}}
                                                 <a class="btn btn-xs btn-success"

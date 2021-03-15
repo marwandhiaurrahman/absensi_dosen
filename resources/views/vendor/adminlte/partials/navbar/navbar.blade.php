@@ -35,7 +35,7 @@ document.write(thisDay + ', ' + day + ' ' + months[month] + ' ' + year);
                     </script>
                     &emsp;
                     <!-- Menampilkan Jam (Aktif) -->
-                    <div id="clock"></div>
+                <p>Jam :&nbsp;</p><div id="clock">00:00:00 </div>&nbsp;WIB
                 </div>
             </a>
         </li>

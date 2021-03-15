@@ -38,4 +38,14 @@ class Jadwal extends Model
     {
         return $this->belongsTo(JamKuliah::class, 'jam', 'id');
     }
+
+    /**
+     * Get all of the comments for the Jadwal
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function absensi()
+    {
+        return $this->hasMany(Absensi::class);
+    }
 }
