@@ -2,29 +2,31 @@
 
     {{-- Sidebar brand logo --}}
     @if(config('adminlte.logo_img_xl'))
-        @include('adminlte::partials.common.brand-logo-xl')
+    @include('adminlte::partials.common.brand-logo-xl')
     @else
-        @include('adminlte::partials.common.brand-logo-xs')
+    @include('adminlte::partials.common.brand-logo-xs')
     @endif
 
     {{-- Sidebar menu --}}
     <div class="sidebar">
         <div class="user-panel mt-2 pb-3 mb-3 d-flex">
             <div class="info">
-              <a class="d-block"><div class="d-block" id="tanggal">Tanggal Hari Ini </div></a>
-              <a class="d-block"><div class="d-block" id="clock">Jam : 00:00:00 WIB </div></a>
-              <a class="d-block"><div class="d-block" id="location">Kordinat Lokasi Anda :</div></a>
+                <a class="d-block">
+                    <div class="d-block" id="tanggal">Tanggal Hari Ini </div>
+                </a>
+                <a class="d-block">
+                    <div class="d-block" id="clock">Jam : 00:00:00 WIB </div>
+                </a>
+                <a class="d-block">Koordinat Lokasi Anda :<br>
+                    <div class="d-block" id="location"></div>
+                </a>
             </div>
-          </div>
+        </div>
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column {{ config('adminlte.classes_sidebar_nav', '') }}"
-                data-widget="treeview" role="menu"
-                @if(config('adminlte.sidebar_nav_animation_speed') != 300)
-                    data-animation-speed="{{ config('adminlte.sidebar_nav_animation_speed') }}"
-                @endif
-                @if(!config('adminlte.sidebar_nav_accordion'))
-                    data-accordion="false"
-                @endif>
+                data-widget="treeview" role="menu" @if(config('adminlte.sidebar_nav_animation_speed') !=300)
+                data-animation-speed="{{ config('adminlte.sidebar_nav_animation_speed') }}" @endif
+                @if(!config('adminlte.sidebar_nav_accordion')) data-accordion="false" @endif>
                 {{-- Configured sidebar links --}}
                 @each('adminlte::partials.sidebar.menu-item', $adminlte->menu('sidebar'), 'item')
             </ul>
@@ -32,8 +34,8 @@
     </div>
 
 
-<script type="text/javascript">
-    function showTime() {
+    <script type="text/javascript">
+        function showTime() {
         var a_p = "";
         var today = new Date();
         var curr_hour = today.getHours();
@@ -66,19 +68,41 @@ var yy = date.getYear();
 var year = (yy < 1000) ? yy + 1900 : yy;
 document.getElementById('tanggal').innerHTML = thisDay + ', ' + day + ' ' + months[month] + ' ' + year;
 
-var x = document.getElementById("location");
-function getLocation() {
-if (navigator.geolocation) {
-navigator.geolocation.getCurrentPosition(showPosition);
-} else {
-x.innerHTML = "Geolocation is not supported by this browser.";
+function successCallback(position) {
 }
+
+var x = document.getElementById("location");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition, showError);
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
 }
 
 function showPosition(position) {
-x.innerHTML = "Koodinat Lokasi Anda : <br>( " + position.coords.latitude +" , " + position.coords.longitude+" )";
+    x.innerHTML = "( " + position.coords.latitude +" , " + position.coords.longitude+" )";
 }
+
+function showError(error) {
+  switch(error.code) {
+    case error.PERMISSION_DENIED:
+      x.innerHTML = "User denied the request for Geolocation."
+      break;
+    case error.POSITION_UNAVAILABLE:
+      x.innerHTML = "Location information is unavailable."
+      break;
+    case error.TIMEOUT:
+      x.innerHTML = "The request to get user location timed out."
+      break;
+    case error.UNKNOWN_ERROR:
+      x.innerHTML = "An unknown error occurred."
+      break;
+  }
+}
+
 setInterval(getLocation, 500);
-</script>
+    </script>
 
 </aside>
