@@ -24,7 +24,6 @@
                     <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                         <div class="row">
                             <div class="col-sm-12">
-
                                 <table id="DataTable" class="table table-bordered table-striped dataTable dtr-inline"
                                     role="grid" aria-describedby="example1_info">
                                     <thead>
@@ -40,8 +39,7 @@
                                             <td>{{ ++$i }}</td>
                                             <td>{{ $gedung->name }}</td>
                                             <td>
-                                                <form action="{{ route('gedung.destroy',$gedung->id) }}"
-                                                    method="POST">
+                                                <form action="{{ route('gedung.destroy',$gedung->id) }}" method="POST">
                                                     {{-- @can('s-edit') --}}
                                                     <a class="btn btn-xs btn-primary"
                                                         href="{{ route('gedung.edit',$gedung->id) }}">Edit</a>

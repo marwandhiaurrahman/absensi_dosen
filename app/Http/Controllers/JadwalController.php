@@ -94,7 +94,17 @@ class JadwalController extends Controller
      */
     public function update(Request $request, Jadwal $jadwal)
     {
-        //
+        request()->validate([
+            'matkul_id' => 'required',
+            'kelas_id' => 'required',
+            'ruangan_id' => 'required',
+            'jam' => 'required',
+            'hari' => 'required',
+        ]);
+        $request['kode'] = $request->kelas_id . '-' . $request->matkul_id . '-' . $request->ruangan_id . '-' . $request->jam . '-' . $request->hari;
+        $jadwal->update($request->all());
+        Alert::success('Success Information', 'Jadwal berhasil ditambahkan');
+        return redirect('jadwal');
     }
 
     /**

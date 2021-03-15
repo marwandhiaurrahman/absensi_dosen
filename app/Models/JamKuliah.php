@@ -11,4 +11,13 @@ class JamKuliah extends Model
     protected $fillable = [
         'masuk', 'keluar', 'sks',
     ];
+    /**
+     * Get all of the comments for the JamKuliah
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function jadwal()
+    {
+        return $this->hasMany(Jadwal::class, 'jam', 'id');
+    }
 }

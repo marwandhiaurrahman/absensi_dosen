@@ -60,4 +60,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Matkul::class);
     }
+    public function jadwal()
+    {
+        return $this->hasManyThrough(
+            Jadwal::class,
+            Matkul::class,
+            'matkul_id',
+            'user_id',
+            'id',
+            'id'
+        );
+    }
 }

@@ -18,4 +18,8 @@ class Ruangan extends Model
     {
         return $this->belongsTo(Gedung::class);
     }
+    public function jadwal()
+    {
+        return $this->hasMany(Jadwal::class);
+    }
 }

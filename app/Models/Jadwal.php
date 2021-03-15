@@ -21,4 +21,21 @@ class Jadwal extends Model
     {
         return $this->belongsTo(Matkul::class);
     }
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class);
+    }
+    public function ruangan()
+    {
+        return $this->belongsTo(Ruangan::class);
+    }
+    /**
+     * Get the user that owns the Jadwal
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function jamkul()
+    {
+        return $this->belongsTo(JamKuliah::class, 'jam', 'id');
+    }
 }

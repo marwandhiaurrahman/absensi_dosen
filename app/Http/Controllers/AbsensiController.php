@@ -3,7 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Absensi;
+use App\Models\Jadwal;
+use App\Models\JamKuliah;
+use App\Models\Kelas;
+use App\Models\Matkul;
+use App\Models\Ruangan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class AbsensiController extends Controller
 {
@@ -12,9 +20,14 @@ class AbsensiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $jadwals = Jadwal::get();
+        $jamkuls = JamKuliah::orderBy('masuk', 'ASC')->get();
+        $matkuls = Matkul::get();
+        $ruangans = Ruangan::get();
+        $kelass = Kelas::get();
+        return view('admin.absensi.index', compact('jadwals', 'jamkuls', 'matkuls', 'ruangans', 'kelass',))->with('i', (request()->input('page', 1) - 1));
     }
 
     /**
@@ -35,7 +48,17 @@ class AbsensiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'metode' => 'required',
+            'tanggal' => 'required',
+            'pembahasan' => 'required',
+            'jadwal_id' => 'required',
+        ]);
+        $absensis = Absensi::where('jadwal_id',$request->jadwal_id)->count();
+        $request['pertemuan'] = $absensis+1;
+        Absensi::create($request->all());
+        Alert::success('Success Information', 'Jadwal berhasil ditambahkan');
+        return redirect()->back();
     }
 
     /**
@@ -44,9 +67,16 @@ class AbsensiController extends Controller
      * @param  \App\Models\Absensi  $absensi
      * @return \Illuminate\Http\Response
      */
-    public function show(Absensi $absensi)
+    public function show($id)
     {
-        //
+        $matkuls = Matkul::get();
+        $ruangans = Ruangan::get();
+        $kelass = Kelas::get();
+        $jamkuls = JamKuliah::orderBy('masuk', 'ASC')->get();
+        $jadwal = Jadwal::find($id);
+        $absensis = Absensi::where('jadwal_id',$id)->get();
+
+        return view('admin.absensi.show', compact('jadwal', 'matkuls', 'ruangans', 'kelass', 'jamkuls','absensis'));
     }
 
     /**

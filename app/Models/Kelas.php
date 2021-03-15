@@ -21,4 +21,8 @@ class Kelas extends Model
     {
         return $this->belongsTo(Prodi::class);
     }
+    public function jadwal()
+    {
+        return $this->hasMany(Jadwal::class);
+    }
 }

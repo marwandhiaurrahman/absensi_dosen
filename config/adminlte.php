@@ -303,6 +303,13 @@ return [
             'icon'        => 'fa fa-calendar-alt',
             'active' => ['jamkul', 'regex:@^jamkul/[0-9]+$@', 'regex:@^jamkul/[0-9]/edit+$@', 'jamkul/create']
         ],
+        [
+            'text'        => 'Absensi',
+            'url'         => 'absensi',
+            // 'can'=>'product-list',
+            'icon'        => 'fa fa-calendar-alt',
+            'active' => ['absensi', 'regex:@^absensi/[0-9]+$@', 'regex:@^absensi/[0-9]/edit+$@', 'absensi/create']
+        ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',

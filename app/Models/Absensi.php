@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Absensi extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'metode','tanggal','pembahasan','jadwal_id','pertemuan'
+    ];
 }
