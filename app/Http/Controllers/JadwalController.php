@@ -22,7 +22,7 @@ class JadwalController extends Controller
     public function index()
     {
         $jadwals = Jadwal::get();
-        $jamkuls = JamKuliah::get();
+        $jamkuls = JamKuliah::orderBy('masuk', 'ASC')->get();
         $matkuls = Matkul::get();
         $ruangans = Ruangan::get();
         $kelass = Kelas::get();
@@ -39,7 +39,7 @@ class JadwalController extends Controller
         $matkuls = Matkul::get();
         $ruangans = Ruangan::get();
         $kelass = Kelas::get();
-        $jamkuls = JamKuliah::get();
+        $jamkuls = JamKuliah::orderBy('masuk', 'ASC')->get();
         return view('admin.jadwal.create', compact('matkuls', 'ruangans', 'kelass', 'jamkuls'));
     }
 
