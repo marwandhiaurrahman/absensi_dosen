@@ -47,7 +47,7 @@
                                                 @foreach ($jadwals as $jadwal)
                                                 @if ($jadwal->hari == 1 && $jadwal->jam == $jamkul->id)
                                                 <button type="button" class="btn btn-xs btn-danger text-xs m-1"
-                                                    data-toggle="modal" data-target="#modal-pemasukan-tunai">
+                                                    data-toggle="modal" data-target="#modal-{{$jadwal->kode}}">
                                                     {{$jadwal->matkul->name}}
                                                 </button>
                                                 @endif
@@ -57,7 +57,7 @@
                                                 @foreach ($jadwals as $jadwal)
                                                 @if ($jadwal->hari == 2 && $jadwal->jam == $jamkul->id)
                                                 <button type="button" class="btn btn-xs btn-danger text-xs m-1"
-                                                    data-toggle="modal" data-target="#modal-pemasukan-tunai">
+                                                    data-toggle="modal" data-target="#modal-{{$jadwal->kode}}">
                                                     {{$jadwal->matkul->name}}
                                                 </button>
                                                 @endif
@@ -67,7 +67,7 @@
                                                 @foreach ($jadwals as $jadwal)
                                                 @if ($jadwal->hari == 3 && $jadwal->jam == $jamkul->id)
                                                 <button type="button" class="btn btn-xs btn-danger text-xs m-1"
-                                                    data-toggle="modal" data-target="#modal-pemasukan-tunai">
+                                                    data-toggle="modal" data-target="#modal-{{$jadwal->kode}}">
                                                     {{$jadwal->matkul->name}}
                                                 </button>
                                                 @endif
@@ -77,7 +77,7 @@
                                                 @foreach ($jadwals as $jadwal)
                                                 @if ($jadwal->hari == 4 && $jadwal->jam == $jamkul->id)
                                                 <button type="button" class="btn btn-xs btn-danger text-xs m-1"
-                                                    data-toggle="modal" data-target="#modal-pemasukan-tunai">
+                                                    data-toggle="modal" data-target="#modal-{{$jadwal->kode}}">
                                                     {{$jadwal->matkul->name}}
                                                 </button>
                                                 @endif
@@ -87,7 +87,7 @@
                                                 @foreach ($jadwals as $jadwal)
                                                 @if ($jadwal->hari == 5 && $jadwal->jam == $jamkul->id)
                                                 <button type="button" class="btn btn-xs btn-danger text-xs m-1"
-                                                    data-toggle="modal" data-target="#modal-pemasukan-tunai">
+                                                    data-toggle="modal" data-target="#modal-{{$jadwal->kode}}">
                                                     {{$jadwal->matkul->name}}
                                                 </button>
                                                 @endif
@@ -97,7 +97,7 @@
                                                 @foreach ($jadwals as $jadwal)
                                                 @if ($jadwal->hari == 6 && $jadwal->jam == $jamkul->id)
                                                 <button type="button" class="btn btn-xs btn-danger text-xs m-1"
-                                                    data-toggle="modal" data-target="#modal-pemasukan-tunai">
+                                                    data-toggle="modal" data-target="#modal-{{$jadwal->kode}}">
                                                     {{$jadwal->matkul->name}}
                                                 </button>
                                                 @endif
@@ -128,11 +128,12 @@
     </div>
     <!-- /.row -->
 </div>
-<div class="modal fade" id="modal-pemasukan-tunai">
+@foreach ($jadwals as $jadwal)
+<div class="modal fade" id="modal-{{$jadwal->kode}}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Transaksi Pemasukan Kas</h4>
+                <h4 class="modal-title">Detail Jadwal Kuliah</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -148,10 +149,64 @@
                     </ul>
                 </div>
                 @endif
+
+                {!! Form::model($jadwal, ['method' => 'PATCH','route' => ['jadwal.update', $jadwal],'files' => false])
+                !!}
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>Hari :</strong>
+                            {!! Form::select('hari',
+                            [1=>'Senin',2=>'Selasa',3=>'Rabu',4=>'Kamis',5=>'Jumat',6=>'Sabtu'],
+                            null, ['class'=>'form-control', 'placeholder'=>'Pilih Hari', 'required']) !!}
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>Jam :</strong>
+                            <select name="jam" class="form-control" required>
+                                <option disabled>Pilih Jam Kuliah</option>
+                                @foreach ($jamkuls as $jamkul)
+                                <option value="{{$jamkul->id}}" {{ $jamkul->id == $jadwal->jam ? 'selected' : '' }}>
+                                    {{$jamkul->masuk}} - {{$jamkul->keluar}} -
+                                    {{$jamkul->sks}} SKS</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>Kelas :</strong>
+                            {!! Form::select('kelas_id', $kelass->pluck('kode','id'), null, ['class'=>'form-control',
+                            'placeholder'=>'Pilih Kelas', 'required']) !!}
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>Mata Kuliah :</strong>
+                            {!! Form::select('matkul_id', $matkuls->pluck('name','id'), null, ['class'=>'form-control',
+                            'placeholder'=>'Pilih Mata Kuliah', 'required']) !!}
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <strong>Ruangan :</strong>
+                            {!! Form::select('ruangan_id', $ruangans->pluck('kode','id'), null,
+                            ['class'=>'form-control',
+                            'placeholder'=>'Pilih Ruangan', 'required']) !!}
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                {!! Form::submit('Update', ['class'=>'btn btn-primary','onclick'=>"submitForm(this);"]) !!}
+            </div>
+            {!! Form::close() !!}
         </div>
     </div>
 </div>
+@endforeach
 @stop
 
 @section('css')

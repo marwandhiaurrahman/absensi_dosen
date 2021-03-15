@@ -43,7 +43,6 @@
                                             <td>{{ $jamkul->masuk }}</td>
                                             <td>{{ $jamkul->keluar }}</td>
                                             <td>{{ $jamkul->sks }}</td>
-                                            v
                                             <td>
                                                 <form action="{{ route('jamkul.destroy',$jamkul->id) }}"
                                                     method="POST">

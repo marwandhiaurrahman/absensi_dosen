@@ -9,7 +9,7 @@ class Jadwal extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'hari','jam','kelas_id','matkul_id','ruangan_id',
+        'hari','jam','kelas_id','matkul_id','ruangan_id','kode'
     ];
 
     /**

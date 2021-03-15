@@ -15,6 +15,7 @@ class CreateJadwalsTable extends Migration
     {
         Schema::create('jadwals', function (Blueprint $table) {
             $table->id();
+            $table->string('kode')->unique();
             $table->string('hari');
             $table->string('jam');
             $table->foreignId('matkul_id')->unsigned()->references('id')->on('matkuls')->onDelete('cascade')->onUpdate('cascade');

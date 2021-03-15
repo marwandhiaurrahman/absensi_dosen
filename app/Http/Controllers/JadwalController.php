@@ -23,7 +23,10 @@ class JadwalController extends Controller
     {
         $jadwals = Jadwal::get();
         $jamkuls = JamKuliah::get();
-        return view('admin.jadwal.index',compact('jadwals','jamkuls'));
+        $matkuls = Matkul::get();
+        $ruangans = Ruangan::get();
+        $kelass = Kelas::get();
+        return view('admin.jadwal.index', compact('jadwals', 'jamkuls', 'matkuls', 'ruangans', 'kelass'));
     }
 
     /**
@@ -37,7 +40,7 @@ class JadwalController extends Controller
         $ruangans = Ruangan::get();
         $kelass = Kelas::get();
         $jamkuls = JamKuliah::get();
-        return view('admin.jadwal.create', compact('matkuls', 'ruangans', 'kelass','jamkuls'));
+        return view('admin.jadwal.create', compact('matkuls', 'ruangans', 'kelass', 'jamkuls'));
     }
 
     /**
@@ -55,7 +58,7 @@ class JadwalController extends Controller
             'jam' => 'required',
             'hari' => 'required',
         ]);
-
+        $request['kode'] = $request->kelas_id . '-' . $request->matkul_id . '-' . $request->ruangan_id . '-' . $request->jam . '-' . $request->hari;
         Jadwal::create($request->all());
         Alert::success('Success Information', 'Jadwal berhasil ditambahkan');
         return redirect('jadwal');

@@ -31,7 +31,7 @@
         <div class="form-group">
             <strong>Jam :</strong>
             <select name="jam" class="form-control" required>
-                <option disabled>Pilih Jam Kuliah</option>
+                <option selected disabled>Pilih Jam Kuliah</option>
                 @foreach ($jamkuls as $jamkul)
                 <option value="{{$jamkul->id}}">{{$jamkul->masuk}} - {{$jamkul->keluar}} - {{$jamkul->sks}} SKS</option>
                 @endforeach
