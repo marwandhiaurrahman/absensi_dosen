@@ -9,6 +9,6 @@ class Absensi extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'metode','tanggal','pembahasan','jadwal_id','pertemuan'
+        'metode','tanggal','pembahasan','jadwal_id','pertemuan','jarak'
     ];
 }

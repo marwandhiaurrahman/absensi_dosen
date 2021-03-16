@@ -43,10 +43,13 @@ class LocationController extends Controller
             'name' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
+            'jarak_min' => 'required',
+
         ]);
 
         $place1 = new Location();
         $place1->name = $request->name;
+        $place1->jarak_min = $request->jarak_min;
         $place1->location = new Point($request->latitude, $request->longitude);    // (lat, lng, srid)
         $place1->save();
         // Location::create($request->all());

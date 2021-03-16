@@ -6,11 +6,13 @@ use App\Models\Absensi;
 use App\Models\Jadwal;
 use App\Models\JamKuliah;
 use App\Models\Kelas;
+use App\Models\Location;
 use App\Models\Matkul;
 use App\Models\Ruangan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use Grimzy\LaravelMysqlSpatial\Types\Point;
 
 
 class AbsensiController extends Controller
@@ -27,7 +29,6 @@ class AbsensiController extends Controller
         $matkuls = Matkul::get();
         $ruangans = Ruangan::get();
         $kelass = Kelas::get();
-
         return view('admin.absensi.index', compact('jadwals', 'jamkuls', 'matkuls', 'ruangans', 'kelass',))->with('i', (request()->input('page', 1) - 1));
     }
 
@@ -49,18 +50,59 @@ class AbsensiController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate([
+        $this->validate($request, [
             'metode' => 'required',
             'tanggal' => 'required',
             'pembahasan' => 'required',
             'jadwal_id' => 'required',
+            'lat_anda' => 'required',
+            'long_anda' => 'required',
         ]);
-        $absensis = Absensi::where('jadwal_id',$request->jadwal_id)->count();
-        $request['pertemuan'] = $absensis+1;
+
+        $patokan = Location::first();
+        $patokan_lat = $patokan->location->getLat();
+        $patokan_long = $patokan->location->getLng();
+
+        $jarak = $this->distance($patokan_lat, $patokan_long, $request->lat_anda, $request->long_anda, "K");
+
+        if ($jarak*1000 <= $patokan->jarak_min) {
+            $request['validasi'] = true;
+        } else {
+            Alert::error('Error Information', 'Absensi Tidak Valid, jarak anda terlalu jauh');
+            return redirect()->back();
+        }
+
+        $absensis = Absensi::where('jadwal_id', $request->jadwal_id)->count();
+        $request['pertemuan'] = $absensis + 1;
+
         Absensi::create($request->all());
         Alert::success('Success Information', 'Jadwal berhasil ditambahkan');
         return redirect()->back();
     }
+
+    public function distance($lat1, $lon1, $lat2, $lon2, $unit)
+    {
+        if (($lat1 == $lat2) && ($lon1 == $lon2)) {
+            return 0;
+        } else {
+            $theta = $lon1 - $lon2;
+            $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+            $dist = acos($dist);
+            $dist = rad2deg($dist);
+            $miles = $dist * 60 * 1.1515;
+            $unit = strtoupper($unit);
+
+            if ($unit == "K") {
+                return ($miles * 1.609344);
+            } else if ($unit == "N") {
+                return ($miles * 0.8684);
+            } else {
+                return $miles;
+            }
+        }
+    }
+
+
 
     /**
      * Display the specified resource.
@@ -75,9 +117,9 @@ class AbsensiController extends Controller
         $kelass = Kelas::get();
         $jamkuls = JamKuliah::orderBy('masuk', 'ASC')->get();
         $jadwal = Jadwal::find($id);
-        $absensis = Absensi::where('jadwal_id',$id)->get();
+        $absensis = Absensi::where('jadwal_id', $id)->get();
 
-        return view('admin.absensi.show', compact('jadwal', 'matkuls', 'ruangans', 'kelass', 'jamkuls','absensis'));
+        return view('admin.absensi.show', compact('jadwal', 'matkuls', 'ruangans', 'kelass', 'jamkuls', 'absensis'));
     }
 
     /**

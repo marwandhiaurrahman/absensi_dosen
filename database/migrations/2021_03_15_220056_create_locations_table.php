@@ -17,6 +17,7 @@ class CreateLocationsTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->point('location');
+            $table->double('jarak_min');
             $table->timestamps();
         });
     }

@@ -37,6 +37,7 @@
                                             <th>No</th>
                                             <th>Name</th>
                                             <th>Koordinat ( Latitude , Longitude )</th>
+                                            <th>Jarak Minimal Absensi</th>
                                             <th width="280px">Action</th>
                                         </tr>
                                     </thead>
@@ -47,6 +48,8 @@
                                             <td>{{ $location->name }}</td>
                                             <td>( {{$location->location->getLat()}} , {{$location->location->getLng()}}
                                                 )</td>
+                                            <td>{{ $location->jarak_min }} meter</td>
+
                                             {{-- <td>{{ $location->location->getLat() }}</td> --}}
                                             <td>
                                                 <form action="{{ route('lokasi-absensi.destroy',$location->id) }}"
@@ -70,7 +73,8 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Name</th>
-                                            <th>Details</th>
+                                            <th>Koordinat ( Latitude , Longitude )</th>
+                                            <th>Jarak Minimal Absensi</th>
                                             <th width="280px">Action</th>
                                         </tr>
                                         </tr>
@@ -111,7 +115,7 @@
 </script>
 
 <script type="text/javascript">
-    var y = document.getElementById("locationanda");
+var y = document.getElementById("locationanda");
 
 function getLocationAnda() {
 if (navigator.geolocation) {

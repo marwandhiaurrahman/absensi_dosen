@@ -26,12 +26,11 @@ class MatkulSeeder extends Seeder
                 'user_id' => '2'
             ],
             [
-                'name' => 'Algotitma Pemograman',
+                'name' => 'Algoritma Pemograman',
                 'kode' => 'ALGO',
                 'user_id' => '2'
             ],
         ];
-
         foreach ($matkuls as $matkul) {
             Matkul::create($matkul);
         }

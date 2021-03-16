@@ -12,7 +12,7 @@ class Location extends Model
     use SpatialTrait;
 
     protected $fillable = [
-        'name'
+        'name','validasi'
     ];
 
     protected $spatialFields = [

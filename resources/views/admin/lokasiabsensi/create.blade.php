@@ -28,13 +28,22 @@
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Koordinat Latitude :</strong>
-            {!! Form::text('latitude', null, ['class'=>'form-control', 'placeholder'=>'Masukan Koodinat Latitude', 'required']) !!}
+            {!! Form::text('latitude', null, ['class'=>'form-control', 'placeholder'=>'Masukan Koodinat Latitude',
+            'required']) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Koordinat Longitude :</strong>
-            {!! Form::text('longitude', null, ['class'=>'form-control', 'placeholder'=>'Masukan Koodinat Longitude', 'required']) !!}
+            {!! Form::text('longitude', null, ['class'=>'form-control', 'placeholder'=>'Masukan Koodinat Longitude',
+            'required']) !!}
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="form-group">
+            <strong>Jarak Minimal Absensi (meter) :</strong>
+            {!! Form::text('jarak_min', null, ['class'=>'form-control', 'placeholder'=>'Masukan Jarak Minimal Absensi
+            (Meter)', 'required']) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
