@@ -20,6 +20,7 @@ class CreateAbsensisTable extends Migration
             $table->string('pembahasan');
             $table->string('pertemuan');
             $table->boolean('validasi');
+            $table->double('jarak');
             $table->foreignId('jadwal_id')->unsigned()->references('id')->on('jadwals')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

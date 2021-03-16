@@ -40,8 +40,9 @@
                                     <tr>
                                         <th width="50px">Pertemuan</th>
                                         <th width="100px">Tanggal</th>
-                                        <th width="150px">Metode</th>
+                                        <th width="100px">Metode</th>
                                         <th width="100px">Validasi Absensi</th>
+                                        <th width="100px">Jarak</th>
                                         <th>Pembahasan</th>
                                     </tr>
                                 </thead>
@@ -51,7 +52,14 @@
                                         <td>{{$absensi->pertemuan}}</td>
                                         <td>{{$absensi->tanggal}}</td>
                                         <td>{{$absensi->metode}}</td>
-                                        <td>{{$absensi->jarak}}</td>
+                                        <td>
+                                            @if ($absensi->validasi)
+                                            Valid
+                                            @else
+                                            Tidak Valid
+                                            @endif
+                                        </td>
+                                        <td>{{number_format($absensi->jarak,1)}} meter</td>
                                         <td>{{$absensi->pembahasan}}</td>
                                     </tr>
                                     @endforeach
@@ -115,13 +123,15 @@
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Koordinat Latitude Anda :</strong>
-                            <input type="text" name="lat_anda" class="form-control" id="lat_anda" value="" readonly required>
+                            <input type="text" name="lat_anda" class="form-control" id="lat_anda" value="" readonly
+                                required>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <strong>Koordinat Longitude Anda :</strong>
-                            <input type="text" name="long_anda" class="form-control" id="long_anda" value="" readonly required>
+                            <input type="text" name="long_anda" class="form-control" id="long_anda" value="" readonly
+                                required>
                         </div>
                     </div>
                     <div class="d-block" id="">
@@ -147,8 +157,7 @@
 
 @section('js')
 <script type="text/javascript">
-
-function tampilPosition(position) {
+    function tampilPosition(position) {
     document.getElementById("lat_anda").value = position.coords.latitude;
     document.getElementById("long_anda").value = position.coords.longitude;
 }

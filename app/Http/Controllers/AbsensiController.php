@@ -65,12 +65,20 @@ class AbsensiController extends Controller
 
         $jarak = $this->distance($patokan_lat, $patokan_long, $request->lat_anda, $request->long_anda, "K");
 
-        if ($jarak*1000 <= $patokan->jarak_min) {
-            $request['validasi'] = true;
-        } else {
-            Alert::error('Error Information', 'Absensi Tidak Valid, jarak anda terlalu jauh');
-            return redirect()->back();
+        if ($request->metode == "Tatap Muka") {
+            if ($jarak * 1000 <= $patokan->jarak_min) {
+                $request['validasi'] = true;
+                $request['jarak'] = $jarak * 1000;
+            } else {
+                Alert::error('Error Information', 'Absensi Tidak Valid, jarak anda terlalu jauh');
+                return redirect()->back();
+            }
         }
+        if ($request->metode == "E-Class") {
+            $request['validasi'] = true;
+            $request['jarak'] = $jarak * 1000;
+        }
+
 
         $absensis = Absensi::where('jadwal_id', $request->jadwal_id)->count();
         $request['pertemuan'] = $absensis + 1;
