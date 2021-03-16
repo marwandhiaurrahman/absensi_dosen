@@ -163,6 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+        Grimzy\LaravelMysqlSpatial\SpatialServiceProvider::class,
         /*
          * Package Service Providers...
          */

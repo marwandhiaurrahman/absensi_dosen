@@ -82,7 +82,7 @@ function getLocation() {
 }
 
 function showPosition(position) {
-    x.innerHTML = "( " + position.coords.latitude +" , " + position.coords.longitude+" )";
+    x.innerHTML = "Latitude : " + position.coords.latitude +"<br>Longitude : " + position.coords.longitude;
 }
 
 function showError(error) {

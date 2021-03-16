@@ -310,6 +310,13 @@ return [
             'icon'        => 'fa fa-calendar-alt',
             'active' => ['absensi', 'regex:@^absensi/[0-9]+$@', 'regex:@^absensi/[0-9]/edit+$@', 'absensi/create']
         ],
+        [
+            'text'        => 'Lokasi Absensi',
+            'url'         => 'lokasi-absensi',
+            // 'can'=>'product-list',
+            'icon'        => 'fa fa-calendar-alt',
+            'active' => ['lokasi-absensi', 'regex:@^lokasi-absensi/[0-9]+$@', 'regex:@^lokasi-absensi/[0-9]/edit+$@', 'lokasi-absensi/create']
+        ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',

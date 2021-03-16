@@ -38,4 +38,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('jadwal', App\Http\Controllers\JadwalController::class);
     Route::resource('jamkul', App\Http\Controllers\JamKuliahController::class);
     Route::resource('absensi', App\Http\Controllers\AbsensiController::class);
+    Route::resource('lokasi-absensi', App\Http\Controllers\LocationController::class);
 });
