@@ -14,9 +14,9 @@
                 <div class="card-header">
                     <h3 class="card-title">Data Jadwal Kuliah</h3>
                     <div class="card-tools">
-                        {{-- @can('jadwal-create') --}}
+                        @can('jadwal-setup')
                         <a class="btn btn-sm btn-success" href="{{ route('jadwal.create') }}">+ Tambah Jadwal Kuliah</a>
-                        {{-- @endcan --}}
+                        @endcan
                     </div>
                 </div>
                 <!-- /.card-header -->

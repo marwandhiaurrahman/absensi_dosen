@@ -14,9 +14,9 @@
                 <div class="card-header">
                     <h3 class="card-title">Data Gedung</h3>
                     <div class="card-tools">
-                        {{-- @can('gedung-create') --}}
+                        @can('gedung-setup')
                         <a class="btn btn-sm btn-success" href="{{ route('gedung.create') }}">+ Tambah Gedung</a>
-                        {{-- @endcan --}}
+                        @endcan
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -40,16 +40,14 @@
                                             <td>{{ $gedung->name }}</td>
                                             <td>
                                                 <form action="{{ route('gedung.destroy',$gedung->id) }}" method="POST">
-                                                    {{-- @can('s-edit') --}}
+                                                    @can('gedung-setup')
                                                     <a class="btn btn-xs btn-primary"
                                                         href="{{ route('gedung.edit',$gedung->id) }}">Edit</a>
-                                                    {{-- @endcan --}}
                                                     @csrf
                                                     @method('DELETE')
-                                                    {{-- @can('s-delete') --}}
                                                     <button type="submit" class="btn btn-xs btn-danger">Delete</button>
-                                                    {{-- @endcan --}}
                                                 </form>
+                                                @endcan
                                             </td>
                                         </tr>
                                         @endforeach

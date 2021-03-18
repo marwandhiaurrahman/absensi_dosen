@@ -14,9 +14,9 @@
                 <div class="card-header">
                     <h3 class="card-title">Data Kelas</h3>
                     <div class="card-tools">
-                        {{-- @can('kelas-create') --}}
+                        @can('kelas-setup')
                         <a class="btn btn-sm btn-success" href="{{ route('kelas.create') }}">+ Tambah Kelas</a>
-                        {{-- @endcan --}}
+                        @endcan
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -48,17 +48,15 @@
                                             <td>{{ $kela->prodi->name }}</td>
                                             <td>{{ $kela->prodi->fakultas->name }}</td>
                                             <td>
+                                                @can('kelas-setup')
                                                 <form action="{{ route('kelas.destroy',$kela) }}" method="POST">
-                                                    {{-- @can('kelas-edit') --}}
                                                     <a class="btn btn-xs btn-primary"
                                                         href="{{ route('kelas.edit',$kela) }}">Edit</a>
-                                                    {{-- @endcan --}}
                                                     @csrf
                                                     @method('DELETE')
-                                                    {{-- @can('kelas-delete') --}}
                                                     <button type="submit" class="btn btn-xs btn-danger">Delete</button>
-                                                    {{-- @endcan --}}
                                                 </form>
+                                                @endcan
                                             </td>
                                         </tr>
                                         @endforeach

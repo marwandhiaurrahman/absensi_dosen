@@ -18,10 +18,10 @@
                     <div class="card-tools">
                         <button type="button" class="btn btn-sm btn-primary" onclick="handlePermission()">Dapatkan
                             Lokasi Anda</button>
-                        {{-- @can('lokasi-absensi-create') --}}
+                        @can('lokasi-absensi-setup')
                         <a class="btn btn-sm btn-success" href="{{ route('lokasi-absensi.create') }}">+ Tambah Lokasi
                             Absensi</a>
-                        {{-- @endcan --}}
+                        @endcan
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -49,12 +49,10 @@
                                             <td>( {{$location->location->getLat()}} , {{$location->location->getLng()}}
                                                 )</td>
                                             <td>{{ $location->jarak_min }} meter</td>
-
-                                            {{-- <td>{{ $location->location->getLat() }}</td> --}}
                                             <td>
+                                                @can('lokasi-absensi-setup')
                                                 <form action="{{ route('lokasi-absensi.destroy',$location->id) }}"
                                                     method="POST">
-                                                    {{-- @can('lokasi-absensi-edit') --}}
                                                     <a class="btn btn-xs btn-primary"
                                                         href="{{ route('lokasi-absensi.edit',$location->id) }}">Edit</a>
                                                     {{-- @endcan --}}
@@ -62,8 +60,8 @@
                                                     @method('DELETE')
                                                     {{-- @can('lokasi-absensi-delete') --}}
                                                     <button type="submit" class="btn btn-xs btn-danger">Delete</button>
-                                                    {{-- @endcan --}}
                                                 </form>
+                                                @endcan
                                             </td>
                                         </tr>
                                         @endforeach
@@ -115,7 +113,7 @@
 </script>
 
 <script type="text/javascript">
-var y = document.getElementById("locationanda");
+    var y = document.getElementById("locationanda");
 
 function getLocationAnda() {
 if (navigator.geolocation) {

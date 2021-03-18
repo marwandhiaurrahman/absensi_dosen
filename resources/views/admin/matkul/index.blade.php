@@ -14,9 +14,9 @@
                 <div class="card-header">
                     <h3 class="card-title">Data Mata Kuliah</h3>
                     <div class="card-tools">
-                        {{-- @can('matkul-create') --}}
+                        @can('matkul-setup')
                         <a class="btn btn-sm btn-success" href="{{ route('matkul.create') }}">+ Tambah Mata Kuliah</a>
-                        {{-- @endcan --}}
+                        @endcan
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -44,18 +44,16 @@
                                             <td>{{ $matkul->name }}</td>
                                             <td>{{ $matkul->dosen->name }}</td>
                                             <td>
+                                                @can('matkul-setup')
                                                 <form action="{{ route('matkul.destroy',$matkul->id) }}"
                                                     method="POST">
-                                                    {{-- @can('matkul-edit') --}}
                                                     <a class="btn btn-xs btn-primary"
                                                         href="{{ route('matkul.edit',$matkul->id) }}">Edit</a>
-                                                    {{-- @endcan --}}
                                                     @csrf
                                                     @method('DELETE')
-                                                    {{-- @can('matkul-delete') --}}
                                                     <button type="submit" class="btn btn-xs btn-danger">Delete</button>
-                                                    {{-- @endcan --}}
                                                 </form>
+                                                @endcan
                                             </td>
                                         </tr>
                                         @endforeach

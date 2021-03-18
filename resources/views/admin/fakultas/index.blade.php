@@ -14,9 +14,9 @@
                 <div class="card-header">
                     <h3 class="card-title">Data Fakultas</h3>
                     <div class="card-tools">
-                        {{-- @can('fakulta-create') --}}
+                        @can('fakultas-setup')
                         <a class="btn btn-sm btn-success" href="{{ route('fakultas.create') }}">+ Tambah Fakultas</a>
-                        {{-- @endcan --}}
+                        @endcan
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -42,30 +42,28 @@
                                             <td>{{ $fakulta->name }}</td>
                                             <td>{{ $fakulta->kode }}</td>
                                             <td>
+                                                @can('fakultas-setup')
                                                 <form action="{{ route('fakultas.destroy',$fakulta->id) }}"
                                                     method="POST">
-                                                    {{-- @can('fakultas-edit') --}}
                                                     <a class="btn btn-xs btn-primary"
                                                         href="{{ route('fakultas.edit',$fakulta->id) }}">Edit</a>
-                                                    {{-- @endcan --}}
                                                     @csrf
                                                     @method('DELETE')
-                                                    {{-- @can('fakultas-delete') --}}
                                                     <button type="submit" class="btn btn-xs btn-danger">Delete</button>
-                                                    {{-- @endcan --}}
                                                 </form>
+                                                @endcan
                                             </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Name</th>
-                                                <th>Details</th>
-                                                <th width="280px">Action</th>
-                                            </tr>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Name</th>
+                                            <th>Details</th>
+                                            <th width="280px">Action</th>
+                                        </tr>
                                         </tr>
                                     </tfoot>
                                 </table>

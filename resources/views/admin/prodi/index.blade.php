@@ -14,9 +14,9 @@
                 <div class="card-header">
                     <h3 class="card-title">Data Program Studi</h3>
                     <div class="card-tools">
-                        {{-- @can('prodi-create') --}}
+                        @can('prodi-setup')
                         <a class="btn btn-sm btn-success" href="{{ route('prodi.create') }}">+ Tambah Program Studi</a>
-                        {{-- @endcan --}}
+                        @endcan
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -44,30 +44,28 @@
                                             <td>{{ $prodi->kode }}</td>
                                             <td>{{ $prodi->fakultas->name }}</td>
                                             <td>
-                                                <form action="{{ route('prodi.destroy',$prodi->id) }}"
-                                                    method="POST">
-                                                    {{-- @can('prodi-edit') --}}
+                                                @can('prodi-setup')
+                                                <form action="{{ route('prodi.destroy',$prodi->id) }}" method="POST">
                                                     <a class="btn btn-xs btn-primary"
                                                         href="{{ route('prodi.edit',$prodi->id) }}">Edit</a>
-                                                    {{-- @endcan --}}
                                                     @csrf
                                                     @method('DELETE')
-                                                    {{-- @can('prodi-delete') --}}
                                                     <button type="submit" class="btn btn-xs btn-danger">Delete</button>
-                                                    {{-- @endcan --}}
                                                 </form>
+                                                @endcan
+
                                             </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Name</th>
-                                                <th>Details</th>
-                                                <th width="280px">Action</th>
-                                            </tr>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Name</th>
+                                            <th>Details</th>
+                                            <th width="280px">Action</th>
+                                        </tr>
                                         </tr>
                                     </tfoot>
                                 </table>

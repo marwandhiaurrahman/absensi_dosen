@@ -14,9 +14,9 @@
                 <div class="card-header">
                     <h3 class="card-title">Data Program Studi</h3>
                     <div class="card-tools">
-                        {{-- @can('ruangan-create') --}}
+                        @can('ruangan-setup')
                         <a class="btn btn-sm btn-success" href="{{ route('ruangan.create') }}">+ Tambah Program Studi</a>
-                        {{-- @endcan --}}
+                        @endcan
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -46,9 +46,9 @@
                                             <td>{{ $ruangan->lantai }}</td>
                                             <td>{{ $ruangan->gedung->name }}</td>
                                             <td>
+                                                @can('ruangan-setup')
                                                 <form action="{{ route('ruangan.destroy',$ruangan->id) }}"
                                                     method="POST">
-                                                    {{-- @can('ruangan-edit') --}}
                                                     <a class="btn btn-xs btn-primary"
                                                         href="{{ route('ruangan.edit',$ruangan->id) }}">Edit</a>
                                                     {{-- @endcan --}}
@@ -56,8 +56,8 @@
                                                     @method('DELETE')
                                                     {{-- @can('ruangan-delete') --}}
                                                     <button type="submit" class="btn btn-xs btn-danger">Delete</button>
-                                                    {{-- @endcan --}}
                                                 </form>
+                                                @endcan
                                             </td>
                                         </tr>
                                         @endforeach

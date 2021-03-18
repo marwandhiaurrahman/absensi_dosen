@@ -14,9 +14,9 @@
                 <div class="card-header">
                     <h3 class="card-title">Data Jam Kuliah</h3>
                     <div class="card-tools">
-                        {{-- @can('jamkul-create') --}}
+                        @can('jamkul-setup')
                         <a class="btn btn-sm btn-success" href="{{ route('jamkul.create') }}">+ Tambah Jam Kuliah</a>
-                        {{-- @endcan --}}
+                        @endcan
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -44,9 +44,8 @@
                                             <td>{{ $jamkul->keluar }}</td>
                                             <td>{{ $jamkul->sks }}</td>
                                             <td>
-                                                <form action="{{ route('jamkul.destroy',$jamkul->id) }}"
-                                                    method="POST">
-                                                    {{-- @can('jamkul-edit') --}}
+                                                @can('jamkul-setup')
+                                                <form action="{{ route('jamkul.destroy',$jamkul->id) }}" method="POST">
                                                     <a class="btn btn-xs btn-primary"
                                                         href="{{ route('jamkul.edit',$jamkul->id) }}">Edit</a>
                                                     {{-- @endcan --}}
@@ -54,20 +53,20 @@
                                                     @method('DELETE')
                                                     {{-- @can('jamkul-delete') --}}
                                                     <button type="submit" class="btn btn-xs btn-danger">Delete</button>
-                                                    {{-- @endcan --}}
                                                 </form>
+                                                @endcan
                                             </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Waktu Masuk</th>
-                                                <th>Details</th>
-                                                <th width="280px">Action</th>
-                                            </tr>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Waktu Masuk</th>
+                                            <th>Details</th>
+                                            <th width="280px">Action</th>
+                                        </tr>
                                         </tr>
                                     </tfoot>
                                 </table>
