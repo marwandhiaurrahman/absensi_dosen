@@ -17,12 +17,18 @@ class PermissionSeeder extends Seeder
         $permissions = [
             'role-list',
             'role-setup',
-            'product-list',
-            'product-create',
-            'product-edit',
-            'product-delete',
             'user-list',
             'user-setup',
+            'fakultas-list',
+            'prodi-list',
+            'kelas-list',
+            'ruangan-list',
+            'gedung-list',
+            'matkul-list',
+            'jamkul-list',
+            'jadwal-list',
+            'absensi-list',
+            'lokasi-absensi-list',
         ];
 
         foreach ($permissions as $permission) {

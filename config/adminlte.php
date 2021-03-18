@@ -151,7 +151,7 @@ return [
     'sidebar_collapse_remember_no_transition' => true,
     'sidebar_scrollbar_theme' => 'os-theme-light',
     'sidebar_scrollbar_auto_hide' => 'l',
-    'sidebar_nav_accordion' => true,
+    'sidebar_nav_accordion' => false,
     'sidebar_nav_animation_speed' => 300,
 
     /*
@@ -245,77 +245,98 @@ return [
             'text'        => 'Fakultas',
             'url'         => 'fakultas',
             'icon'        => 'fa fa-book',
-            // 'can'=>'product-list',
+            'can' => 'fakultas-list',
             'active' => ['fakultas', 'regex:@^fakultas/[0-9]+$@', 'regex:@^fakultas/[0-9]/edit+$@', 'fakultas/create']
         ],
         [
             'text'        => 'Program Studi',
             'url'         => 'prodi',
             'icon'        => 'fa fa-book',
-            // 'can'=>'product-list',
+            'can' => 'prodi-list',
             'active' => ['prodi', 'regex:@^prodi/[0-9]+$@', 'regex:@^prodi/[0-9]/edit+$@', 'prodi/create']
         ],
         [
             'text'        => 'Kelas',
             'url'         => 'kelas',
             'icon'        => 'fa fa-book',
-            // 'can'=>'product-list',
+            'can' => 'kelas-list',
             'active' => ['kelas', 'regex:@^kelas/[0-9]+$@', 'regex:@^kelas/[0-9]/edit+$@', 'kelas/create']
+        ],
+        [
+            'text'        => 'Mata Kuliah',
+            'url'         => 'matkul',
+            'can' => 'matkul-list',
+            'icon'        => 'fa fa-book',
+            'active' => ['matkul', 'regex:@^matkul/[0-9]+$@', 'regex:@^matkul/[0-9]/edit+$@', 'matkul/create']
         ],
         [
             'text'    => 'Ruangan Belajar',
             'icon'    => 'fa fa-home',
+            'can' => 'ruangan-list' || 'gedung-list',
             'submenu' => [
                 [
                     'text'        => 'Ruangan',
                     'url'         => 'ruangan',
                     'shift'   => 'ml-3',
-                    // 'can'=>'product-list',
+                    'can' => 'ruangan-list',
                     'active' => ['ruangan', 'regex:@^ruangan/[0-9]+$@', 'regex:@^ruangan/[0-9]/edit+$@', 'ruangan/create']
                 ],
                 [
                     'text'        => 'Gedung',
                     'url'         => 'gedung',
                     'shift'   => 'ml-3',
-                    // 'can'=>'product-list',
+                    'can' => 'gedung-list',
                     'active' => ['gedung', 'regex:@^gedung/[0-9]+$@', 'regex:@^gedung/[0-9]/edit+$@', 'gedung/create']
                 ],
             ],
         ],
         [
-            'text'        => 'Mata Kuliah',
-            'url'         => 'matkul',
-            // 'can'=>'product-list',
-            'icon'        => 'fa fa-book',
-            'active' => ['matkul', 'regex:@^matkul/[0-9]+$@', 'regex:@^matkul/[0-9]/edit+$@', 'matkul/create']
+            'text'    => 'Penjadwalan Kuliah',
+            'icon'    => 'fa fa-home',
+            'can' => 'jadwal-list' || 'jamkul-list',
+            'submenu' => [
+                [
+                    'text'        => 'Jadwal Kuliah',
+                    'url'         => 'jadwal',
+                    'can' => 'jadwal-list',
+                    'shift'   => 'ml-3',
+                    'icon'        => 'fa fa-calendar-alt',
+                    'active' => ['jadwal', 'regex:@^jadwal/[0-9]+$@', 'regex:@^jadwal/[0-9]/edit+$@', 'jadwal/create']
+                ],
+                [
+                    'text'        => 'Jam Kuliah',
+                    'url'         => 'jamkul',
+                    'can' => 'jamkul-list',
+                    'icon'        => 'fa fa-calendar-alt',
+                    'shift'   => 'ml-3',
+                    'active' => ['jamkul', 'regex:@^jamkul/[0-9]+$@', 'regex:@^jamkul/[0-9]/edit+$@', 'jamkul/create']
+                ],
+            ]
         ],
         [
-            'text'        => 'Jadwal Kuliah',
-            'url'         => 'jadwal',
-            // 'can'=>'product-list',
-            'icon'        => 'fa fa-calendar-alt',
-            'active' => ['jadwal', 'regex:@^jadwal/[0-9]+$@', 'regex:@^jadwal/[0-9]/edit+$@', 'jadwal/create']
-        ],
-        [
-            'text'        => 'Jam Kuliah',
-            'url'         => 'jamkul',
-            // 'can'=>'product-list',
-            'icon'        => 'fa fa-calendar-alt',
-            'active' => ['jamkul', 'regex:@^jamkul/[0-9]+$@', 'regex:@^jamkul/[0-9]/edit+$@', 'jamkul/create']
-        ],
-        [
-            'text'        => 'Absensi',
-            'url'         => 'absensi',
-            // 'can'=>'product-list',
-            'icon'        => 'fa fa-calendar-alt',
-            'active' => ['absensi', 'regex:@^absensi/[0-9]+$@', 'regex:@^absensi/[0-9]/edit+$@', 'absensi/create']
-        ],
-        [
-            'text'        => 'Lokasi Absensi',
-            'url'         => 'lokasi-absensi',
-            // 'can'=>'product-list',
-            'icon'        => 'fa fa-calendar-alt',
-            'active' => ['lokasi-absensi', 'regex:@^lokasi-absensi/[0-9]+$@', 'regex:@^lokasi-absensi/[0-9]/edit+$@', 'lokasi-absensi/create']
+            'text'    => 'Absensi Kuliah',
+            'icon'    => 'fa fa-home',
+            'can' => 'absensi-list' || 'lokasi-absensi-list',
+            'submenu' => [
+                [
+                    'text'        => 'Data Absensi',
+                    'url'         => 'absensi',
+                    'can' => 'absensi-list',
+                    'shift'   => 'ml-3',
+
+                    'icon'        => 'fa fa-calendar-alt',
+                    'active' => ['absensi', 'regex:@^absensi/[0-9]+$@', 'regex:@^absensi/[0-9]/edit+$@', 'absensi/create']
+                ],
+                [
+                    'text'        => 'Lokasi Absensi',
+                    'url'         => 'lokasi-absensi',
+                    'can' => 'lokasi-absensi-list',
+                    'shift'   => 'ml-3',
+
+                    'icon'        => 'fa fa-calendar-alt',
+                    'active' => ['lokasi-absensi', 'regex:@^lokasi-absensi/[0-9]+$@', 'regex:@^lokasi-absensi/[0-9]/edit+$@', 'lokasi-absensi/create']
+                ],
+            ]
         ],
         ['header' => 'account_settings'],
         [
