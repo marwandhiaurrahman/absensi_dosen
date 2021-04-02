@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_absensi_dosen/view/auth/login.dart';
 import 'package:flutter_absensi_dosen/view/dashboard/index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:splashscreen/splashscreen.dart';
 
 void main() {
@@ -17,7 +16,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Future<Widget?> loadFromFuture() async {
+  Future<Widget> loadFromFuture() async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'token';
     final value = prefs.get(key) ?? 0;
