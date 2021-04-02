@@ -33,5 +33,15 @@ class UserSeeder extends Seeder
         ]);
         $dosenrole = Role::create(['name' => 'Dosen']);
         $dosen->assignRole([$dosenrole->id]);
+
+        $pengawas = User::create([
+            'name' => 'Pengawas',
+            'email' => 'pengawas@gmail.com',
+            'password' => bcrypt('qweqwe')
+        ]);
+        $pengawasrole = Role::create(['name' => 'Pengawas']);
+        $pengawaspermissions = Permission::where('name','LIKE',"%{list}%")->pluck('id', 'id')->all();
+        $pengawasrole->syncPermissions($pengawaspermissions);
+        $pengawas->assignRole([$pengawasrole->id]);
     }
 }

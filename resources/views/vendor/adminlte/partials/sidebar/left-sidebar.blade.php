@@ -33,8 +33,7 @@
         </nav>
     </div>
 
-
-    <script type="text/javascript">
+<script type="text/javascript">
         function showTime() {
         var a_p = "";
         var today = new Date();
@@ -44,15 +43,15 @@
         if (curr_hour == 0) {
         curr_hour = 12;
         }
-curr_hour = checkTime(curr_hour);
-curr_minute = checkTime(curr_minute);
-curr_second = checkTime(curr_second);
-document.getElementById('clock').innerHTML="Jam : "+curr_hour + ":" + curr_minute + ":" + curr_second + " WIB";
-}
-function checkTime(i) {
-if (i < 10) {
-i = "0" + i;
-}
+    curr_hour = checkTime(curr_hour);
+    curr_minute = checkTime(curr_minute);
+    curr_second = checkTime(curr_second);
+    document.getElementById('clock').innerHTML="Jam : "+curr_hour + ":" + curr_minute + ":" + curr_second + " WIB";
+    }
+    function checkTime(i) {
+    if (i < 10) {
+    i = "0" + i;
+    }
 return i;
 }
 setInterval(showTime, 500);
@@ -103,6 +102,6 @@ function showError(error) {
 }
 
 setInterval(getLocation, 500);
-    </script>
+</script>
 
 </aside>
