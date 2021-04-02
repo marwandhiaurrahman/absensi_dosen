@@ -240,6 +240,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
+  responsive_size:
+    dependency: "direct main"
+    description:
+      name: responsive_size
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.6"
   shared_preferences:
     dependency: "direct main"
     description:

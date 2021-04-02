@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_absensi_dosen/route/route.dart';
 import 'package:flutter_absensi_dosen/view/auth/login.dart';
 import 'package:flutter_absensi_dosen/view/dashboard/index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,7 +7,9 @@ import 'package:splashscreen/splashscreen.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: MyApp(),
+    // home: MyApp(),
+    initialRoute: '/',
+    routes: myRoutes,
   ));
 }
 
@@ -22,11 +25,11 @@ class _MyAppState extends State<MyApp> {
     final value = prefs.get(key) ?? 0;
     if (value == 0) {
       print('Not Has Token');
-      return Future.value(ViewLogin());
+      return Future.value(LoginView());
     }
     if (value != 0) {
       print('Has Token');
-      return Future.value(ViewDashboard());
+      return Future.value(DashboardView());
     }
     return null;
   }
