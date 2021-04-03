@@ -6,8 +6,7 @@ class MatkulView extends StatefulWidget {
 }
 
 class _MatkulViewState extends State<MatkulView> {
-  int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
-
+  // int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +36,7 @@ class _MatkulViewState extends State<MatkulView> {
               ),
               ElevatedButton(onPressed: () {}, child: Text('Absensi Masuk')),
               PaginatedDataTable(
-                // header: Text('Data Absensi'),
+                header: Text('Data Absensi'),
                 // rowsPerPage: _rowsPerPage,
                 // availableRowsPerPage: const <int>[5, 10, 20],
                 // onRowsPerPageChanged: (int value) {
@@ -117,6 +116,16 @@ class DessertDataSource extends DataTableSource {
     Absensi('Pertemuan 5', 'Belajar 1', '08.00', '10.00', 'keterangan'),
     Absensi('Pertemuan 6', 'Belajar 1', '08.00', '10.00', 'keterangan'),
     Absensi('Pertemuan 7', 'Belajar 1', '08.00', '10.00', 'keterangan'),
+    Absensi('Pertemuan 8', 'Belajar 1', '08.00', '10.00', 'keterangan'),
+    Absensi('Pertemuan 8', 'Belajar 1', '08.00', '10.00', 'keterangan'),
+    Absensi('Pertemuan 8', 'Belajar 1', '08.00', '10.00', 'keterangan'),
+    Absensi('Pertemuan 8', 'Belajar 1', '08.00', '10.00', 'keterangan'),
+    Absensi('Pertemuan 8', 'Belajar 1', '08.00', '10.00', 'keterangan'),
+    Absensi('Pertemuan 8', 'Belajar 1', '08.00', '10.00', 'keterangan'),
+    Absensi('Pertemuan 8', 'Belajar 1', '08.00', '10.00', 'keterangan'),
+    Absensi('Pertemuan 8', 'Belajar 1', '08.00', '10.00', 'keterangan'),
+    Absensi('Pertemuan 8', 'Belajar 1', '08.00', '10.00', 'keterangan'),
+    Absensi('Pertemuan 8', 'Belajar 1', '08.00', '10.00', 'keterangan'),
     Absensi('Pertemuan 8', 'Belajar 1', '08.00', '10.00', 'keterangan'),
     Absensi('Pertemuan 8', 'Belajar 1', '08.00', '10.00', 'keterangan'),
     Absensi('Pertemuan 8', 'Belajar 1', '08.00', '10.00', 'keterangan'),
