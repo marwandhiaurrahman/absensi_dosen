@@ -20,7 +20,6 @@ class _ViewDashboardState extends State<DashboardView> {
         child: Text('backLayer'),
       ),
       frontLayer: Container(
-        // color: Colors.amber,
         margin: EdgeInsets.all(spBlock * 0.5),
         child: SingleChildScrollView(
           child: Column(
@@ -44,8 +43,8 @@ class _ViewDashboardState extends State<DashboardView> {
                 ),
               )),
               Card(
-                // color: Colors.blue[200],
                 child: ExpansionTile(
+                  initiallyExpanded: true,
                   title: Text('Jadwal Hari Ini'),
                   leading: Icon(Icons.menu),
                   children: matkulToday
@@ -72,11 +71,11 @@ class _ViewDashboardState extends State<DashboardView> {
                 ),
               ),
               Card(
-                // color: Colors.blue[200],
                 child: ListTile(
                   title: Text('Jadwal Mata Kuliah'),
                   leading: Icon(Icons.menu),
                   onTap: () {
+                    print('jadwal');
                     Navigator.pushNamed(context, '/jadwal');
                   },
                 ),
