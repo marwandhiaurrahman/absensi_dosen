@@ -7,6 +7,16 @@ class MatkulView extends StatefulWidget {
 
 class _MatkulViewState extends State<MatkulView> {
   // int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
+  bool status = false;
+
+  void _absensiMasuk() {
+    Navigator.pushNamed(context, '/absensi');
+  }
+
+  void _absensiKeluar() {
+    Navigator.pushNamed(context, '/absensi');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +44,22 @@ class _MatkulViewState extends State<MatkulView> {
                   ),
                 ),
               ),
-              ElevatedButton(onPressed: () {}, child: Text('Absensi Masuk')),
+              (status)
+                  ? ElevatedButton(
+                      onPressed: () {
+                        _absensiMasuk();
+                      },
+                      child: Text('Absensi Masuk'))
+                  : ElevatedButton(
+                      onPressed: () {
+                        _absensiKeluar();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.red, // background
+                      ),
+                      child: Text(
+                        'Absensi Keluar',
+                      )),
               PaginatedDataTable(
                 header: Text('Data Absensi'),
                 // rowsPerPage: _rowsPerPage,

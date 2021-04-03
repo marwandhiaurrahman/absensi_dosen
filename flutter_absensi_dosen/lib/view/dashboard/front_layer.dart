@@ -39,6 +39,40 @@ class _FrontLayerState extends State<FrontLayer> {
             Card(
               child: ExpansionTile(
                 initiallyExpanded: true,
+                title: Text('Absensi Aktif'),
+                leading: Icon(Icons.menu),
+                children: matkulToday
+                    .map((e) => Container(
+                          child: Column(
+                            children: [
+                              // Container(
+                              //   margin: EdgeInsets.symmetric(
+                              //       horizontal: widthBlock * 5),
+                              //   child: Divider(
+                              //     color: Colors.black,
+                              //   ),
+                              // ),
+                              ListTile(
+                                title: Text(e.name),
+                                subtitle: Text(e.waktu),
+                                leading: Icon(Icons.book),
+                                trailing: IconButton(
+                                  icon: Icon(Icons.logout),
+                                  onPressed: () {},
+                                ),
+                                onTap: () {
+                                  Navigator.pushNamed(context, '/matkul');
+                                },
+                              ),
+                            ],
+                          ),
+                        ))
+                    .toList(),
+              ),
+            ),
+            Card(
+              child: ExpansionTile(
+                initiallyExpanded: true,
                 title: Text('Jadwal Hari Ini'),
                 leading: Icon(Icons.menu),
                 children: matkulToday
