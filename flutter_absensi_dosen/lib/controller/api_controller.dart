@@ -30,8 +30,11 @@ class ApiController {
           print('data : ${data["error"]}');
           return 'Error : ${data["message"]}';
         }
-        print('Data : ${data["data"]["token"]}');
+        print('User Name : ${data["data"]["name"]}');
         _save('token', data["data"]["token"]);
+        _save('name', data["data"]["name"]);
+        _save('id', data["data"]["id"].toString());
+        _save('email', data["data"]["email"]);
         return null;
       });
     } catch (e) {
