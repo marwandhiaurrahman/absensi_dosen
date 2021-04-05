@@ -27,6 +27,7 @@ class _AbsensiViewState extends State<AbsensiView> {
 
   Future _scan() async {
     await Permission.camera.request();
+    _getLocation();
     String barcode = await scanner.scan();
     if (barcode == null) {
       print('nothing return.');
@@ -39,7 +40,7 @@ class _AbsensiViewState extends State<AbsensiView> {
   }
 
   void _requestPermissionLocation() async {
-    await Geolocator.requestPermission().then((value) => {
+    await Permission.locationAlways.request().then((value) => {
           setState(() {
             _permissionLocation = value.toString();
           })
@@ -66,6 +67,7 @@ class _AbsensiViewState extends State<AbsensiView> {
   double longitude = 0;
   double jarak = 0;
   String _timeString;
+  String metode;
 
   @override
   void initState() {
@@ -76,6 +78,11 @@ class _AbsensiViewState extends State<AbsensiView> {
 
   @override
   Widget build(BuildContext context) {
+    const itemsMenu = <String>[
+      'Tatap Muka',
+      'E-Class',
+    ];
+
     ResponsiveSize.init(
         designWidth: MediaQuery.of(context).size.width,
         designHeight: MediaQuery.of(context).size.height);
@@ -83,72 +90,128 @@ class _AbsensiViewState extends State<AbsensiView> {
       appBar: AppBar(
         title: Text('Absensi Masuk'),
       ),
-      body: Column(
-        children: [
-          Card(
-              child: Container(
-            // color: Colors.blue[200],
-            width: double.infinity,
-            padding: EdgeInsets.all(spBlock * 1),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Tanggal : ' + _timeString),
-                Text('Tanggal : 12 Januari 2021'),
-                Text('Tanggal : 12 Januari 2021'),
-              ],
-            ),
-          )),
-          Card(
-              child: Container(
-            // color: Colors.blue[200],
-            width: double.infinity,
-            padding: EdgeInsets.all(spBlock * 1),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Ruangan : ' + output),
-                Text(_permissionLocation),
-                Text('Latitude : ' + latitude.toString()),
-                Text('Longitude : ' + longitude.toString()),
-                Text('Jarak : ' + jarak.ceilToDouble().toString() + ' meter'),
-                Text('Akurasi : ' +
-                    (100 - _akurasiLokasi.ceilToDouble()).toString() +
-                    ' %'),
-              ],
-            ),
-          )),
-          Container(
-            width: double.infinity,
-            child: Card(
-              color: Colors.transparent,
-              elevation: 0,
-              child: ElevatedButton(
-                onPressed: () {
-                  _scan();
-                  _getLocation();
-                },
-                child: Text('Scan'),
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.amber, onPrimary: Colors.black),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Card(
+                child: Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(spBlock * 1),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Pertemuan ke - 1'),
+                  Text('Tanggal : ' + _timeString),
+                  Text('Tanggal : 12 Januari 2021'),
+                ],
               ),
-            ),
-          ),
-          Container(
-            width: double.infinity,
-            child: Card(
-              color: Colors.transparent,
-              elevation: 0,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Text('Upload'),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.lightGreen,
+            )),
+            Card(
+                child: Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(spBlock * 1),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFormField(
+                    maxLines: 2,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(
+                            const Radius.circular(10.0),
+                          ),
+                        ),
+                        filled: true,
+                        labelText: 'Pembahasan',
+                        hintStyle: TextStyle(color: Colors.grey[800]),
+                        hintText: "Masukan Pembahasan",
+                        fillColor: Colors.white70),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                      vertical: 10,
+                    ),
+                    width: double.infinity,
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 1.0, style: BorderStyle.solid),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      ),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: Container(
+                        margin: EdgeInsets.only(left: 10.0, right: 10.0),
+                        child: DropdownButton<String>(
+                          hint: Text('Pilih Metode'),
+                          value: metode,
+                          items: itemsMenu.map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              metode = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )),
+            Card(
+                child: Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(spBlock * 1),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Ruangan : ' + output),
+                  Text(_permissionLocation),
+                  Text('Latitude : ' + latitude.toString()),
+                  Text('Longitude : ' + longitude.toString()),
+                  Text('Jarak : ' + jarak.ceilToDouble().toString() + ' meter'),
+                  Text('Akurasi : ' +
+                      (100 - _akurasiLokasi.ceilToDouble()).toString() +
+                      ' %'),
+                ],
+              ),
+            )),
+            Container(
+              width: double.infinity,
+              child: Card(
+                color: Colors.transparent,
+                elevation: 0,
+                child: ElevatedButton(
+                  onPressed: () {
+                    _scan();
+                  },
+                  child: Text('Scan'),
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.amber, onPrimary: Colors.black),
                 ),
               ),
             ),
-          )
-        ],
+            Container(
+              width: double.infinity,
+              child: Card(
+                color: Colors.transparent,
+                elevation: 0,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: Text('Upload'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.lightGreen,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
