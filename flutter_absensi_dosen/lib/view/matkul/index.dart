@@ -24,7 +24,7 @@ class _MatkulViewState extends State<MatkulView> {
 
   @override
   void initState() {
-    widget.jadwal;
+    // widget.jadwal;
     super.initState();
   }
 

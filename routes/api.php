@@ -26,5 +26,6 @@ Route::post('login', [RegisterController::class, 'login']);
 Route::middleware('auth:api')->group( function () {
     Route::get('dashboard', [AbsensiController::class, 'dashboard']);
     Route::get('jadwals', [AbsensiController::class, 'jadwals']);
-    Route::resource('products', ProductController::class);
+    Route::get('absensi/{id}', [AbsensiController::class, 'getabsensi']);
+    // Route::resource('products', ProductController::class);
 });

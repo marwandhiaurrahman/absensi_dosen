@@ -10,6 +10,7 @@ use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\Jadwal;
 use App\Models\Kelas;
 use App\Models\Product;
+use Carbon\Carbon;
 use Validator;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +20,7 @@ class AbsensiController extends BaseController
     {
         $jadwaltodays=null;
         $user = Auth::user();
-        $jadwals = Jadwal::where('hari','1')->get()->all();
+        $jadwals = Jadwal::where('hari',Carbon::now()->dayOfWeek)->get()->all();
         foreach ($jadwals as $jadwal) {
            if($jadwal->matkul->dosen->id == $user->id){
                 $jadwaltodays[] = $jadwal;
@@ -65,6 +66,18 @@ class AbsensiController extends BaseController
         // $kelas = Kelas::get()->all();
         return $this->sendResponse([
             'jadwalsSaya'=>new UserResorces($jadwalsSaya),
+        ], 'Product retrieved successfully.');
+    }
+
+    public function getabsensi($jadwal_id)
+    {
+        $jadwal = Jadwal::find($jadwal_id);
+        $absensi = $jadwal->absensi;
+        $absensi_aktif = $jadwal->absensi->where('keluar',null)->all();
+
+        return $this->sendResponse([
+            'absensi'=>new UserResorces($absensi),
+            'absensi_aktif'=>new UserResorces($absensi_aktif),
         ], 'Product retrieved successfully.');
     }
 }

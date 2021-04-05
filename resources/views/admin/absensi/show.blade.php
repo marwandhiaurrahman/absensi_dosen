@@ -41,7 +41,8 @@
                                         <th width="50px">Pertemuan</th>
                                         <th width="100px">Tanggal</th>
                                         <th width="100px">Metode</th>
-                                        <th width="100px">Validasi Absensi</th>
+                                        <th width="100px">Jam Masuk</th>
+                                        <th width="100px">Jam Keluar</th>
                                         <th width="100px">Jarak</th>
                                         <th>Pembahasan</th>
                                     </tr>
@@ -52,11 +53,12 @@
                                         <td>{{$absensi->pertemuan}}</td>
                                         <td>{{$absensi->tanggal}}</td>
                                         <td>{{$absensi->metode}}</td>
+                                        <td>{{$absensi->masuk}}</td>
                                         <td>
-                                            @if ($absensi->validasi)
-                                            Valid
+                                            @if (is_null($absensi->keluar))
+                                            <a href="{{ route('absensi.edit',$absensi) }}" class="btn btn-xs btn-danger">Absensi Keluar</a>
                                             @else
-                                            Tidak Valid
+                                            {{$absensi->keluar}}
                                             @endif
                                         </td>
                                         <td>{{number_format($absensi->jarak,1)}} meter</td>

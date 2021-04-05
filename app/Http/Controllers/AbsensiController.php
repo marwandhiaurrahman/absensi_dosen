@@ -59,6 +59,9 @@ class AbsensiController extends Controller
             'long_anda' => 'required',
         ]);
 
+        $request['masuk'] = Carbon::now();
+        $request['keluar'] = null;
+
         $patokan = Location::first();
         $patokan_lat = $patokan->location->getLat();
         $patokan_long = $patokan->location->getLng();
@@ -138,7 +141,12 @@ class AbsensiController extends Controller
      */
     public function edit(Absensi $absensi)
     {
-        //
+        $matkuls = Matkul::get();
+        $ruangans = Ruangan::get();
+        $kelass = Kelas::get();
+        $jamkuls = JamKuliah::orderBy('masuk', 'ASC')->get();
+        $jadwal = Jadwal::find($absensi->jadwal_id);
+        return view('admin.absensi.edit',compact('absensi','jadwal', 'matkuls', 'ruangans', 'kelass', 'jamkuls'));
     }
 
     /**
@@ -150,7 +158,40 @@ class AbsensiController extends Controller
      */
     public function update(Request $request, Absensi $absensi)
     {
-        //
+        $this->validate($request, [
+            'metode' => 'required',
+            'tanggal' => 'required',
+            'pembahasan' => 'required',
+            'jadwal_id' => 'required',
+            'lat_anda' => 'required',
+            'long_anda' => 'required',
+        ]);
+
+        $request['keluar'] = Carbon::now();
+
+        $patokan = Location::first();
+        $patokan_lat = $patokan->location->getLat();
+        $patokan_long = $patokan->location->getLng();
+
+        $jarak = $this->distance($patokan_lat, $patokan_long, $request->lat_anda, $request->long_anda, "K");
+
+        if ($request->metode == "Tatap Muka") {
+            if ($jarak * 1000 <= $patokan->jarak_min) {
+                $request['validasi'] = true;
+                $request['jarak'] = $jarak * 1000;
+            } else {
+                Alert::error('Error Information', 'Absensi Tidak Valid, jarak anda terlalu jauh');
+                return redirect()->back();
+            }
+        }
+        if ($request->metode == "E-Class") {
+            $request['validasi'] = true;
+            $request['jarak'] = $jarak * 1000;
+        }
+
+        $absensi->update($request->all());
+        Alert::success('Success Information', 'Absensi Keluar Diterima');
+        return redirect()->route('absensi.show',$absensi->jadwal_id);
     }
 
     /**

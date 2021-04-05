@@ -15,11 +15,12 @@ class CreateAbsensisTable extends Migration
     {
         Schema::create('absensis', function (Blueprint $table) {
             $table->id();
+            $table->string('pertemuan');
             $table->date('tanggal');
             $table->string('metode');
             $table->string('pembahasan');
-            $table->string('pertemuan');
-            $table->boolean('validasi');
+            $table->time('masuk');
+            $table->time('keluar')->nullable();
             $table->double('jarak');
             $table->foreignId('jadwal_id')->unsigned()->references('id')->on('jadwals')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
