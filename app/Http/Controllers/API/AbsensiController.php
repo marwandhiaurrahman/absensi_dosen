@@ -7,19 +7,25 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\User as UserResorces;
 use App\Http\Controllers\API\BaseController as BaseController;
+use App\Models\Jadwal;
 use App\Models\Product;
 use Validator;
+use Illuminate\Support\Facades\Auth;
 
 class AbsensiController extends BaseController
 {
     public function dashboard()
     {
-        $user = User::find(1);
-
-        if (is_null($user)) {
-            return $this->sendError('Product not found.');
+        $user = Auth::user();
+        $jadwals = Jadwal::where('hari','1')->get()->all();
+        foreach ($jadwals as $jadwal) {
+           if($jadwal->matkul->dosen->id == $user->id){
+               $jadwaltodays[] = $jadwal;
+           }
         }
-
-        return $this->sendResponse(new UserResorces($user), 'Product retrieved successfully.');
+        return $this->sendResponse([
+            'user'=>new UserResorces($user),
+            'jadwaltodays'=>new UserResorces($jadwaltodays),
+        ], 'Product retrieved successfully.');
     }
 }

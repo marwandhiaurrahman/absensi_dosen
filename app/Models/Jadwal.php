@@ -48,4 +48,5 @@ class Jadwal extends Model
     {
         return $this->hasMany(Absensi::class);
     }
+
 }
