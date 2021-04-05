@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:backdrop/backdrop.dart';
 import 'package:flutter_absensi_dosen/view/dashboard/front_layer.dart';
 import 'package:responsive_size/responsive_size.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardView extends StatefulWidget {
   @override
@@ -29,8 +30,10 @@ class _ViewDashboardState extends State<DashboardView> {
     );
   }
 
-  void _logoutButton() {
-    print('logout');
-    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+  void _logoutButton() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    print('logout and token clear');
+    Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
   }
 }

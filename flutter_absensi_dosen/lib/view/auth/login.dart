@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_absensi_dosen/controller/api_controller.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
@@ -8,20 +9,12 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  Duration get loginTime => Duration(milliseconds: 2250);
-
-  Future<String> _authUser(LoginData data) {
-    print('Login Info Name: ${data.name}, Password: ${data.password}');
-    return Future.delayed(loginTime).then((_) {
-      return null;
-    });
-  }
-
+  ApiController apiController = ApiController();
   @override
   Widget build(BuildContext context) {
     return FlutterLogin(
       title: 'Login',
-      onLogin: (loginData) => _authUser(loginData),
+      onLogin: (loginData) => apiController.loginUser(loginData),
       onSignup: null,
       onRecoverPassword: null,
       titleTag: 'Login Aplikasi Dosen',
