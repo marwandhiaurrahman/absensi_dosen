@@ -1,5 +1,5 @@
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_absensi_dosen/controller/endpoint_controller.dart';
+import 'package:flutter_absensi_dosen/endpoint/dashboard.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';

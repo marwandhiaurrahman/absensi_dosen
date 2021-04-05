@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_absensi_dosen/controller/api_controller.dart';
-import 'package:flutter_absensi_dosen/dummy_data/matkul.dart';
+import 'package:flutter_absensi_dosen/endpoint/dashboard.dart';
+import 'package:flutter_absensi_dosen/model/hari.dart';
+import 'package:flutter_absensi_dosen/view/matkul/index.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_size/responsive_size.dart';
 
 class FrontLayer extends StatefulWidget {
@@ -10,6 +13,8 @@ class FrontLayer extends StatefulWidget {
 
 class _FrontLayerState extends State<FrontLayer> {
   ApiController apiController = ApiController();
+
+  String _timeString = DateFormat('d MMMM yyyy').format(DateTime.now());
 
   @override
   void initState() {
@@ -22,106 +27,130 @@ class _FrontLayerState extends State<FrontLayer> {
     ResponsiveSize.init(
         designWidth: MediaQuery.of(context).size.width,
         designHeight: MediaQuery.of(context).size.height);
-    return Container(
-      margin: EdgeInsets.all(spBlock * 0.5),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Text(
-              'Marwan Dhiaur Rahman',
-              style: TextStyle(fontSize: spBlock * 1.1),
-            ),
-            Card(
-                child: Container(
-              // color: Colors.blue[200],
-              width: double.infinity,
-              padding: EdgeInsets.all(spBlock * 1),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Tanggal : 12 Januari 2021'),
-                  Text('Tanggal : 12 Januari 2021'),
-                  Text('Tanggal : 12 Januari 2021'),
-                ],
-              ),
-            )),
-            Card(
-              child: ExpansionTile(
-                initiallyExpanded: true,
-                title: Text('Absensi Aktif'),
-                leading: Icon(Icons.menu),
-                children: matkulToday
-                    .map((e) => Container(
-                          child: Column(
-                            children: [
-                              // Container(
-                              //   margin: EdgeInsets.symmetric(
-                              //       horizontal: widthBlock * 5),
-                              //   child: Divider(
-                              //     color: Colors.black,
-                              //   ),
-                              // ),
-                              ListTile(
-                                title: Text(e.name),
-                                subtitle: Text(e.waktu),
-                                leading: Icon(Icons.book),
-                                trailing: IconButton(
-                                  icon: Icon(Icons.logout),
-                                  onPressed: () {},
-                                ),
-                                onTap: () {
-                                  Navigator.pushNamed(context, '/matkul');
-                                },
-                              ),
-                            ],
+    return FutureBuilder(
+        future: apiController.dashboard(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text('Error : ' + snapshot.error.toString()),
+            );
+          } else if (snapshot.connectionState == ConnectionState.done) {
+            User user = snapshot.data.user;
+            List<Jadwal> jadwaltodays = snapshot.data.jadwaltodays;
+            return Container(
+              margin: EdgeInsets.all(spBlock * 0.5),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Text(
+                      user.name.toString(),
+                      style: TextStyle(fontSize: spBlock * 1.1),
+                    ),
+                    Card(
+                        child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(spBlock * 1),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Informasi'),
+                          Text('Hari : ' +
+                              hari[DateTime.now().weekday] +
+                              ' ,' +
+                              _timeString),
+                        ],
+                      ),
+                    )),
+                    Card(
+                      child: ExpansionTile(
+                          initiallyExpanded: true,
+                          title: Text('Absensi Aktif'),
+                          leading: Icon(Icons.menu),
+                          children: []
+
+                          //     matkulToday
+                          //         .map((e) => Container(
+                          //               child: Column(
+                          //                 children: [
+                          //                   ListTile(
+                          //                     title: Text(e.name),
+                          //                     subtitle: Text(e.waktu),
+                          //                     leading: Icon(Icons.book),
+                          //                     trailing: IconButton(
+                          //                       icon: Icon(Icons.logout),
+                          //                       onPressed: () {},
+                          //                     ),
+                          //                     onTap: () {
+                          //                       Navigator.pushNamed(context, '/matkul');
+                          //                     },
+                          //                   ),
+                          //                 ],
+                          //               ),
+                          //             ))
+                          //         .toList(),
                           ),
-                        ))
-                    .toList(),
+                    ),
+                    Card(
+                      child: ExpansionTile(
+                        initiallyExpanded: true,
+                        title: Text('Jadwal Hari Ini'),
+                        leading: Icon(Icons.menu),
+                        children: jadwaltodays
+                            .map((e) => Container(
+                                  child: Column(
+                                    children: [
+                                      ListTile(
+                                        title: Text(e.matkul.name),
+                                        subtitle: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(e.jamkul.masuk +
+                                                ' - ' +
+                                                e.jamkul.keluar),
+                                            Text('Ruangan ' +
+                                                e.ruangan.kode +
+                                                ' Kelas ' +
+                                                e.kelas.kode),
+                                          ],
+                                        ),
+                                        leading: Icon(Icons.book),
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MatkulView(
+                                                          jadwal: e,
+                                                          index: e.id)));
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ))
+                            .toList(),
+                      ),
+                    ),
+                    Card(
+                      child: ListTile(
+                        title: Text('Jadwal Mata Kuliah'),
+                        leading: Icon(Icons.menu),
+                        onTap: () {
+                          print('jadwal');
+                          Navigator.pushNamed(context, '/jadwal');
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Card(
-              child: ExpansionTile(
-                initiallyExpanded: true,
-                title: Text('Jadwal Hari Ini'),
-                leading: Icon(Icons.menu),
-                children: matkulToday
-                    .map((e) => Container(
-                          child: Column(
-                            children: [
-                              // Container(
-                              //   margin: EdgeInsets.symmetric(
-                              //       horizontal: widthBlock * 5),
-                              //   child: Divider(
-                              //     color: Colors.black,
-                              //   ),
-                              // ),
-                              ListTile(
-                                title: Text(e.name),
-                                subtitle: Text(e.waktu),
-                                leading: Icon(Icons.book),
-                                onTap: () {
-                                  Navigator.pushNamed(context, '/matkul');
-                                },
-                              ),
-                            ],
-                          ),
-                        ))
-                    .toList(),
-              ),
-            ),
-            Card(
-              child: ListTile(
-                title: Text('Jadwal Mata Kuliah'),
-                leading: Icon(Icons.menu),
-                onTap: () {
-                  print('jadwal');
-                  Navigator.pushNamed(context, '/jadwal');
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+            );
+            // return
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        });
   }
 }

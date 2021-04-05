@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:backdrop/backdrop.dart';
+import 'package:flutter_absensi_dosen/view/dashboard/back_layer.dart';
 import 'package:flutter_absensi_dosen/view/dashboard/front_layer.dart';
 import 'package:responsive_size/responsive_size.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,9 +18,7 @@ class _ViewDashboardState extends State<DashboardView> {
         designHeight: MediaQuery.of(context).size.height);
 
     return BackdropScaffold(
-      backLayer: Center(
-        child: Text('backLayer'),
-      ),
+      backLayer: BackLayer(),
       frontLayer: FrontLayer(),
       appBar: BackdropAppBar(
         title: Text('Dashboard'),

@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_absensi_dosen/endpoint/dashboard.dart';
 
 class MatkulView extends StatefulWidget {
+  final Jadwal jadwal;
+  final int index;
+  const MatkulView({this.jadwal, this.index});
+
   @override
   _MatkulViewState createState() => _MatkulViewState();
 }
 
 class _MatkulViewState extends State<MatkulView> {
   // int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
-  bool status = false;
+  bool status = true;
 
   void _absensiMasuk() {
     Navigator.pushNamed(context, '/absensi');
@@ -18,10 +23,16 @@ class _MatkulViewState extends State<MatkulView> {
   }
 
   @override
+  void initState() {
+    widget.jadwal;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mata Kuliah'),
+        title: Text('Jadwal Mata Kuliah'),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -29,7 +40,6 @@ class _MatkulViewState extends State<MatkulView> {
           child: Column(
             children: [
               Card(
-                color: Colors.blue,
                 // margin: EdgeInsets.all(10),
                 child: Container(
                   width: double.infinity,
@@ -37,9 +47,16 @@ class _MatkulViewState extends State<MatkulView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Nama Mata Kuliah :'),
-                      Text('Nama Mata Kuliah :'),
-                      Text('Nama Mata Kuliah :'),
+                      Text('Informasi Mata Kuliah :'),
+                      Text('Kode : ' + widget.jadwal.matkul.kode),
+                      Text('Nama : ' + widget.jadwal.matkul.name),
+                      Text('Dosen Pengajar : ' +
+                          widget.jadwal.matkul.dosen.name),
+                      Text('Kelas : ' + widget.jadwal.kelas.kode),
+                      Text('Ruangan : ' +
+                          widget.jadwal.ruangan.kode +
+                          ' Lantai ' +
+                          widget.jadwal.ruangan.lantai.toString()),
                     ],
                   ),
                 ),
@@ -49,6 +66,9 @@ class _MatkulViewState extends State<MatkulView> {
                       onPressed: () {
                         _absensiMasuk();
                       },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green, // background
+                      ),
                       child: Text('Absensi Masuk'))
                   : ElevatedButton(
                       onPressed: () {

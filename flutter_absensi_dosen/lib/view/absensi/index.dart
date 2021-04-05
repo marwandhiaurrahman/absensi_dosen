@@ -25,6 +25,8 @@ class _AbsensiViewState extends State<AbsensiView> {
     return DateFormat('MM/dd/yyyy HH:mm:ss').format(dateTime);
   }
 
+  String _timeString;
+
   Future _scan() async {
     await Permission.camera.request();
     _getLocation();
@@ -66,7 +68,6 @@ class _AbsensiViewState extends State<AbsensiView> {
   double latitude = 0;
   double longitude = 0;
   double jarak = 0;
-  String _timeString;
   String metode;
 
   @override
