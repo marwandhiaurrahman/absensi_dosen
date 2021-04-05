@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_absensi_dosen/controller/api_controller.dart';
 import 'package:flutter_absensi_dosen/dummy_data/matkul.dart';
 import 'package:responsive_size/responsive_size.dart';
 
@@ -8,6 +9,14 @@ class FrontLayer extends StatefulWidget {
 }
 
 class _FrontLayerState extends State<FrontLayer> {
+  ApiController apiController = ApiController();
+
+  @override
+  void initState() {
+    apiController.dashboard();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     ResponsiveSize.init(

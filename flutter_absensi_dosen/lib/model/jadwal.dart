@@ -1,5 +1,15 @@
+// To parse this JSON data, do
+//
+//     final jadwal = jadwalFromJson(jsonString);
+
 import 'package:meta/meta.dart';
-import 'matkul.dart';
+import 'dart:convert';
+
+List<Jadwal> jadwalFromJson(String str) =>
+    List<Jadwal>.from(json.decode(str).map((x) => Jadwal.fromJson(x)));
+
+String jadwalToJson(List<Jadwal> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Jadwal {
   Jadwal({
@@ -50,5 +60,85 @@ class Jadwal {
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
         "matkul": matkul.toJson(),
+      };
+}
+
+class Matkul {
+  Matkul({
+    @required this.id,
+    @required this.name,
+    @required this.kode,
+    @required this.userId,
+    @required this.createdAt,
+    @required this.updatedAt,
+    @required this.dosen,
+  });
+
+  int id;
+  String name;
+  String kode;
+  int userId;
+  DateTime createdAt;
+  DateTime updatedAt;
+  Dosen dosen;
+
+  factory Matkul.fromJson(Map<String, dynamic> json) => Matkul(
+        id: json["id"],
+        name: json["name"],
+        kode: json["kode"],
+        userId: json["user_id"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+        dosen: Dosen.fromJson(json["dosen"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "kode": kode,
+        "user_id": userId,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+        "dosen": dosen.toJson(),
+      };
+}
+
+class Dosen {
+  Dosen({
+    @required this.id,
+    @required this.name,
+    @required this.email,
+    @required this.emailVerifiedAt,
+    @required this.foto,
+    @required this.createdAt,
+    @required this.updatedAt,
+  });
+
+  int id;
+  String name;
+  String email;
+  dynamic emailVerifiedAt;
+  dynamic foto;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  factory Dosen.fromJson(Map<String, dynamic> json) => Dosen(
+        id: json["id"],
+        name: json["name"],
+        email: json["email"],
+        emailVerifiedAt: json["email_verified_at"],
+        foto: json["foto"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "email": email,
+        "email_verified_at": emailVerifiedAt,
+        "foto": foto,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
       };
 }

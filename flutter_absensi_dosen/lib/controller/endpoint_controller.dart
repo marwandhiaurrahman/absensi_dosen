@@ -1,34 +1,34 @@
 // To parse this JSON data, do
 //
-//     final dashboard = dashboardFromJson(jsonString);
+//     final dasboard = dasboardFromJson(jsonString);
 
 import 'package:flutter_absensi_dosen/model/jadwal.dart';
 import 'package:flutter_absensi_dosen/model/user.dart';
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
-Dashboard dashboardFromJson(String str) =>
-    Dashboard.fromJson(json.decode(str)['data']);
+Dasboard dasboardFromJson(String str) =>
+    Dasboard.fromJson(json.decode(str)['data']);
 
-String dashboardToJson(Dashboard data) => json.encode(data.toJson());
+String dasboardToJson(Dasboard data) => json.encode(data.toJson());
 
-class Dashboard {
-  Dashboard({
+class Dasboard {
+  Dasboard({
     @required this.user,
-    @required this.jadwal,
+    @required this.jadwaltodays,
   });
 
   User user;
-  List<Jadwal> jadwal;
+  List<Jadwal> jadwaltodays;
 
-  factory Dashboard.fromJson(Map<String, dynamic> json) => Dashboard(
+  factory Dasboard.fromJson(Map<String, dynamic> json) => Dasboard(
         user: User.fromJson(json["user"]),
-        jadwal:
-            List<Jadwal>.from(json["jadwal"].map((x) => Jadwal.fromJson(x))),
+        jadwaltodays: List<Jadwal>.from(
+            json["jadwaltodays"].map((x) => Jadwal.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "user": user.toJson(),
-        "jadwal": List<dynamic>.from(jadwal.map((x) => x.toJson())),
+        "jadwaltodays": List<dynamic>.from(jadwaltodays.map((x) => x.toJson())),
       };
 }

@@ -45,20 +45,23 @@ class ApiController {
   }
 
   Future dashboard() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.get('token') ?? 0;
-
-    String myUrl = "$serverUrl/dashboard/";
-    final response = await http.get(Uri.parse(myUrl), headers: {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token'
-    }).timeout(Duration(seconds: 30));
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      print(json.decode(response.body)['data']);
-      return dashboardFromJson(response.body);
-    } else {
-      throw Exception('Failed to load album');
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.get('token') ?? 0;
+      print('Dashboard token :' + token);
+      String myUrl = "$serverUrl/dashboard";
+      final response = await http.get(Uri.parse(myUrl), headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      });
+      print(response.statusCode);
+      // print(response.);
+      if (response.statusCode == 200) {
+        print(json.decode(response.body)['data']);
+        return dasboardFromJson(response.body);
+      }
+    } catch (e) {
+      print('Error :' + e.toString());
     }
   }
 //   Future<List<Product>> listProduct() async {
