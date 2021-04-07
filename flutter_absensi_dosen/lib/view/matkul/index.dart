@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_absensi_dosen/endpoint/dashboard.dart';
+import 'package:flutter_absensi_dosen/model/hari.dart';
 
 class MatkulView extends StatefulWidget {
   final Jadwal jadwal;
@@ -53,6 +54,13 @@ class _MatkulViewState extends State<MatkulView> {
                       Text('Dosen Pengajar : ' +
                           widget.jadwal.matkul.dosen.name),
                       Text('Kelas : ' + widget.jadwal.kelas.kode),
+                      SizedBox(height: 10),
+                      Text('Hari : ' + hari[int.parse(widget.jadwal.hari)]),
+                      Text('Waktu : ' +
+                          widget.jadwal.jamkul.masuk +
+                          ' - ' +
+                          widget.jadwal.jamkul.keluar +
+                          ' WIB'),
                       Text('Ruangan : ' +
                           widget.jadwal.ruangan.kode +
                           ' Lantai ' +

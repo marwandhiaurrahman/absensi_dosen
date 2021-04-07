@@ -105,7 +105,9 @@ class _FrontLayerState extends State<FrontLayer> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(e.jamkul.masuk +
+                                            Text(hari[int.parse(e.hari)] +
+                                                ', ' +
+                                                e.jamkul.masuk +
                                                 ' - ' +
                                                 e.jamkul.keluar),
                                             Text('Ruangan ' +
