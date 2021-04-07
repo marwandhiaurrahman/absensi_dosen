@@ -65,7 +65,7 @@ class AbsensiController extends BaseController
         }
         // $kelas = Kelas::get()->all();
         return $this->sendResponse([
-            'jadwalsSaya'=>new UserResorces($jadwalsSaya),
+            'jadwals'=>new UserResorces($jadwalsSaya),
         ], 'Product retrieved successfully.');
     }
 

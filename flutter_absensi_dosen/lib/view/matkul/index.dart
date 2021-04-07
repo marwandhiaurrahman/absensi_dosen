@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_absensi_dosen/controller/api_controller.dart';
 import 'package:flutter_absensi_dosen/endpoint/dashboard.dart';
 import 'package:flutter_absensi_dosen/model/hari.dart';
 
@@ -13,6 +14,8 @@ class MatkulView extends StatefulWidget {
 
 class _MatkulViewState extends State<MatkulView> {
   // int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
+
+  ApiController apiController = ApiController();
   bool status = true;
 
   void _absensiMasuk() {
@@ -88,18 +91,33 @@ class _MatkulViewState extends State<MatkulView> {
                       child: Text(
                         'Absensi Keluar',
                       )),
-              PaginatedDataTable(
-                header: Text('Data Absensi'),
-                // rowsPerPage: _rowsPerPage,
-                // availableRowsPerPage: const <int>[5, 10, 20],
-                // onRowsPerPageChanged: (int value) {
-                //   setState(() {
-                //     _rowsPerPage = value;
-                //   });
-                // },
-                columns: kTableColumns,
-                source: DessertDataSource(),
-              )
+              FutureBuilder(
+                future: apiController.jadwalsaya(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(snapshot.error.toString()),
+                    );
+                  } else if (snapshot.connectionState == ConnectionState.done) {
+                    return PaginatedDataTable(
+                      header: Text('Data Absensi'),
+                      // rowsPerPage: _rowsPerPage,
+                      // availableRowsPerPage: const <int>[5, 10, 20],
+                      // onRowsPerPageChanged: (int value) {
+                      //   setState(() {
+                      //     _rowsPerPage = value;
+                      //   });
+                      // },
+                      columns: kTableColumns,
+                      source: DessertDataSource(),
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
             ],
           ),
         ),

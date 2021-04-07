@@ -1,5 +1,6 @@
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_absensi_dosen/endpoint/dashboard.dart';
+import 'package:flutter_absensi_dosen/endpoint/jadwalsaya.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -53,7 +54,7 @@ class ApiController {
       final response = await http.get(Uri.parse(myUrl), headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token'
-      });
+      }).timeout(Duration(seconds: 30));
       print(response.statusCode);
       // print(response.);
       if (response.statusCode == 200) {
@@ -74,13 +75,12 @@ class ApiController {
       final response = await http.get(Uri.parse(myUrl), headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token'
-      });
+      }).timeout(Duration(seconds: 30));
       print(response.statusCode);
-      // print(response.);
-      //   if (response.statusCode == 200) {
-      //     print(json.decode(response.body)['data']);
-      //     return dasboardFromJson(response.body);
-      //   }
+      if (response.statusCode == 200) {
+        // print(json.decode(response.body)['data']);
+        return jadwalSayaFromJson(response.body);
+      }
     } catch (e) {
       print('Error :' + e.toString());
     }
