@@ -32,7 +32,6 @@ class _ViewDashboardState extends State<DashboardView> {
   void _logoutButton() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
-    print('logout and token clear');
     Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
   }
 }

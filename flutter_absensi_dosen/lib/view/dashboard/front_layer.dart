@@ -120,7 +120,6 @@ class _FrontLayerState extends State<FrontLayer> {
                                         ),
                                         leading: Icon(Icons.book),
                                         onTap: () {
-                                          print(e);
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
@@ -141,7 +140,6 @@ class _FrontLayerState extends State<FrontLayer> {
                         title: Text('Jadwal Mata Kuliah'),
                         leading: Icon(Icons.menu),
                         onTap: () {
-                          print('jadwal');
                           Navigator.pushNamed(context, '/jadwal');
                         },
                       ),

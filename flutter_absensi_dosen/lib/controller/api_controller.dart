@@ -1,5 +1,6 @@
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_absensi_dosen/endpoint/dashboard.dart';
+import 'package:flutter_absensi_dosen/endpoint/getabsensi.dart';
 import 'package:flutter_absensi_dosen/endpoint/jadwalsaya.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:http/http.dart' as http;
@@ -58,10 +59,10 @@ class ApiController {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token'
       }).timeout(Duration(seconds: 30));
-      print(response.statusCode);
+      //   print(response.statusCode);
       // print(response.);
       if (response.statusCode == 200) {
-        print(json.decode(response.body)['data']);
+        // print(json.decode(response.body)['data']);
         return dasboardFromJson(response.body);
       }
     } catch (e) {
@@ -88,6 +89,28 @@ class ApiController {
       print('Error :' + e.toString());
     }
   }
+
+  Future getabsensi(int index) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.get('token') ?? 0;
+      print('Dashboard token :' + token);
+      String myUrl = "$serverUrl/absensi/$index";
+      final response = await http.get(Uri.parse(myUrl), headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      }).timeout(Duration(seconds: 30));
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        print('get absensi');
+        // print(json.decode(response.body)['data']);
+        return absensiFromJson(response.body);
+      }
+    } catch (e) {
+      print('Error :' + e.toString());
+    }
+  }
+
 //   Future<List<Product>> listProduct() async {
 //     final prefs = await SharedPreferences.getInstance();
 //     final token = prefs.get('token') ?? 0;

@@ -78,6 +78,6 @@ class AbsensiController extends BaseController
         return $this->sendResponse([
             'absensi'=>new UserResorces($absensi),
             'absensi_aktif'=>new UserResorces($absensi_aktif),
-        ], 'Product retrieved successfully.');
+        ], 'Data Absensi retrieved successfully.');
     }
 }
