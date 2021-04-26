@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_absensi_dosen/controller/api_controller.dart';
-import 'package:flutter_absensi_dosen/endpoint/dashboard.dart';
 import 'package:flutter_absensi_dosen/model/hari.dart';
+import 'package:flutter_absensi_dosen/model/jadwal.dart';
 
 class MatkulView extends StatefulWidget {
   final Jadwal jadwal;

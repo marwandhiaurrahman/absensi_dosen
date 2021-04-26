@@ -7,7 +7,10 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiController {
-  String serverUrl = "http://10.0.2.2:8000/api";
+  // String serverUrl = "http://10.0.2.2:8000/api";
+//   String serverUrl = "http://192.168.1.102:8000/api";
+//   String serverUrl = "http://192.168.137.1:8000/api";
+  String serverUrl = "http://10.10.0.132:8000/api";
   var status;
   var token;
 
@@ -24,7 +27,7 @@ class ApiController {
       }, body: {
         "email": '${loginData.name}',
         "password": "${loginData.password}"
-      }).timeout(Duration(seconds: 30));
+      }).timeout(Duration(seconds: 120));
       status = response.body.contains('error');
       var data = json.decode(response.body);
       return Future(() {

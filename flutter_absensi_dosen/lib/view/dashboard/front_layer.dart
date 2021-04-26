@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_absensi_dosen/controller/api_controller.dart';
-import 'package:flutter_absensi_dosen/endpoint/dashboard.dart';
 import 'package:flutter_absensi_dosen/model/hari.dart';
+import 'package:flutter_absensi_dosen/model/jadwal.dart';
+import 'package:flutter_absensi_dosen/model/user.dart';
 import 'package:flutter_absensi_dosen/view/matkul/index.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_size/responsive_size.dart';
@@ -100,6 +101,7 @@ class _FrontLayerState extends State<FrontLayer> {
                                   child: Column(
                                     children: [
                                       ListTile(
+                                        isThreeLine: true,
                                         title: Text(e.matkul.name),
                                         subtitle: Column(
                                           crossAxisAlignment:
@@ -118,6 +120,7 @@ class _FrontLayerState extends State<FrontLayer> {
                                         ),
                                         leading: Icon(Icons.book),
                                         onTap: () {
+                                          print(e);
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(

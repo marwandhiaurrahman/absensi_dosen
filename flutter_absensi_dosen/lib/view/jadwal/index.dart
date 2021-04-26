@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_absensi_dosen/controller/api_controller.dart';
-import 'package:flutter_absensi_dosen/dummy_data/matkul.dart';
-import 'package:flutter_absensi_dosen/endpoint/jadwalsaya.dart';
 import 'package:flutter_absensi_dosen/model/hari.dart';
+import 'package:flutter_absensi_dosen/model/jadwal.dart';
 import 'package:flutter_absensi_dosen/view/matkul/index.dart';
 import 'package:grouped_list/grouped_list.dart';
 
@@ -50,30 +49,31 @@ class _JadwalViewState extends State<JadwalView> {
               },
               itemBuilder: (context, element) {
                 return ListTile(
-                  title: Text(element.matkul.name),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(hari[int.parse(element.hari)] +
-                          ', ' +
-                          element.jamkul.masuk +
-                          ' - ' +
-                          element.jamkul.keluar),
-                      Text('Ruangan ' +
-                          element.ruangan.kode +
-                          ' Kelas ' +
-                          element.kelas.kode),
-                    ],
-                  ),
-                  leading: Icon(Icons.book),
-                  onTap: () {
-                    // Navigator.push(
-                    // context,
-                    // MaterialPageRoute(
-                    // builder: (context) => MatkulView(
-                    // jadwal: element, index: element.id)));
-                  },
-                );
+                    title: Text(element.matkul.name),
+                    isThreeLine: true,
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(hari[int.parse(element.hari)] +
+                            ', ' +
+                            element.jamkul.masuk +
+                            ' - ' +
+                            element.jamkul.keluar),
+                        Text('Ruangan ' +
+                            element.ruangan.kode +
+                            ' Kelas ' +
+                            element.kelas.kode),
+                      ],
+                    ),
+                    leading: Icon(Icons.book),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MatkulView(
+                                  jadwal: element, index: element.id)));
+                      print(element);
+                    });
               },
             );
           } else {
