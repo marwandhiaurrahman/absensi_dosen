@@ -7,8 +7,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\User as UserResorces;
 use App\Http\Controllers\API\BaseController as BaseController;
+use App\Models\Absensi;
 use App\Models\Jadwal;
 use App\Models\Kelas;
+use App\Models\Location;
 use App\Models\Product;
 use Carbon\Carbon;
 use Validator;
@@ -79,5 +81,123 @@ class AbsensiController extends BaseController
             'absensi'=>new UserResorces($absensi),
             'absensi_aktif'=>new UserResorces($absensi_aktif),
         ], 'Data Absensi retrieved successfully.');
+    }
+
+    public function masukabsensi(Request $request)
+    {
+
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
+            'metode' => 'required',
+            'tanggal' => 'required',
+            'pembahasan' => 'required',
+            'jadwal_id' => 'required',
+            'lat_anda' => 'required',
+            'long_anda' => 'required',
+        ]);
+
+        $request['masuk'] = Carbon::now();
+        $request['keluar'] = null;
+
+        $patokan = Location::first();
+        $patokan_lat = $patokan->location->getLat();
+        $patokan_long = $patokan->location->getLng();
+
+        $jarak = $this->distance($patokan_lat, $patokan_long, $request->lat_anda, $request->long_anda, "K");
+
+
+        if ($request->metode == "Tatap Muka") {
+            if ($jarak * 1000 <= $patokan->jarak_min) {
+                $request['validasi'] = true;
+                $request['jarak'] = $jarak * 1000;
+            } else {
+                Alert::error('Error Information', 'Absensi Tidak Valid, jarak anda terlalu jauh');
+                return redirect()->back();
+            }
+        }
+
+        if ($request->metode == "E-Class") {
+            $request['validasi'] = true;
+            $request['jarak'] = $jarak * 1000;
+        }
+
+        $absensis = Absensi::where('jadwal_id', $request->jadwal_id)->count();
+
+        $request['pertemuan'] = $absensis + 1;
+        $input = $request->all();
+        $absensi = Absensi::create($input);
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        return $this->sendResponse(new UserResorces($absensi), 'Product created successfully.');
+    }
+
+    public function keluarabsensi(Request $request, Absensi $absensi)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
+            'metode' => 'required',
+            'tanggal' => 'required',
+            'pembahasan' => 'required',
+            'jadwal_id' => 'required',
+            'lat_anda' => 'required',
+            'long_anda' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        $request['keluar'] = Carbon::now();
+
+        $patokan = Location::first();
+        $patokan_lat = $patokan->location->getLat();
+        $patokan_long = $patokan->location->getLng();
+
+        $jarak = $this->distance($patokan_lat, $patokan_long, $request->lat_anda, $request->long_anda, "K");
+
+        if ($request->metode == "Tatap Muka") {
+            if ($jarak * 1000 <= $patokan->jarak_min) {
+                $request['validasi'] = true;
+                $request['jarak'] = $jarak * 1000;
+            } else {
+                Alert::error('Error Information', 'Absensi Tidak Valid, jarak anda terlalu jauh');
+                return redirect()->back();
+            }
+        }
+        if ($request->metode == "E-Class") {
+            $request['validasi'] = true;
+            $request['jarak'] = $jarak * 1000;
+        }
+
+
+        $absensi->update($request->all());
+        return redirect()->route('absensi.show',$absensi->jadwal_id);
+    }
+
+    public function distance($lat1, $lon1, $lat2, $lon2, $unit)
+    {
+        if (($lat1 == $lat2) && ($lon1 == $lon2)) {
+            return 0;
+        } else {
+            $theta = $lon1 - $lon2;
+            $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+            $dist = acos($dist);
+            $dist = rad2deg($dist);
+            $miles = $dist * 60 * 1.1515;
+            $unit = strtoupper($unit);
+
+            if ($unit == "K") {
+                return ($miles * 1.609344);
+            } else if ($unit == "N") {
+                return ($miles * 0.8684);
+            } else {
+                return $miles;
+            }
+        }
     }
 }

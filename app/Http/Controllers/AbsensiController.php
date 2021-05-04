@@ -59,6 +59,8 @@ class AbsensiController extends Controller
             'long_anda' => 'required',
         ]);
 
+        dd($request->all());
+
         $request['masuk'] = Carbon::now();
         $request['keluar'] = null;
 
