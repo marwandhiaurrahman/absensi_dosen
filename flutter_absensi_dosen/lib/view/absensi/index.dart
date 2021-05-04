@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_absensi_dosen/controller/api_controller.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_size/responsive_size.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
@@ -61,6 +62,8 @@ class _AbsensiViewState extends State<AbsensiView> {
           })
         });
   }
+
+  ApiController apiController = ApiController();
 
   String output = 'Belum Scan Absensi';
   String _permissionLocation = 'Belum Scan Absensi';
@@ -203,7 +206,10 @@ class _AbsensiViewState extends State<AbsensiView> {
                 color: Colors.transparent,
                 elevation: 0,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    apiController.absensimasuk();
+                    Navigator.pop(context);
+                  },
                   child: Text('Upload'),
                   style: ElevatedButton.styleFrom(
                     primary: Colors.lightGreen,

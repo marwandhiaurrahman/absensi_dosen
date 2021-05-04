@@ -111,6 +111,32 @@ class ApiController {
     }
   }
 
+  Future absensimasuk() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final key = 'token';
+      final value = prefs.get(key) ?? 0;
+
+      String myUrl = "$serverUrl/absensi/masuk";
+      http.post(Uri.parse(myUrl), headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $value'
+      }, body: {
+        "tanggal": "2021-05-04",
+        "metode": "E-Class",
+        "pembahasan": "Teori E-Class",
+        "jadwal_id": "2",
+        "lat_anda": "-6.9700498",
+        "long_anda": "108.5282592",
+      }).then((response) {
+        print('Response status : ${response.statusCode}');
+        print('Response body : ${response.body}');
+      }).timeout(Duration(seconds: 30));
+    } catch (e) {
+      print(e);
+    }
+  }
+
 //   Future<List<Product>> listProduct() async {
 //     final prefs = await SharedPreferences.getInstance();
 //     final token = prefs.get('token') ?? 0;
@@ -147,27 +173,27 @@ class ApiController {
 //     }
 //   }
 
-//   void addProduct(String name, String detail) async {
-//     try {
-//       final prefs = await SharedPreferences.getInstance();
-//       final key = 'token';
-//       final value = prefs.get(key) ?? 0;
+  void addProduct(String name, String detail) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final key = 'token';
+      final value = prefs.get(key) ?? 0;
 
-//       String myUrl = "$serverUrl/products";
-//       http.post(Uri.parse(myUrl), headers: {
-//         'Accept': 'application/json',
-//         'Authorization': 'Bearer $value'
-//       }, body: {
-//         "name": "$name",
-//         "detail": "$detail"
-//       }).then((response) {
-//         print('Response status : ${response.statusCode}');
-//         print('Response body : ${response.body}');
-//       }).timeout(Duration(seconds: 30));
-//     } catch (e) {
-//       print(e);
-//     }
-//   }
+      String myUrl = "$serverUrl/products";
+      http.post(Uri.parse(myUrl), headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $value'
+      }, body: {
+        "name": "$name",
+        "detail": "$detail"
+      }).then((response) {
+        print('Response status : ${response.statusCode}');
+        print('Response body : ${response.body}');
+      }).timeout(Duration(seconds: 30));
+    } catch (e) {
+      print(e);
+    }
+  }
 
 //   void deleteData(int id) async {
 //     try {
