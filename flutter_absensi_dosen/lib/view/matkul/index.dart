@@ -82,19 +82,69 @@ class _MatkulViewState extends State<MatkulView> {
                     );
                   } else if (snapshot.connectionState == ConnectionState.done) {
                     Absensi absensi = snapshot.data;
+                    List<AbsensiElement> absensiaktif = absensi.absensiAktif;
+                    print(absensiaktif.first.pembahasan);
                     return Column(
                       children: [
                         (absensi.absensiAktif.isNotEmpty)
-                            ? ElevatedButton(
-                                onPressed: () {
-                                  _absensiKeluar();
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.red, // background
+                            ?
+
+                            //     matkulToday
+                            //         .map((e) => Container(
+                            //               child: Column(
+                            //                 children: [
+                            //                   ListTile(
+                            //                     title: Text(e.name),
+                            //                     subtitle: Text(e.waktu),
+                            //                     leading: Icon(Icons.book),
+                            //                     trailing: IconButton(
+                            //                       icon: Icon(Icons.logout),
+                            //                       onPressed: () {},
+                            //                     ),
+                            //                     onTap: () {
+                            //                       Navigator.pushNamed(context, '/matkul');
+                            //                     },
+                            //                   ),
+                            //                 ],
+                            //               ),
+                            //             ))
+                            //         .toList(),
+                            Card(
+                                // margin: EdgeInsets.all(10),
+                                child: Container(
+                                  width: double.infinity,
+                                  padding: EdgeInsets.all(10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      //   absensiaktif
+                                      //       .map((e) => Container(
+                                      //             child: Text('asd'),
+                                      //           ))
+                                      //       .toList(),
+                                      Text('Informasi Absensi Aktif :'),
+                                      Text('Pertemuan : '),
+                                      Text('Tanggal :'),
+                                      Text('Waktu Masuk :'),
+                                      Text('Metode :'),
+                                      Text('Pembahasan :'),
+                                      Center(
+                                        child: ElevatedButton(
+                                            onPressed: () {
+                                              _absensiKeluar();
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.red, // background
+                                            ),
+                                            child: Text(
+                                              'Absensi Keluar',
+                                            )),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                child: Text(
-                                  'Absensi Keluar',
-                                ))
+                              )
                             : ElevatedButton(
                                 onPressed: () {
                                   _absensiMasuk();
@@ -165,25 +215,15 @@ class AbsensiDataSource extends DataTableSource {
     assert(index >= 0);
     if (index >= this.absensi.length) return null;
     final AbsensiElement absensi = this.absensi[index];
-    return DataRow.byIndex(index: index,
-        // selected: absensi.selected,
-        // onSelectChanged: (bool value) {
-        //   if (absensi.selected != value) {
-        //     _selectedCount += value ? 1 : -1;
-        //     assert(_selectedCount >= 0);
-        //     absensi.selected = value;
-        //     notifyListeners();
-        //   }
-        // },
-        cells: <DataCell>[
-          DataCell(Text('Pertemuan ' + absensi.pertemuan.toString())),
-          DataCell(Text(absensi.tanggal.toString())),
-          DataCell(Text(absensi.metode.toString())),
-          DataCell(Text(absensi.pembahasan.toString())),
-          DataCell(Text(absensi.masuk.toString())),
-          DataCell(Text(absensi.keluar.toString())),
-          DataCell(Text(absensi.jarak.toString())),
-        ]);
+    return DataRow.byIndex(index: index, cells: <DataCell>[
+      DataCell(Text('Pertemuan ' + absensi.pertemuan.toString())),
+      DataCell(Text(absensi.tanggal.toString())),
+      DataCell(Text(absensi.metode.toString())),
+      DataCell(Text(absensi.pembahasan.toString())),
+      DataCell(Text(absensi.masuk.toString())),
+      DataCell(Text(absensi.keluar.toString())),
+      DataCell(Text(absensi.jarak.toString())),
+    ]);
   }
 
   @override

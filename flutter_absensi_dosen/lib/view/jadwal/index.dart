@@ -84,17 +84,3 @@ class _JadwalViewState extends State<JadwalView> {
     );
   }
 }
-
-// List _elements = [
-//   {'name': 'John', 'hari': 'Team A'},
-//   {'name': 'Will', 'hari': 'Team B'},
-//   {'name': 'Beth', 'hari': 'Team A'},
-//   {'name': 'Beth', 'hari': 'Team A'},
-//   {'name': 'Miranda', 'hari': 'Team B'},
-//   {'name': 'Miranda', 'hari': 'Team B'},
-//   {'name': 'Miranda', 'hari': 'Team B'},
-//   {'name': 'Mike', 'hari': 'Team C'},
-//   {'name': 'Danny', 'hari': 'Team C'},
-//   {'name': 'Danny', 'hari': 'Team C'},
-//   {'name': 'Danny', 'hari': 'Team C'},
-// ];

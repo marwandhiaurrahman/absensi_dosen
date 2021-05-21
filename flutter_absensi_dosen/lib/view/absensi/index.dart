@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_absensi_dosen/controller/api_controller.dart';
+import 'package:flutter_absensi_dosen/view/dashboard/index.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_size/responsive_size.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
@@ -78,6 +79,12 @@ class _AbsensiViewState extends State<AbsensiView> {
     _timeString = _formatDateTime(DateTime.now());
     Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timeString = _formatDateTime(DateTime.now());
+    super.dispose();
   }
 
   @override
@@ -207,8 +214,13 @@ class _AbsensiViewState extends State<AbsensiView> {
                 elevation: 0,
                 child: ElevatedButton(
                   onPressed: () {
+                    print('object');
                     apiController.absensimasuk();
-                    Navigator.pop(context);
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DashboardView()),
+                        (Route<dynamic> route) => false);
                   },
                   child: Text('Upload'),
                   style: ElevatedButton.styleFrom(
