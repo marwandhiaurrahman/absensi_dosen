@@ -75,95 +75,55 @@ class _MatkulViewState extends State<MatkulView> {
               ),
               FutureBuilder(
                 future: apiController.getabsensi(widget.index),
-                builder: (context, snapshot) {
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasError) {
                     return Center(
-                      child: Text(snapshot.error.toString()),
+                      child: Text('Error : ' + snapshot.error.toString()),
                     );
                   } else if (snapshot.connectionState == ConnectionState.done) {
                     Absensi absensi = snapshot.data;
-                    List<AbsensiElement> absensiaktif = absensi.absensiAktif;
-                    print(absensiaktif.first.pembahasan);
                     return Column(
                       children: [
-                        (absensi.absensiAktif.isNotEmpty)
-                            ?
-
-                            //     matkulToday
-                            //         .map((e) => Container(
-                            //               child: Column(
-                            //                 children: [
-                            //                   ListTile(
-                            //                     title: Text(e.name),
-                            //                     subtitle: Text(e.waktu),
-                            //                     leading: Icon(Icons.book),
-                            //                     trailing: IconButton(
-                            //                       icon: Icon(Icons.logout),
-                            //                       onPressed: () {},
-                            //                     ),
-                            //                     onTap: () {
-                            //                       Navigator.pushNamed(context, '/matkul');
-                            //                     },
-                            //                   ),
-                            //                 ],
-                            //               ),
-                            //             ))
-                            //         .toList(),
-                            Card(
-                                // margin: EdgeInsets.all(10),
-                                child: Container(
-                                  width: double.infinity,
-                                  padding: EdgeInsets.all(10),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                        Card(
+                          child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.all(10),
+                            child: (absensi.absensiAktif.length >= 1)
+                                ? Column(
                                     children: [
-                                      //   absensiaktif
-                                      //       .map((e) => Container(
-                                      //             child: Text('asd'),
-                                      //           ))
-                                      //       .toList(),
-                                      Text('Informasi Absensi Aktif :'),
-                                      Text('Pertemuan : '),
-                                      Text('Tanggal :'),
-                                      Text('Waktu Masuk :'),
-                                      Text('Metode :'),
-                                      Text('Pembahasan :'),
-                                      Center(
-                                        child: ElevatedButton(
-                                            onPressed: () {
-                                              _absensiKeluar();
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                              primary: Colors.red, // background
-                                            ),
-                                            child: Text(
-                                              'Absensi Keluar',
-                                            )),
-                                      ),
+                                      Text(
+                                          'Informasi absensi yang sedang aktif'),
+                                      ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              primary: Colors.red),
+                                          onPressed: () {
+                                            _absensiKeluar();
+                                          },
+                                          child: Text('Absensi Keluar')),
+                                    ],
+                                  )
+                                : Column(
+                                    children: [
+                                      Text('Silahkan melakukan absensi'),
+                                      ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              primary: Colors.green),
+                                          onPressed: () {
+                                            _absensiMasuk();
+                                          },
+                                          child: Text('Absensi Masuk')),
                                     ],
                                   ),
-                                ),
-                              )
-                            : ElevatedButton(
-                                onPressed: () {
-                                  _absensiMasuk();
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.green, // background
-                                ),
-                                child: Text('Absensi Masuk')),
+                          ),
+                        ),
                         PaginatedDataTable(
-                          header: Text('Data Absensi'),
                           columns: kTableColumns,
                           source: AbsensiDataSource(absensi: absensi.absensi),
-                        ),
+                        )
                       ],
                     );
                   } else {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return Center(child: CircularProgressIndicator());
                   }
                 },
               ),

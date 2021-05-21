@@ -103,7 +103,7 @@ class ApiController {
       print(response.statusCode);
       if (response.statusCode == 200) {
         print('get absensi');
-        // print(json.decode(response.body)['data']);
+        print(json.decode(response.body)['data']);
         return absensiFromJson(response.body);
       }
     } catch (e) {
