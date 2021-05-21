@@ -92,14 +92,22 @@ class _MatkulViewState extends State<MatkulView> {
                                 ? Column(
                                     children: [
                                       Text(
-                                          'Informasi absensi yang sedang aktif'),
-                                      ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              primary: Colors.red),
-                                          onPressed: () {
-                                            _absensiKeluar();
-                                          },
-                                          child: Text('Absensi Keluar')),
+                                          'Informasi absensi yang sedang aktif' +
+                                              absensi.absensiAktif.length
+                                                  .toString()),
+                                      for (var item in absensi.absensiAktif)
+                                        Column(
+                                          children: [
+                                            Text('Pertemuan ' + item.pertemuan),
+                                            ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    primary: Colors.red),
+                                                onPressed: () {
+                                                  _absensiKeluar();
+                                                },
+                                                child: Text('Absensi Keluar')),
+                                          ],
+                                        ),
                                     ],
                                   )
                                 : Column(
