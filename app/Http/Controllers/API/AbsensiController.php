@@ -135,9 +135,11 @@ class AbsensiController extends BaseController
         return $this->sendResponse(new UserResorces($absensi), 'Product created successfully.');
     }
 
-    public function keluarabsensi(Request $request, Absensi $absensi)
+    public function keluarabsensi(Request $request, int $id)
     {
         $input = $request->all();
+
+        $absensi = Absensi::find($id);
 
         $validator = Validator::make($input, [
             'metode' => 'required',
@@ -152,7 +154,7 @@ class AbsensiController extends BaseController
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        $request['keluar'] = Carbon::now();
+        $request['keluar'] = Carbon::now()->toTimeString();
 
         $patokan = Location::first();
         $patokan_lat = $patokan->location->getLat();
@@ -174,9 +176,8 @@ class AbsensiController extends BaseController
             $request['jarak'] = $jarak * 1000;
         }
 
-
         $absensi->update($request->all());
-        return redirect()->route('absensi.show',$absensi->jadwal_id);
+        return $this->sendResponse(new UserResorces($absensi), 'Absensi keluar successfully.');
     }
 
     public function distance($lat1, $lon1, $lat2, $lon2, $unit)

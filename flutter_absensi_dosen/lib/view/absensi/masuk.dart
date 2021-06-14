@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_absensi_dosen/controller/api_controller.dart';
+import 'package:flutter_absensi_dosen/model/jadwal.dart';
 import 'package:flutter_absensi_dosen/view/dashboard/index.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_size/responsive_size.dart';
@@ -9,12 +10,15 @@ import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 
-class AbsensiView extends StatefulWidget {
+class AbsensiMasuk extends StatefulWidget {
+  final Matkul matkul;
+//   final int index;
+  const AbsensiMasuk({this.matkul});
   @override
-  _AbsensiViewState createState() => _AbsensiViewState();
+  _AbsensiMasukState createState() => _AbsensiMasukState();
 }
 
-class _AbsensiViewState extends State<AbsensiView> {
+class _AbsensiMasukState extends State<AbsensiMasuk> {
   void _getTime() {
     final DateTime now = DateTime.now();
     final String formattedDateTime = _formatDateTime(now);
@@ -64,6 +68,15 @@ class _AbsensiViewState extends State<AbsensiView> {
         });
   }
 
+  void _uploadAbsensi() {
+    apiController.absensimasuk(DateTime.now().toString(), metode,
+        pembahasanController.text, widget.matkul.id, latitude, longitude);
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => DashboardView()),
+        (Route<dynamic> route) => false);
+  }
+
   ApiController apiController = ApiController();
 
   String output = 'Belum Scan Absensi';
@@ -73,17 +86,18 @@ class _AbsensiViewState extends State<AbsensiView> {
   double longitude = 0;
   double jarak = 0;
   String metode;
+  final pembahasanController = TextEditingController();
 
   @override
   void initState() {
     _timeString = _formatDateTime(DateTime.now());
-    Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
+    // Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
     super.initState();
   }
 
   @override
   void dispose() {
-    _timeString = _formatDateTime(DateTime.now());
+    pembahasanController.dispose();
     super.dispose();
   }
 
@@ -111,9 +125,12 @@ class _AbsensiViewState extends State<AbsensiView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Pertemuan ke - 1'),
+                  Text('Pertemuan ke '),
+                  Text('Mata Kuliah : ' + widget.matkul.name),
+                  Text('Kode : ' + widget.matkul.kode),
+                  Text('Dosen : ' + widget.matkul.dosen.name),
                   Text('Tanggal : ' + _timeString),
-                  Text('Tanggal : 12 Januari 2021'),
+                  //   Text('Tanggal : 12 Januari 2021'),
                 ],
               ),
             )),
@@ -125,6 +142,7 @@ class _AbsensiViewState extends State<AbsensiView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextFormField(
+                    controller: pembahasanController,
                     maxLines: 2,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
@@ -214,13 +232,7 @@ class _AbsensiViewState extends State<AbsensiView> {
                 elevation: 0,
                 child: ElevatedButton(
                   onPressed: () {
-                    print('object');
-                    apiController.absensimasuk();
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DashboardView()),
-                        (Route<dynamic> route) => false);
+                    _uploadAbsensi();
                   },
                   child: Text('Upload'),
                   style: ElevatedButton.styleFrom(

@@ -2,6 +2,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_absensi_dosen/endpoint/dashboard.dart';
 import 'package:flutter_absensi_dosen/endpoint/getabsensi.dart';
 import 'package:flutter_absensi_dosen/endpoint/jadwalsaya.dart';
+import 'package:flutter_absensi_dosen/model/absensi.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -10,8 +11,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ApiController {
   String serverUrl = "http://10.0.2.2:8000/api";
 //   String serverUrl = "http://192.168.1.102:8000/api";
-//   String serverUrl = "http://192.168.137.1:8000/api";
-//   String serverUrl = "http://10.10.0.229:8000/api";
+//   String serverUrl = "http://192.168.100.31:8000/api";
+//   String serverUrl = "http://10.10.0.191:8000/api";
   var status;
   var token;
 
@@ -111,7 +112,14 @@ class ApiController {
     }
   }
 
-  Future absensimasuk() async {
+  Future absensimasuk(
+    String tanggal,
+    String metode,
+    String pembahasan,
+    int jadwalid,
+    double latitude,
+    double longitude,
+  ) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final key = 'token';
@@ -122,15 +130,43 @@ class ApiController {
         'Accept': 'application/json',
         'Authorization': 'Bearer $value'
       }, body: {
-        "tanggal": "2021-05-04",
-        "metode": "E-Class",
-        "pembahasan": "Teori E-Class",
-        "jadwal_id": "2",
-        "lat_anda": "-6.9700498",
-        "long_anda": "108.5282592",
+        "tanggal": tanggal,
+        "metode": metode,
+        "pembahasan": pembahasan,
+        "jadwal_id": jadwalid.toString(),
+        "lat_anda": latitude.toString(),
+        "long_anda": longitude.toString(),
       }).then((response) {
         print('Response status : ${response.statusCode}');
         print('Response body : ${response.body}');
+        print('sudah masuk');
+      }).timeout(Duration(seconds: 30));
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future absensikeluar(int id) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final key = 'token';
+      final value = prefs.get(key) ?? 0;
+
+      String myUrl = "$serverUrl/absensi/keluar/$id";
+      http.post(Uri.parse(myUrl), headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $value'
+      }, body: {
+        // "tanggal": tanggal,
+        // "metode": metode,
+        // "pembahasan": pembahasan,
+        // "jadwal_id": jadwalid.toString(),
+        // "lat_anda": latitude.toString(),
+        // "long_anda": longitude.toString(),
+      }).then((response) {
+        print('Response status : ${response.statusCode}');
+        print('Response body : ${response.body}');
+        print('sudah masuk');
       }).timeout(Duration(seconds: 30));
     } catch (e) {
       print(e);

@@ -3,6 +3,8 @@ import 'package:flutter_absensi_dosen/controller/api_controller.dart';
 import 'package:flutter_absensi_dosen/model/absensi.dart';
 import 'package:flutter_absensi_dosen/model/hari.dart';
 import 'package:flutter_absensi_dosen/model/jadwal.dart';
+import 'package:flutter_absensi_dosen/view/absensi/masuk.dart';
+import 'package:flutter_absensi_dosen/view/absensi/keluar.dart';
 
 class MatkulView extends StatefulWidget {
   final Jadwal jadwal;
@@ -19,12 +21,22 @@ class _MatkulViewState extends State<MatkulView> {
   ApiController apiController = ApiController();
   bool status = true;
 
-  void _absensiMasuk() {
-    Navigator.pushNamed(context, '/absensi');
+  void _absensiMasuk(Matkul matkul) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => AbsensiMasuk(
+                  matkul: matkul,
+                )));
   }
 
-  void _absensiKeluar() {
-    Navigator.pushNamed(context, '/absensi');
+  void absensiKeluar(AbsensiElement a) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => AbsensiKeluar(
+                  absensi: a,
+                )));
   }
 
   @override
@@ -92,7 +104,7 @@ class _MatkulViewState extends State<MatkulView> {
                                 ? Column(
                                     children: [
                                       Text(
-                                          'Informasi absensi yang sedang aktif' +
+                                          'Informasi absensi yang sedang aktif ' +
                                               absensi.absensiAktif.length
                                                   .toString()),
                                       for (var item in absensi.absensiAktif)
@@ -103,7 +115,7 @@ class _MatkulViewState extends State<MatkulView> {
                                                 style: ElevatedButton.styleFrom(
                                                     primary: Colors.red),
                                                 onPressed: () {
-                                                  _absensiKeluar();
+                                                  absensiKeluar(item);
                                                 },
                                                 child: Text('Absensi Keluar')),
                                           ],
@@ -117,7 +129,7 @@ class _MatkulViewState extends State<MatkulView> {
                                           style: ElevatedButton.styleFrom(
                                               primary: Colors.green),
                                           onPressed: () {
-                                            _absensiMasuk();
+                                            _absensiMasuk(widget.jadwal.matkul);
                                           },
                                           child: Text('Absensi Masuk')),
                                     ],

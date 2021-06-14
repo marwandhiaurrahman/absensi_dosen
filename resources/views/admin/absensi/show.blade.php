@@ -24,7 +24,7 @@
                 <div class="card-tools">
                     <button type="button" class="btn btn-sm btn-success m-1" data-toggle="modal"
                         data-target="#modal-pemasukan-tunai">
-                        + Pemasukan Kas
+                        Absensi Masuk
                     </button>
                 </div>
             </div>
