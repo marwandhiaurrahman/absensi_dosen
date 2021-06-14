@@ -9,9 +9,9 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiController {
-  String serverUrl = "http://10.0.2.2:8000/api";
+//   String serverUrl = "http://10.0.2.2:8000/api";
 //   String serverUrl = "http://192.168.1.102:8000/api";
-//   String serverUrl = "http://192.168.100.31:8000/api";
+  String serverUrl = "http://192.168.43.32:8000/api";
 //   String serverUrl = "http://10.10.0.191:8000/api";
   var status;
   var token;
@@ -146,27 +146,35 @@ class ApiController {
     }
   }
 
-  Future absensikeluar(int id) async {
+  Future absensikeluar(
+    int id,
+    String tanggal,
+    String metode,
+    String pembahasan,
+    int jadwalid,
+    double latitude,
+    double longitude,
+  ) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final key = 'token';
       final value = prefs.get(key) ?? 0;
 
       String myUrl = "$serverUrl/absensi/keluar/$id";
-      http.post(Uri.parse(myUrl), headers: {
+      http.put(Uri.parse(myUrl), headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer $value'
       }, body: {
-        // "tanggal": tanggal,
-        // "metode": metode,
-        // "pembahasan": pembahasan,
-        // "jadwal_id": jadwalid.toString(),
-        // "lat_anda": latitude.toString(),
-        // "long_anda": longitude.toString(),
+        "tanggal": tanggal,
+        "metode": metode,
+        "pembahasan": pembahasan,
+        "jadwal_id": jadwalid.toString(),
+        "lat_anda": latitude.toString(),
+        "long_anda": longitude.toString(),
       }).then((response) {
         print('Response status : ${response.statusCode}');
         print('Response body : ${response.body}');
-        print('sudah masuk');
+        // print('sudah masuk');
       }).timeout(Duration(seconds: 30));
     } catch (e) {
       print(e);

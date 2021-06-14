@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_absensi_dosen/controller/api_controller.dart';
 import 'package:flutter_absensi_dosen/model/absensi.dart';
+import 'package:flutter_absensi_dosen/model/jadwal.dart';
 import 'package:flutter_absensi_dosen/view/dashboard/index.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_size/responsive_size.dart';
@@ -12,7 +13,9 @@ import 'package:intl/intl.dart';
 
 class AbsensiKeluar extends StatefulWidget {
   final AbsensiElement absensi;
-  const AbsensiKeluar({this.absensi});
+  final Matkul matkul;
+
+  const AbsensiKeluar({this.absensi, this.matkul});
 
   @override
   _AbsensiKeluarState createState() => _AbsensiKeluarState();
@@ -68,6 +71,20 @@ class _AbsensiKeluarState extends State<AbsensiKeluar> {
         });
   }
 
+  void _uploadAbsensi() {
+    print(this.widget.absensi.id);
+    apiController
+        .absensikeluar(widget.absensi.id, DateTime.now().toString(), metode,
+            pembahasanController.text, widget.matkul.id, latitude, longitude)
+        .whenComplete(() => Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => DashboardView()),
+            (Route<dynamic> route) => false));
+
+    // apiController.absensimasuk(DateTime.now().toString(), metode,
+    //     pembahasanController.text, widget.matkul.id, latitude, longitude);
+  }
+
   ApiController apiController = ApiController();
 
   String output = 'Belum Scan Absensi';
@@ -82,7 +99,7 @@ class _AbsensiKeluarState extends State<AbsensiKeluar> {
   @override
   void initState() {
     _timeString = _formatDateTime(DateTime.now());
-    Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
+    // Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
     metode = widget.absensi.metode;
     pembahasanController.text = widget.absensi.pembahasan;
     super.initState();
@@ -105,7 +122,7 @@ class _AbsensiKeluarState extends State<AbsensiKeluar> {
         designHeight: MediaQuery.of(context).size.height);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Absensi Masuk'),
+        title: Text('Absensi Keluar'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -118,8 +135,10 @@ class _AbsensiKeluarState extends State<AbsensiKeluar> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Pertemuan ke - ' + widget.absensi.pertemuan.toString()),
+                  Text('Mata Kuliah : ' + widget.matkul.name),
+                  Text('Kode : ' + widget.matkul.kode),
+                  Text('Dosen : ' + widget.matkul.dosen.name),
                   Text('Tanggal : ' + _timeString),
-                  Text('Tanggal : 12 Januari 2021'),
                 ],
               ),
             )),
@@ -221,13 +240,7 @@ class _AbsensiKeluarState extends State<AbsensiKeluar> {
                 elevation: 0,
                 child: ElevatedButton(
                   onPressed: () {
-                    print('object');
-                    // apiController.absensimasuk();
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => DashboardView()),
-                        (Route<dynamic> route) => false);
+                    _uploadAbsensi();
                   },
                   child: Text('Upload'),
                   style: ElevatedButton.styleFrom(

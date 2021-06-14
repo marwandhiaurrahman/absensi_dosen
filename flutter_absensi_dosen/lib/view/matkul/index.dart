@@ -30,11 +30,12 @@ class _MatkulViewState extends State<MatkulView> {
                 )));
   }
 
-  void absensiKeluar(AbsensiElement a) {
+  void absensiKeluar(AbsensiElement a, Matkul matkul) {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => AbsensiKeluar(
+                  matkul: matkul,
                   absensi: a,
                 )));
   }
@@ -115,7 +116,8 @@ class _MatkulViewState extends State<MatkulView> {
                                                 style: ElevatedButton.styleFrom(
                                                     primary: Colors.red),
                                                 onPressed: () {
-                                                  absensiKeluar(item);
+                                                  absensiKeluar(item,
+                                                      widget.jadwal.matkul);
                                                 },
                                                 child: Text('Absensi Keluar')),
                                           ],
