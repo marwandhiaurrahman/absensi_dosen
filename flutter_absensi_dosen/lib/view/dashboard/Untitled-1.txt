@@ -1,29 +1,28 @@
 // To parse this JSON data, do
 //
-//     final dashboard = dashboardFromJson(jsonString);
+//     final dasboard = dasboardFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
-Dashboard dashboardFromJson(String str) => Dashboard.fromJson(json.decode(str));
+Dasboard dasboardFromJson(String str) => Dasboard.fromJson(json.decode(str));
 
-String dashboardToJson(Dashboard data) => json.encode(data.toJson());
+String dasboardToJson(Dasboard data) => json.encode(data.toJson());
 
-class Dashboard {
-    Dashboard({
-        @required this.user,
-        @required this.jadwaltodays,
-        @required this.jadwalaktif,
+class Dasboard {
+    Dasboard({
+        this.user,
+        this.jadwaltodays,
+        this.jadwalaktif,
     });
 
     User user;
-    List<Jadwaltoday> jadwaltodays;
-    List<Jadwalaktif> jadwalaktif;
+    List<Jadwal> jadwaltodays;
+    List<Jadwal> jadwalaktif;
 
-    factory Dashboard.fromJson(Map<String, dynamic> json) => Dashboard(
+    factory Dasboard.fromJson(Map<String, dynamic> json) => Dasboard(
         user: User.fromJson(json["user"]),
-        jadwaltodays: List<Jadwaltoday>.from(json["jadwaltodays"].map((x) => Jadwaltoday.fromJson(x))),
-        jadwalaktif: List<Jadwalaktif>.from(json["jadwalaktif"].map((x) => Jadwalaktif.fromJson(x))),
+        jadwaltodays: List<Jadwal>.from(json["jadwaltodays"].map((x) => Jadwal.fromJson(x))),
+        jadwalaktif: List<Jadwal>.from(json["jadwalaktif"].map((x) => Jadwal.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -33,129 +32,22 @@ class Dashboard {
     };
 }
 
-class Jadwalaktif {
-    Jadwalaktif({
-        @required this.id,
-        @required this.kode,
-        @required this.hari,
-        @required this.jam,
-        @required this.matkulId,
-        @required this.ruanganId,
-        @required this.kelasId,
-        @required this.createdAt,
-        @required this.updatedAt,
-        @required this.absensi,
-    });
-
-    int id;
-    String kode;
-    String hari;
-    String jam;
-    int matkulId;
-    int ruanganId;
-    int kelasId;
-    DateTime createdAt;
-    DateTime updatedAt;
-    List<Absensi> absensi;
-
-    factory Jadwalaktif.fromJson(Map<String, dynamic> json) => Jadwalaktif(
-        id: json["id"],
-        kode: json["kode"],
-        hari: json["hari"],
-        jam: json["jam"],
-        matkulId: json["matkul_id"],
-        ruanganId: json["ruangan_id"],
-        kelasId: json["kelas_id"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        absensi: List<Absensi>.from(json["absensi"].map((x) => Absensi.fromJson(x))),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "kode": kode,
-        "hari": hari,
-        "jam": jam,
-        "matkul_id": matkulId,
-        "ruangan_id": ruanganId,
-        "kelas_id": kelasId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-        "absensi": List<dynamic>.from(absensi.map((x) => x.toJson())),
-    };
-}
-
-class Absensi {
-    Absensi({
-        @required this.id,
-        @required this.pertemuan,
-        @required this.tanggal,
-        @required this.metode,
-        @required this.pembahasan,
-        @required this.masuk,
-        @required this.keluar,
-        @required this.jarak,
-        @required this.jadwalId,
-        @required this.createdAt,
-        @required this.updatedAt,
-    });
-
-    int id;
-    String pertemuan;
-    DateTime tanggal;
-    String metode;
-    String pembahasan;
-    String masuk;
-    String keluar;
-    double jarak;
-    int jadwalId;
-    DateTime createdAt;
-    DateTime updatedAt;
-
-    factory Absensi.fromJson(Map<String, dynamic> json) => Absensi(
-        id: json["id"],
-        pertemuan: json["pertemuan"],
-        tanggal: DateTime.parse(json["tanggal"]),
-        metode: json["metode"],
-        pembahasan: json["pembahasan"],
-        masuk: json["masuk"],
-        keluar: json["keluar"] == null ? null : json["keluar"],
-        jarak: json["jarak"].toDouble(),
-        jadwalId: json["jadwal_id"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "pertemuan": pertemuan,
-        "tanggal": "${tanggal.year.toString().padLeft(4, '0')}-${tanggal.month.toString().padLeft(2, '0')}-${tanggal.day.toString().padLeft(2, '0')}",
-        "metode": metode,
-        "pembahasan": pembahasan,
-        "masuk": masuk,
-        "keluar": keluar == null ? null : keluar,
-        "jarak": jarak,
-        "jadwal_id": jadwalId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-    };
-}
-
-class Jadwaltoday {
-    Jadwaltoday({
-        @required this.id,
-        @required this.kode,
-        @required this.hari,
-        @required this.jam,
-        @required this.matkulId,
-        @required this.ruanganId,
-        @required this.kelasId,
-        @required this.createdAt,
-        @required this.updatedAt,
-        @required this.matkul,
-        @required this.ruangan,
-        @required this.kelas,
-        @required this.jamkul,
+class Jadwal {
+    Jadwal({
+        this.id,
+        this.kode,
+        this.hari,
+        this.jam,
+        this.matkulId,
+        this.ruanganId,
+        this.kelasId,
+        this.createdAt,
+        this.updatedAt,
+        this.matkul,
+        this.ruangan,
+        this.kelas,
+        this.jamkul,
+        this.absensi,
     });
 
     int id;
@@ -171,8 +63,9 @@ class Jadwaltoday {
     Ruangan ruangan;
     Kelas kelas;
     Jamkul jamkul;
+    List<Absensi> absensi;
 
-    factory Jadwaltoday.fromJson(Map<String, dynamic> json) => Jadwaltoday(
+    factory Jadwal.fromJson(Map<String, dynamic> json) => Jadwal(
         id: json["id"],
         kode: json["kode"],
         hari: json["hari"],
@@ -186,6 +79,7 @@ class Jadwaltoday {
         ruangan: Ruangan.fromJson(json["ruangan"]),
         kelas: Kelas.fromJson(json["kelas"]),
         jamkul: Jamkul.fromJson(json["jamkul"]),
+        absensi: json["absensi"] == null ? null : List<Absensi>.from(json["absensi"].map((x) => Absensi.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -202,17 +96,81 @@ class Jadwaltoday {
         "ruangan": ruangan.toJson(),
         "kelas": kelas.toJson(),
         "jamkul": jamkul.toJson(),
+        "absensi": absensi == null ? null : List<dynamic>.from(absensi.map((x) => x.toJson())),
     };
 }
 
+class Absensi {
+    Absensi({
+        this.id,
+        this.pertemuan,
+        this.tanggal,
+        this.metode,
+        this.pembahasan,
+        this.masuk,
+        this.keluar,
+        this.jarak,
+        this.jadwalId,
+        this.createdAt,
+        this.updatedAt,
+    });
+
+    int id;
+    String pertemuan;
+    DateTime tanggal;
+    Metode metode;
+    String pembahasan;
+    String masuk;
+    String keluar;
+    double jarak;
+    int jadwalId;
+    DateTime createdAt;
+    DateTime updatedAt;
+
+    factory Absensi.fromJson(Map<String, dynamic> json) => Absensi(
+        id: json["id"],
+        pertemuan: json["pertemuan"],
+        tanggal: DateTime.parse(json["tanggal"]),
+        metode: metodeValues.map[json["metode"]],
+        pembahasan: json["pembahasan"],
+        masuk: json["masuk"],
+        keluar: json["keluar"] == null ? null : json["keluar"],
+        jarak: json["jarak"].toDouble(),
+        jadwalId: json["jadwal_id"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "pertemuan": pertemuan,
+        "tanggal": "${tanggal.year.toString().padLeft(4, '0')}-${tanggal.month.toString().padLeft(2, '0')}-${tanggal.day.toString().padLeft(2, '0')}",
+        "metode": metodeValues.reverse[metode],
+        "pembahasan": pembahasan,
+        "masuk": masuk,
+        "keluar": keluar == null ? null : keluar,
+        "jarak": jarak,
+        "jadwal_id": jadwalId,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+    };
+}
+
+enum Metode { E_CLASS, TATAP_MUKA }
+
+final metodeValues = EnumValues({
+    "E-Class": Metode.E_CLASS,
+    "Tatap Muka": Metode.TATAP_MUKA
+});
+
 class Jamkul {
     Jamkul({
-        @required this.id,
-        @required this.masuk,
-        @required this.keluar,
-        @required this.sks,
-        @required this.createdAt,
-        @required this.updatedAt,
+        this.id,
+        this.masuk,
+        this.keluar,
+        this.sks,
+        this.createdAt,
+        this.updatedAt,
     });
 
     int id;
@@ -243,13 +201,13 @@ class Jamkul {
 
 class Kelas {
     Kelas({
-        @required this.id,
-        @required this.name,
-        @required this.kode,
-        @required this.tahun,
-        @required this.prodiId,
-        @required this.createdAt,
-        @required this.updatedAt,
+        this.id,
+        this.name,
+        this.kode,
+        this.tahun,
+        this.prodiId,
+        this.createdAt,
+        this.updatedAt,
     });
 
     int id;
@@ -283,13 +241,13 @@ class Kelas {
 
 class Matkul {
     Matkul({
-        @required this.id,
-        @required this.name,
-        @required this.kode,
-        @required this.userId,
-        @required this.createdAt,
-        @required this.updatedAt,
-        @required this.dosen,
+        this.id,
+        this.name,
+        this.kode,
+        this.userId,
+        this.createdAt,
+        this.updatedAt,
+        this.dosen,
     });
 
     int id;
@@ -323,13 +281,13 @@ class Matkul {
 
 class User {
     User({
-        @required this.id,
-        @required this.name,
-        @required this.email,
-        @required this.emailVerifiedAt,
-        @required this.foto,
-        @required this.createdAt,
-        @required this.updatedAt,
+        this.id,
+        this.name,
+        this.email,
+        this.emailVerifiedAt,
+        this.foto,
+        this.createdAt,
+        this.updatedAt,
     });
 
     int id;
@@ -363,13 +321,13 @@ class User {
 
 class Ruangan {
     Ruangan({
-        @required this.id,
-        @required this.name,
-        @required this.lantai,
-        @required this.kode,
-        @required this.gedungId,
-        @required this.createdAt,
-        @required this.updatedAt,
+        this.id,
+        this.name,
+        this.lantai,
+        this.kode,
+        this.gedungId,
+        this.createdAt,
+        this.updatedAt,
     });
 
     int id;
@@ -399,4 +357,18 @@ class Ruangan {
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
     };
+}
+
+class EnumValues<T> {
+    Map<String, T> map;
+    Map<T, String> reverseMap;
+
+    EnumValues(this.map);
+
+    Map<T, String> get reverse {
+        if (reverseMap == null) {
+            reverseMap = map.map((k, v) => new MapEntry(v, k));
+        }
+        return reverseMap;
+    }
 }

@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_absensi_dosen/controller/api_controller.dart';
-import 'package:flutter_absensi_dosen/model/jadwal.dart';
+import 'package:flutter_absensi_dosen/endpoint/dashboard.dart';
+// import 'package:flutter_absensi_dosen/model/jadwal.dart';
 import 'package:flutter_absensi_dosen/view/dashboard/index.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_size/responsive_size.dart';
@@ -12,7 +13,6 @@ import 'package:intl/intl.dart';
 
 class AbsensiMasuk extends StatefulWidget {
   final Matkul matkul;
-//   final int index;
   const AbsensiMasuk({this.matkul});
   @override
   _AbsensiMasukState createState() => _AbsensiMasukState();

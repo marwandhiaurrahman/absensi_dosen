@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Jadwal {
-  Jadwal({
+class JadwalModel {
+  JadwalModel({
     @required this.id,
     @required this.kode,
     @required this.hari,
@@ -31,7 +31,7 @@ class Jadwal {
   Kelas kelas;
   Jamkul jamkul;
 
-  factory Jadwal.fromJson(Map<String, dynamic> json) => Jadwal(
+  factory JadwalModel.fromJson(Map<String, dynamic> json) => JadwalModel(
         id: json["id"],
         kode: json["kode"],
         hari: json["hari"],

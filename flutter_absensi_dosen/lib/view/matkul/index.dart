@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_absensi_dosen/controller/api_controller.dart';
+import 'package:flutter_absensi_dosen/endpoint/dashboard.dart';
 import 'package:flutter_absensi_dosen/model/absensi.dart';
 import 'package:flutter_absensi_dosen/model/hari.dart';
-import 'package:flutter_absensi_dosen/model/jadwal.dart';
-import 'package:flutter_absensi_dosen/view/absensi/masuk.dart';
 import 'package:flutter_absensi_dosen/view/absensi/keluar.dart';
+import 'package:flutter_absensi_dosen/view/absensi/masuk.dart';
 import 'package:intl/intl.dart';
 
 class MatkulView extends StatefulWidget {
@@ -95,7 +95,7 @@ class _MatkulViewState extends State<MatkulView> {
                       child: Text('Error : ' + snapshot.error.toString()),
                     );
                   } else if (snapshot.connectionState == ConnectionState.done) {
-                    Absensi absensi = snapshot.data;
+                    var absensi = snapshot.data;
                     return Column(
                       children: [
                         Card(

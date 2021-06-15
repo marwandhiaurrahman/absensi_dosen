@@ -2,7 +2,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_absensi_dosen/endpoint/dashboard.dart';
 import 'package:flutter_absensi_dosen/endpoint/getabsensi.dart';
 import 'package:flutter_absensi_dosen/endpoint/jadwalsaya.dart';
-import 'package:flutter_absensi_dosen/model/absensi.dart';
+// import 'package:flutter_absensi_dosen/model/absensi.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -11,8 +11,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ApiController {
 //   String serverUrl = "http://10.0.2.2:8000/api";
 //   String serverUrl = "http://192.168.1.102:8000/api";
-  String serverUrl = "http://192.168.43.32:8000/api";
-//   String serverUrl = "http://10.10.0.191:8000/api";
+//   String serverUrl = "http://192.168.43.32:8000/api";
+  String serverUrl = "http://10.10.0.89:8000/api";
   var status;
   var token;
 

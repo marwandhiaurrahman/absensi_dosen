@@ -2,7 +2,8 @@
 //
 //     final jadwalSaya = jadwalSayaFromJson(jsonString);
 
-import 'package:flutter_absensi_dosen/model/jadwal.dart';
+import 'package:flutter_absensi_dosen/endpoint/dashboard.dart';
+// import 'package:flutter_absensi_dosen/model/jadwal.dart';
 import 'package:meta/meta.dart';
 import 'dart:convert';
 

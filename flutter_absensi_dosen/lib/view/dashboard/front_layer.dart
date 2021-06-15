@@ -1,9 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_absensi_dosen/controller/api_controller.dart';
 import 'package:flutter_absensi_dosen/endpoint/dashboard.dart';
 import 'package:flutter_absensi_dosen/model/hari.dart';
-import 'package:flutter_absensi_dosen/model/jadwal.dart';
-import 'package:flutter_absensi_dosen/model/user.dart';
+// import 'package:flutter_absensi_dosen/model/jadwal.dart';
+// import 'package:flutter_absensi_dosen/model/user.dart';
 import 'package:flutter_absensi_dosen/view/matkul/index.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_size/responsive_size.dart';
@@ -39,7 +41,7 @@ class _FrontLayerState extends State<FrontLayer> {
           } else if (snapshot.connectionState == ConnectionState.done) {
             User user = snapshot.data.user;
             List<Jadwal> jadwaltodays = snapshot.data.jadwaltodays;
-            List<Jadwalaktif> jadwalaktif = snapshot.data.jadwalaktif;
+            List<Jadwal> jadwalaktif = snapshot.data.jadwalaktif;
             return Container(
               margin: EdgeInsets.all(spBlock * 0.5),
               child: SingleChildScrollView(
@@ -75,24 +77,35 @@ class _FrontLayerState extends State<FrontLayer> {
                                     children: [
                                       ListTile(
                                         isThreeLine: true,
-                                        title: Text('e.matkul.name'),
+                                        title: Text(e.matkul.name),
                                         subtitle: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text('hari[int.parse(e.hari)]' +
+                                            Text(hari[int.parse(e.hari)] +
                                                 ', ' +
-                                                'e.jamkul.masuk' +
+                                                e.jamkul.masuk +
                                                 ' - ' +
-                                                'e.jamkul.keluar'),
+                                                e.jamkul.keluar),
                                             Text('Ruangan ' +
-                                                ' e.ruangan.kode' +
+                                                e.ruangan.kode +
                                                 ' Kelas ' +
-                                                'e.kelas.kode'),
+                                                e.kelas.kode),
+                                            Text('Mulai masuk ' +
+                                                e.absensi[e.absensi.length - 1]
+                                                    .masuk)
                                           ],
                                         ),
                                         leading: Icon(Icons.book),
                                         onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MatkulView(
+                                                        index: e.id,
+                                                        jadwal: e,
+                                                      )));
                                           print('object');
                                         },
                                       ),

@@ -39,9 +39,15 @@ class AbsensiController extends BaseController
             $jadwaltodays=null;
         }
 
-        // $absensi_aktif = null;
+        $absensi_aktif=null;
         $jadwalsemua = Jadwal::all();
         foreach ($jadwalsemua as $jadwalaktif){
+            $jadwalaktif->matkul;
+            $jadwalaktif->ruangan;
+            $jadwalaktif->kelas;
+            $jadwalaktif->jamkul;
+            $jadwalaktif->ruangan;
+            $jadwalaktif->matkul->dosen;
             foreach($jadwalaktif->absensi as $absensiaktif){
                 if($absensiaktif->keluar == null){
                     $absensi_aktif[]=$jadwalaktif;
