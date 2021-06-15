@@ -79,7 +79,7 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
 
   ApiController apiController = ApiController();
 
-  String output = 'Belum Scan Absensi';
+  String output;
   String _permissionLocation = 'Belum Scan Absensi';
   double _akurasiLokasi = 0;
   double latitude = 0;
@@ -199,7 +199,9 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Ruangan : ' + output),
+                  (output == null)
+                      ? Text('Ruangan : Belum Melakukan Scan')
+                      : Text('Ruangan : ' + output),
                   Text(_permissionLocation),
                   Text('Latitude : ' + latitude.toString()),
                   Text('Longitude : ' + longitude.toString()),
@@ -225,22 +227,24 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
                 ),
               ),
             ),
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Colors.transparent,
-                elevation: 0,
-                child: ElevatedButton(
-                  onPressed: () {
-                    _uploadAbsensi();
-                  },
-                  child: Text('Upload'),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.lightGreen,
-                  ),
-                ),
-              ),
-            )
+            (output == null)
+                ? Text('Silahkan scan barcode absensi dikelas')
+                : Container(
+                    width: double.infinity,
+                    child: Card(
+                      color: Colors.transparent,
+                      elevation: 0,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          _uploadAbsensi();
+                        },
+                        child: Text('Upload'),
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.lightGreen,
+                        ),
+                      ),
+                    ),
+                  )
           ],
         ),
       ),

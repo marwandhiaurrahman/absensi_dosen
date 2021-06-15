@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_absensi_dosen/controller/api_controller.dart';
+import 'package:flutter_absensi_dosen/endpoint/dashboard.dart';
 import 'package:flutter_absensi_dosen/model/hari.dart';
 import 'package:flutter_absensi_dosen/model/jadwal.dart';
 import 'package:flutter_absensi_dosen/model/user.dart';
@@ -38,6 +39,7 @@ class _FrontLayerState extends State<FrontLayer> {
           } else if (snapshot.connectionState == ConnectionState.done) {
             User user = snapshot.data.user;
             List<Jadwal> jadwaltodays = snapshot.data.jadwaltodays;
+            List<Jadwalaktif> jadwalaktif = snapshot.data.jadwalaktif;
             return Container(
               margin: EdgeInsets.all(spBlock * 0.5),
               child: SingleChildScrollView(
@@ -64,10 +66,41 @@ class _FrontLayerState extends State<FrontLayer> {
                     )),
                     Card(
                       child: ExpansionTile(
-                          initiallyExpanded: true,
-                          title: Text('Absensi Aktif'),
-                          leading: Icon(Icons.menu),
-                          children: []),
+                        initiallyExpanded: true,
+                        title: Text('Absensi Aktif'),
+                        leading: Icon(Icons.menu),
+                        children: jadwalaktif
+                            .map((e) => Container(
+                                  child: Column(
+                                    children: [
+                                      ListTile(
+                                        isThreeLine: true,
+                                        title: Text('e.matkul.name'),
+                                        subtitle: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text('hari[int.parse(e.hari)]' +
+                                                ', ' +
+                                                'e.jamkul.masuk' +
+                                                ' - ' +
+                                                'e.jamkul.keluar'),
+                                            Text('Ruangan ' +
+                                                ' e.ruangan.kode' +
+                                                ' Kelas ' +
+                                                'e.kelas.kode'),
+                                          ],
+                                        ),
+                                        leading: Icon(Icons.book),
+                                        onTap: () {
+                                          print('object');
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ))
+                            .toList(),
+                      ),
                     ),
                     Card(
                       child: ExpansionTile(

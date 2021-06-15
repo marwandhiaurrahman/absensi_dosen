@@ -5,6 +5,7 @@ import 'package:flutter_absensi_dosen/model/hari.dart';
 import 'package:flutter_absensi_dosen/model/jadwal.dart';
 import 'package:flutter_absensi_dosen/view/absensi/masuk.dart';
 import 'package:flutter_absensi_dosen/view/absensi/keluar.dart';
+import 'package:intl/intl.dart';
 
 class MatkulView extends StatefulWidget {
   final Jadwal jadwal;
@@ -103,6 +104,8 @@ class _MatkulViewState extends State<MatkulView> {
                             padding: EdgeInsets.all(10),
                             child: (absensi.absensiAktif.length >= 1)
                                 ? Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                           'Informasi absensi yang sedang aktif ' +
@@ -110,8 +113,17 @@ class _MatkulViewState extends State<MatkulView> {
                                                   .toString()),
                                       for (var item in absensi.absensiAktif)
                                         Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Text('Pertemuan ' + item.pertemuan),
+                                            Text('Pertemuan : ' +
+                                                item.pertemuan),
+                                            Text('Pembahasan : ' +
+                                                item.pembahasan),
+                                            Text('Metode : ' + item.metode),
+                                            Text('Jam Masuk : ' +
+                                                item.masuk +
+                                                ' WIB'),
                                             ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
                                                     primary: Colors.red),
@@ -199,12 +211,12 @@ class AbsensiDataSource extends DataTableSource {
     final AbsensiElement absensi = this.absensi[index];
     return DataRow.byIndex(index: index, cells: <DataCell>[
       DataCell(Text('Pertemuan ' + absensi.pertemuan.toString())),
-      DataCell(Text(absensi.tanggal.toString())),
+      DataCell(Text(DateFormat('d MMMM yyyy').format(absensi.tanggal))),
       DataCell(Text(absensi.metode.toString())),
       DataCell(Text(absensi.pembahasan.toString())),
       DataCell(Text(absensi.masuk.toString())),
       DataCell(Text(absensi.keluar.toString())),
-      DataCell(Text(absensi.jarak.toString())),
+      DataCell(Text(absensi.jarak.ceil().toString() + ' m')),
     ]);
   }
 

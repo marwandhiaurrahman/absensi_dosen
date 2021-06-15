@@ -38,11 +38,23 @@ class AbsensiController extends BaseController
         if(is_null($jadwaltodays)){
             $jadwaltodays=null;
         }
+
+        // $absensi_aktif = null;
+        $jadwalsemua = Jadwal::all();
+        foreach ($jadwalsemua as $jadwalaktif){
+            foreach($jadwalaktif->absensi as $absensiaktif){
+                if($absensiaktif->keluar == null){
+                    $absensi_aktif[]=$jadwalaktif;
+                }
+            }
+        }
+// dd($absensi_aktif);
         // $kelas = Kelas::get()->all();
         return $this->sendResponse([
             'user'=>new UserResorces($user),
             'jadwaltodays'=>new UserResorces($jadwaltodays),
-        ], 'Product retrieved successfully.');
+            'jadwalaktif'=>new UserResorces($absensi_aktif),
+        ], 'Retrieved data successfully.');
     }
 
     public function jadwals()
