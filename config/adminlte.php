@@ -244,21 +244,21 @@ return [
         [
             'text'        => 'Fakultas',
             'url'         => 'fakultas',
-            'icon'        => 'fa fa-book',
+            'icon'        => 'fas fa-chalkboard-teacher',
             'can' => 'fakultas-list',
             'active' => ['fakultas', 'regex:@^fakultas/[0-9]+$@', 'regex:@^fakultas/[0-9]/edit+$@', 'fakultas/create']
         ],
         [
             'text'        => 'Program Studi',
             'url'         => 'prodi',
-            'icon'        => 'fa fa-book',
+            'icon'        => 'fas fa-chalkboard-teacher',
             'can' => 'prodi-list',
             'active' => ['prodi', 'regex:@^prodi/[0-9]+$@', 'regex:@^prodi/[0-9]/edit+$@', 'prodi/create']
         ],
         [
             'text'        => 'Kelas',
             'url'         => 'kelas',
-            'icon'        => 'fa fa-book',
+            'icon'        => 'fas fa-school',
             'can' => 'kelas-list',
             'active' => ['kelas', 'regex:@^kelas/[0-9]+$@', 'regex:@^kelas/[0-9]/edit+$@', 'kelas/create']
         ],
@@ -292,7 +292,7 @@ return [
         ],
         [
             'text'    => 'Penjadwalan Kuliah',
-            'icon'    => 'fa fa-home',
+            'icon'    => 'fas fa-calendar-check',
             'can' => 'jadwal-list' || 'jamkul-list',
             'submenu' => [
                 [
@@ -315,7 +315,7 @@ return [
         ],
         [
             'text'    => 'Absensi Kuliah',
-            'icon'    => 'fa fa-home',
+            'icon'    => 'fas fa-clipboard-check',
             'can' => 'absensi-list' || 'lokasi-absensi-list',
             'submenu' => [
                 [

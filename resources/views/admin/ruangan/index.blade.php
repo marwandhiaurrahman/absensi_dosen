@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Program Studi')
+@section('title', 'Ruangan')
 
 @section('content_header')
-<h1>Program Studi</h1>
+<h1>Ruangan</h1>
 @stop
 
 @section('content')
@@ -12,10 +12,10 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Program Studi</h3>
+                    <h3 class="card-title">Data Ruangan</h3>
                     <div class="card-tools">
                         @can('ruangan-setup')
-                        <a class="btn btn-sm btn-success" href="{{ route('ruangan.create') }}">+ Tambah Program Studi</a>
+                        <a class="btn btn-sm btn-success" href="{{ route('ruangan.create') }}">+ Tambah Ruangan</a>
                         @endcan
                     </div>
                 </div>
@@ -34,7 +34,8 @@
                                             <th>Name</th>
                                             <th>Lantai</th>
                                             <th>Gedung</th>
-                                            <th width="280px">Action</th>
+                                            <th>QR Code</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -45,6 +46,7 @@
                                             <td>{{ $ruangan->name }}</td>
                                             <td>{{ $ruangan->lantai }}</td>
                                             <td>{{ $ruangan->gedung->name }}</td>
+                                            <td>{!! QrCode::size(75)->generate($ruangan->kode.' '.$ruangan->gedung->name) !!}</td>
                                             <td>
                                                 @can('ruangan-setup')
                                                 <form action="{{ route('ruangan.destroy',$ruangan->id) }}"

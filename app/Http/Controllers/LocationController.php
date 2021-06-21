@@ -74,9 +74,11 @@ class LocationController extends Controller
      * @param  \App\Models\Location  $location
      * @return \Illuminate\Http\Response
      */
-    public function edit(Location $location)
+    public function edit(Location $lokasi_absensi)
     {
-        //
+        $latitude = $lokasi_absensi->location->getLat();
+        $longitude = $lokasi_absensi->location->getLng();
+        return view('admin.lokasiabsensi.edit', compact('lokasi_absensi','latitude','longitude'));
     }
 
     /**
@@ -86,7 +88,7 @@ class LocationController extends Controller
      * @param  \App\Models\Location  $location
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Location $location)
+    public function update(Request $request, Location $lokasi_absensi)
     {
         //
     }

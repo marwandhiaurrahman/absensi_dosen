@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Edit Product')
+@section('title', 'Edit Lokasi Absensi')
 
 @section('content_header')
-<h1>Edit Fakultas</h1>
+<h1>Edit Lokasi Absensi</h1>
 @stop
 
 @section('content')
@@ -18,18 +18,33 @@
 </div>
 @endif
 
-{!! Form::model($fakulta, ['method' => 'PATCH','route' => ['fakultas.update', $fakulta->id],'files' => false]) !!}
+{!! Form::model($lokasi_absensi, ['method' => 'PATCH','route' => ['lokasi-absensi.update', $lokasi_absensi],'files' => false]) !!}
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Name:</strong>
-            {!! Form::text('name', null, ['class'=>'form-control', 'placeholder'=>'Nama Fakultas', 'required']) !!}
+            {!! Form::text('name', null, ['class'=>'form-control', 'placeholder'=>'Nama Lokasi', 'required']) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Kode:</strong>
-            {!! Form::text('kode', null, ['class'=>'form-control', 'placeholder'=>'Kode Fakultas', 'required']) !!}
+            <strong>Koordinat Latitude :</strong>
+            {!! Form::text('latitude', $latitude, ['class'=>'form-control', 'placeholder'=>'Masukan Koodinat Latitude',
+            'required']) !!}
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="form-group">
+            <strong>Koordinat Longitude :</strong>
+            {!! Form::text('longitude', $longitude, ['class'=>'form-control', 'placeholder'=>'Masukan Koodinat Longitude',
+            'required']) !!}
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="form-group">
+            <strong>Jarak Minimal Absensi (meter) :</strong>
+            {!! Form::text('jarak_min', null, ['class'=>'form-control', 'placeholder'=>'Masukan Jarak Minimal Absensi
+            (Meter)', 'required']) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
@@ -38,10 +53,3 @@
 </div>
 {!! Form::close() !!}
 @endsection
-
-@section('css')
-<link rel="stylesheet" href="/css/admin_custom.css">
-@stop
-
-@section('js')
-@stop

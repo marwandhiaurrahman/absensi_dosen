@@ -125,7 +125,7 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Pertemuan ke '),
+                  // Text('Pertemuan ke '),
                   Text('Mata Kuliah : ' + widget.matkul.name),
                   Text('Kode : ' + widget.matkul.kode),
                   Text('Dosen : ' + widget.matkul.dosen.name),

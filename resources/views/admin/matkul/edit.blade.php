@@ -18,7 +18,7 @@
 </div>
 @endif
 
-{!! Form::model($ruangan, ['method' => 'PATCH','route' => ['ruangan.update', $ruangan->id],'files' => false]) !!}
+{!! Form::model($matkul, ['method' => 'PATCH','route' => ['matkul.update', $matkul->id],'files' => false]) !!}
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
@@ -28,14 +28,14 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Lantai :</strong>
-            {!! Form::number('lantai', null, ['class'=>'form-control', 'placeholder'=>'Kode Ruangan', 'required']) !!}
+            <strong>Kode :</strong>
+            {!! Form::text('kode', null, ['class'=>'form-control', 'placeholder'=>'Kode Ruangan', 'required']) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Gedung :</strong>
-            {!! Form::select('gedung_id', $gedungs->pluck('name','id'), null, ['class'=>'form-control', 'placeholder'=>'Pilih Gedung', 'required']) !!}
+            <strong>Dosen :</strong>
+            {!! Form::select('user_id', $users->pluck('name','id'), null, ['class'=>'form-control', 'placeholder'=>'Pilih Gedung', 'required']) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
