@@ -93,6 +93,7 @@ class AbsensiController extends BaseController
     public function getabsensi($jadwal_id)
     {
         $jadwal = Jadwal::find($jadwal_id);
+        // dd($jadwal_id);
         $absensi = $jadwal->absensi;
         $absensi_aktif = $jadwal->absensi->where('keluar',null)->all();
 

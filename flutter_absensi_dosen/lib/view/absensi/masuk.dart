@@ -12,8 +12,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 
 class AbsensiMasuk extends StatefulWidget {
+  final Jadwal jadwal;
   final Matkul matkul;
-  const AbsensiMasuk({this.matkul});
+  const AbsensiMasuk({this.jadwal, this.matkul});
   @override
   _AbsensiMasukState createState() => _AbsensiMasukState();
 }
@@ -70,7 +71,7 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
 
   void _uploadAbsensi() {
     apiController.absensimasuk(DateTime.now().toString(), metode,
-        pembahasanController.text, widget.matkul.id, latitude, longitude);
+        pembahasanController.text, widget.jadwal.id, latitude, longitude);
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => DashboardView()),

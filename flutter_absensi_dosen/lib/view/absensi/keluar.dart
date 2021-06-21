@@ -14,9 +14,9 @@ import 'package:intl/intl.dart';
 
 class AbsensiKeluar extends StatefulWidget {
   final AbsensiElement absensi;
+  final Jadwal jadwal;
   final Matkul matkul;
-
-  const AbsensiKeluar({this.absensi, this.matkul});
+  const AbsensiKeluar({this.absensi, this.jadwal, this.matkul});
 
   @override
   _AbsensiKeluarState createState() => _AbsensiKeluarState();
@@ -76,14 +76,14 @@ class _AbsensiKeluarState extends State<AbsensiKeluar> {
     print(this.widget.absensi.id);
     apiController
         .absensikeluar(widget.absensi.id, DateTime.now().toString(), metode,
-            pembahasanController.text, widget.matkul.id, latitude, longitude)
+            pembahasanController.text, widget.jadwal.id, latitude, longitude)
         .whenComplete(() => Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => DashboardView()),
             (Route<dynamic> route) => false));
 
     // apiController.absensimasuk(DateTime.now().toString(), metode,
-    //     pembahasanController.text, widget.matkul.id, latitude, longitude);
+    //     pembahasanController.text, widget.jadwal.id, latitude, longitude);
   }
 
   ApiController apiController = ApiController();
@@ -137,7 +137,7 @@ class _AbsensiKeluarState extends State<AbsensiKeluar> {
                 children: [
                   Text('Pertemuan ke - ' + widget.absensi.pertemuan.toString()),
                   Text('Mata Kuliah : ' + widget.matkul.name),
-                  Text('Kode : ' + widget.matkul.kode),
+                  Text('Kode : ' + widget.jadwal.kode),
                   Text('Dosen : ' + widget.matkul.dosen.name),
                   Text('Tanggal : ' + _timeString),
                 ],

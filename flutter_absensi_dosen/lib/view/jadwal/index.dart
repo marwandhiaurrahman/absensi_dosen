@@ -73,7 +73,7 @@ class _JadwalViewState extends State<JadwalView> {
                           MaterialPageRoute(
                               builder: (context) => MatkulView(
                                   jadwal: element, index: element.id)));
-                      print(element);
+                      print(element.id);
                     });
               },
             );

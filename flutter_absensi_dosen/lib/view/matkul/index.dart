@@ -22,22 +22,26 @@ class _MatkulViewState extends State<MatkulView> {
   ApiController apiController = ApiController();
   bool status = true;
 
-  void _absensiMasuk(Matkul matkul) {
+  void _absensiMasuk(Jadwal jadwal) {
+    print('Absensi masuk jadwal id ' + jadwal.id.toString());
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => AbsensiMasuk(
-                  matkul: matkul,
+                  jadwal: jadwal,
+                  matkul: jadwal.matkul,
                 )));
   }
 
-  void absensiKeluar(AbsensiElement a, Matkul matkul) {
+  void absensiKeluar(AbsensiElement a, Jadwal jadwal) {
+    print('Absensi keluar jadwal id ' + jadwal.id.toString());
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => AbsensiKeluar(
-                  matkul: matkul,
                   absensi: a,
+                  jadwal: jadwal,
+                  matkul: jadwal.matkul,
                 )));
   }
 
@@ -128,8 +132,8 @@ class _MatkulViewState extends State<MatkulView> {
                                                 style: ElevatedButton.styleFrom(
                                                     primary: Colors.red),
                                                 onPressed: () {
-                                                  absensiKeluar(item,
-                                                      widget.jadwal.matkul);
+                                                  absensiKeluar(
+                                                      item, widget.jadwal);
                                                 },
                                                 child: Text('Absensi Keluar')),
                                           ],
@@ -143,7 +147,7 @@ class _MatkulViewState extends State<MatkulView> {
                                           style: ElevatedButton.styleFrom(
                                               primary: Colors.green),
                                           onPressed: () {
-                                            _absensiMasuk(widget.jadwal.matkul);
+                                            _absensiMasuk(widget.jadwal);
                                           },
                                           child: Text('Absensi Masuk')),
                                     ],

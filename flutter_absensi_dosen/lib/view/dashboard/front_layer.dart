@@ -106,7 +106,7 @@ class _FrontLayerState extends State<FrontLayer> {
                                                         index: e.id,
                                                         jadwal: e,
                                                       )));
-                                          print('object');
+                                          print('Jadwal Id ' + e.id.toString());
                                         },
                                       ),
                                     ],

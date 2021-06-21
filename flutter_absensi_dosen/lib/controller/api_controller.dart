@@ -54,16 +54,13 @@ class ApiController {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.get('token') ?? 0;
-      print('Dashboard token :' + token);
+      //   print('Dashboard token :' + token.);
       String myUrl = "$serverUrl/dashboard";
       final response = await http.get(Uri.parse(myUrl), headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token'
       }).timeout(Duration(seconds: 30));
-      //   print(response.statusCode);
-      // print(response.);
       if (response.statusCode == 200) {
-        // print(json.decode(response.body)['data']);
         return dasboardFromJson(response.body);
       }
     } catch (e) {
@@ -75,7 +72,7 @@ class ApiController {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.get('token') ?? 0;
-      print('Dashboard token :' + token);
+      //   print('Dashboard token :' + token);
       String myUrl = "$serverUrl/jadwalsaya";
       final response = await http.get(Uri.parse(myUrl), headers: {
         'Accept': 'application/json',
@@ -95,7 +92,7 @@ class ApiController {
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.get('token') ?? 0;
-      print('Dashboard token :' + token);
+      //   print('Dashboard token :' + token);
       String myUrl = "$serverUrl/absensi/$index";
       final response = await http.get(Uri.parse(myUrl), headers: {
         'Accept': 'application/json',
@@ -103,8 +100,7 @@ class ApiController {
       }).timeout(Duration(seconds: 30));
       print(response.statusCode);
       if (response.statusCode == 200) {
-        print('get absensi');
-        print(json.decode(response.body)['data']);
+        // print('get absensi');
         return absensiFromJson(response.body);
       }
     } catch (e) {
@@ -124,7 +120,6 @@ class ApiController {
       final prefs = await SharedPreferences.getInstance();
       final key = 'token';
       final value = prefs.get(key) ?? 0;
-
       String myUrl = "$serverUrl/absensi/masuk";
       http.post(Uri.parse(myUrl), headers: {
         'Accept': 'application/json',
@@ -139,6 +134,7 @@ class ApiController {
       }).then((response) {
         print('Response status : ${response.statusCode}');
         print('Response body : ${response.body}');
+        print(jadwalid);
         print('sudah masuk');
       }).timeout(Duration(seconds: 30));
     } catch (e) {
