@@ -10,6 +10,7 @@ import 'package:responsive_size/responsive_size.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AbsensiMasuk extends StatefulWidget {
   final Jadwal jadwal;
@@ -69,18 +70,53 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
   }
 
   void _uploadAbsensi() {
-    apiController.absensimasuk(
-        DateTime.now().toString(),
-        metode,
-        pembahasanController.text,
-        widget.jadwal.id,
-        latitude,
-        longitude,
-        jarak);
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => DashboardView()),
-        (Route<dynamic> route) => false);
+    apiController
+        .absensimasuk(
+            DateTime.now().toString(),
+            metode,
+            pembahasanController.text,
+            widget.jadwal.id,
+            latitude,
+            longitude,
+            jarak)
+        .then((value) {
+      print('value ' + value['success'].toString());
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => DashboardView()),
+          (Route<dynamic> route) => false);
+      if (value['success']) {
+        print('masuk');
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Informasi'),
+                  content: Text('Selamat mengajar'),
+                  actions: [
+                    TextButton(
+                        onPressed: () => Navigator.pop(context, 'OK'),
+                        child: Text('OK'))
+                  ],
+                ));
+      } else {
+        print('gagal');
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Informasi'),
+                  content: Text(
+                      'Anda berada diluar jangkuan absensi tatap muka. ' +
+                          'Jarak anda = ' +
+                          jarak.toString() +
+                          ' meter'),
+                  actions: [
+                    TextButton(
+                        onPressed: () => Navigator.pop(context, 'OK'),
+                        child: Text('OK'))
+                  ],
+                ));
+      }
+    });
   }
 
   ApiController apiController = ApiController();

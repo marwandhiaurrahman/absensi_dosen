@@ -58,10 +58,11 @@ class _BackLayerState extends State<BackLayer> {
                         children: [
                           Text('Informasi Akun'),
                           Text('Nama : ' + user.name),
-                          Text('No. Telp : ' + user.email),
+                          Text('No. Telp : ' + '089529909035'),
                           Text('Email : ' + user.email),
-                          Text('Alamat : ' + user.email),
-                          Text('Email : ' + user.email),
+                          Text('Alamat : ' +
+                              'Desa Leuweunggajah Kec. Ciledug Kab. Cirebon'),
+                          Text('Jabatan : ' + 'Dosen Pengajar'),
                         ],
                       ),
                     )),

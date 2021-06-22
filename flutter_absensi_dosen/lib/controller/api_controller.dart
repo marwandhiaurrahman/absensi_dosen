@@ -1,3 +1,4 @@
+// import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_absensi_dosen/endpoint/dashboard.dart';
 import 'package:flutter_absensi_dosen/endpoint/getabsensi.dart';
@@ -11,8 +12,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ApiController {
 //   String serverUrl = "http://10.0.2.2:8000/api";
 //   String serverUrl = "http://192.168.1.102:8000/api";
-  String serverUrl = "http://192.168.43.32:8000/api";
-//   String serverUrl = "http://10.10.0.89:8000/api";
+//   String serverUrl = "http://192.168.43.32:8000/api";
+  String serverUrl = "http://10.10.0.89:8000/api";
   var status;
   var token;
 
@@ -122,7 +123,7 @@ class ApiController {
       final key = 'token';
       final value = prefs.get(key) ?? 0;
       String myUrl = "$serverUrl/absensi/masuk";
-      http.post(Uri.parse(myUrl), headers: {
+      var req = await http.post(Uri.parse(myUrl), headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer $value'
       }, body: {
@@ -133,12 +134,14 @@ class ApiController {
         "lat_anda": latitude.toString(),
         "long_anda": longitude.toString(),
         "jarak": jarak.toString(),
-      }).then((response) {
-        print('Response status : ${response.statusCode}');
-        print('Response body : ${response.body}');
-        print(jadwalid);
-        print('sudah masuk');
       }).timeout(Duration(seconds: 30));
+      print('Response status absensi masuk : ${req.statusCode}');
+      if (req.statusCode == 200) {
+        return json.decode(req.body);
+      } else {
+        print('Response status absensi masuk : ${req.statusCode}');
+        return json.decode(req.body);
+      }
     } catch (e) {
       print(e);
     }
@@ -160,7 +163,7 @@ class ApiController {
       final value = prefs.get(key) ?? 0;
 
       String myUrl = "$serverUrl/absensi/keluar/$id";
-      http.put(Uri.parse(myUrl), headers: {
+      var req = await http.put(Uri.parse(myUrl), headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer $value'
       }, body: {
@@ -171,11 +174,14 @@ class ApiController {
         "lat_anda": latitude.toString(),
         "long_anda": longitude.toString(),
         "jarak": jarak.toString(),
-      }).then((response) {
-        print('Response status : ${response.statusCode}');
-        print('Response body: ${response.body}');
-        // print('sudah masuk');
       }).timeout(Duration(seconds: 30));
+      print('Response status absensi masuk : ${req.statusCode}');
+      if (req.statusCode == 200) {
+        return json.decode(req.body);
+      } else {
+        print('Response status absensi masuk : ${req.statusCode}');
+        return json.decode(req.body);
+      }
     } catch (e) {
       print(e);
     }

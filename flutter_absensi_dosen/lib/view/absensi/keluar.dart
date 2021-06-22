@@ -83,10 +83,13 @@ class _AbsensiKeluarState extends State<AbsensiKeluar> {
             latitude,
             longitude,
             jarak)
-        .whenComplete(() => Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => DashboardView()),
-            (Route<dynamic> route) => false));
+        .then((value) {
+      print('value ' + value['success'].toString());
+    });
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => DashboardView()),
+        (Route<dynamic> route) => false);
 
     // apiController.absensimasuk(DateTime.now().toString(), metode,
     //     pembahasanController.text, widget.jadwal.id, latitude, longitude);
@@ -99,8 +102,8 @@ class _AbsensiKeluarState extends State<AbsensiKeluar> {
   double _akurasiLokasi = 0;
   double latitude = 0;
   double longitude = 0;
-  double reflat;
-  double reflong;
+  double reflat = 0;
+  double reflong = 0;
   double jarak = 0;
   String metode;
   final pembahasanController = TextEditingController();
