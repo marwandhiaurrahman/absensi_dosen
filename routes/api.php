@@ -29,4 +29,6 @@ Route::middleware('auth:api')->group( function () {
     Route::get('absensi/{id}', [AbsensiController::class, 'getabsensi']);
     Route::post('absensi/masuk', [AbsensiController::class, 'masukabsensi']);
     Route::put('absensi/keluar/{id}', [AbsensiController::class, 'keluarabsensi']);
+    Route::get('location', [AbsensiController::class, 'getlocation']);
+
 });

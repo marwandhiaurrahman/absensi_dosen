@@ -37,9 +37,9 @@ class _AbsensiKeluarState extends State<AbsensiKeluar> {
 
   String _timeString;
 
-  Future _scan() async {
+  Future _scan(double lat, double long) async {
     await Permission.camera.request();
-    _getLocation();
+    _getLocation(lat, long);
     String barcode = await scanner.scan();
     if (barcode == null) {
       print('nothing return.');
@@ -59,15 +59,14 @@ class _AbsensiKeluarState extends State<AbsensiKeluar> {
         });
   }
 
-  void _getLocation() async {
+  void _getLocation(double lat, double long) async {
     _requestPermissionLocation();
     await Geolocator.getCurrentPosition().then((value) => {
           setState(() {
             _akurasiLokasi = value.accuracy;
             latitude = value.latitude;
             longitude = value.longitude;
-            jarak = Geolocator.distanceBetween(
-                -6.9699184274322175, 108.52827343642505, latitude, longitude);
+            jarak = Geolocator.distanceBetween(lat, long, latitude, longitude);
           })
         });
   }
@@ -75,8 +74,15 @@ class _AbsensiKeluarState extends State<AbsensiKeluar> {
   void _uploadAbsensi() {
     print(this.widget.absensi.id);
     apiController
-        .absensikeluar(widget.absensi.id, DateTime.now().toString(), metode,
-            pembahasanController.text, widget.jadwal.id, latitude, longitude)
+        .absensikeluar(
+            widget.absensi.id,
+            DateTime.now().toString(),
+            metode,
+            pembahasanController.text,
+            widget.jadwal.id,
+            latitude,
+            longitude,
+            jarak)
         .whenComplete(() => Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => DashboardView()),
@@ -93,12 +99,20 @@ class _AbsensiKeluarState extends State<AbsensiKeluar> {
   double _akurasiLokasi = 0;
   double latitude = 0;
   double longitude = 0;
+  double reflat;
+  double reflong;
   double jarak = 0;
   String metode;
   final pembahasanController = TextEditingController();
 
   @override
   void initState() {
+    apiController.getlocation().then((value) {
+      print(value['latitude']);
+      reflat = value['latitude'];
+      reflong = value['longitude'];
+      print('lat' + reflat.toString());
+    });
     _timeString = _formatDateTime(DateTime.now());
     // Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
     metode = widget.absensi.metode;
@@ -228,7 +242,7 @@ class _AbsensiKeluarState extends State<AbsensiKeluar> {
                 elevation: 0,
                 child: ElevatedButton(
                   onPressed: () {
-                    _scan();
+                    _scan(reflat, reflong);
                   },
                   child: Text('Scan'),
                   style: ElevatedButton.styleFrom(

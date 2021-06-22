@@ -115,6 +115,7 @@ class ApiController {
     int jadwalid,
     double latitude,
     double longitude,
+    double jarak,
   ) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -131,6 +132,7 @@ class ApiController {
         "jadwal_id": jadwalid.toString(),
         "lat_anda": latitude.toString(),
         "long_anda": longitude.toString(),
+        "jarak": jarak.toString(),
       }).then((response) {
         print('Response status : ${response.statusCode}');
         print('Response body : ${response.body}');
@@ -150,6 +152,7 @@ class ApiController {
     int jadwalid,
     double latitude,
     double longitude,
+    double jarak,
   ) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -167,9 +170,10 @@ class ApiController {
         "jadwal_id": jadwalid.toString(),
         "lat_anda": latitude.toString(),
         "long_anda": longitude.toString(),
+        "jarak": jarak.toString(),
       }).then((response) {
         print('Response status : ${response.statusCode}');
-        print('Response body : ${response.body}');
+        print('Response body: ${response.body}');
         // print('sudah masuk');
       }).timeout(Duration(seconds: 30));
     } catch (e) {
@@ -177,6 +181,23 @@ class ApiController {
     }
   }
 
+  Future getlocation() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final key = 'token';
+      final value = prefs.get(key) ?? 0;
+
+      String myUrl = "$serverUrl/location";
+      var req = await http.get(Uri.parse(myUrl), headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $value'
+      }).timeout(Duration(seconds: 30));
+      print('Response body xx: ' + req.body);
+      return json.decode(req.body)['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
 //   Future<List<Product>> listProduct() async {
 //     final prefs = await SharedPreferences.getInstance();
 //     final token = prefs.get('token') ?? 0;

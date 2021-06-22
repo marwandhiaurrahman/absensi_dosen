@@ -14,79 +14,81 @@ use App\Models\Location;
 use App\Models\Product;
 use Carbon\Carbon;
 use Validator;
+use Grimzy\LaravelMysqlSpatial\Types\Point;
+
 use Illuminate\Support\Facades\Auth;
 
 class AbsensiController extends BaseController
 {
     public function dashboard()
     {
-        $jadwaltodays=null;
+        $jadwaltodays = null;
         $user = Auth::user();
-        $jadwals = Jadwal::where('hari',Carbon::now()->dayOfWeek)->get()->all();
+        $jadwals = Jadwal::where('hari', Carbon::now()->dayOfWeek)->get()->all();
         foreach ($jadwals as $jadwal) {
-           if($jadwal->matkul->dosen->id == $user->id){
+            if ($jadwal->matkul->dosen->id == $user->id) {
                 $jadwaltodays[] = $jadwal;
                 $jadwal->ruangan;
                 $jadwal->kelas;
                 $jadwal->jamkul;
                 $jadwal->ruangan;
-           }
+            }
         }
-        if(is_null($user)){
-            $user=null;
+        if (is_null($user)) {
+            $user = null;
         }
-        if(is_null($jadwaltodays)){
-            $jadwaltodays=null;
+        if (is_null($jadwaltodays)) {
+            $jadwaltodays = null;
         }
 
-        $absensi_aktif=null;
+        $absensi_aktif = null;
         $jadwalsemua = Jadwal::all();
-        foreach ($jadwalsemua as $jadwalaktif){
-            if($jadwalaktif->matkul->dosen->id == $user->id){
+        foreach ($jadwalsemua as $jadwalaktif) {
+            if ($jadwalaktif->matkul->dosen->id == $user->id) {
                 $jadwalaktif->matkul;
                 $jadwalaktif->ruangan;
                 $jadwalaktif->kelas;
                 $jadwalaktif->jamkul;
                 $jadwalaktif->ruangan;
-                foreach($jadwalaktif->absensi as $absensiaktif){
-                    if($absensiaktif->keluar == null){
-                        $absensi_aktif[]=$jadwalaktif;
+                foreach ($jadwalaktif->absensi as $absensiaktif) {
+                    if ($absensiaktif->keluar == null) {
+                        $absensi_aktif[] = $jadwalaktif;
                     }
                 }
             }
         }
-// dd($absensi_aktif);
+        // dd($absensi_aktif);
         // $kelas = Kelas::get()->all();
         return $this->sendResponse([
-            'user'=>new UserResorces($user),
-            'jadwaltodays'=>new UserResorces($jadwaltodays),
-            'jadwalaktif'=>new UserResorces($absensi_aktif),
+            'user' => new UserResorces($user),
+            'jadwaltodays' => new UserResorces($jadwaltodays),
+            'jadwalaktif' => new UserResorces($absensi_aktif),
         ], 'Retrieved data successfully.');
     }
 
     public function jadwals()
     {
-        $jadwalsSaya=null;
+        $jadwalsSaya = null;
         $user = Auth::user();
         $jadwals = Jadwal::get()->all();
         foreach ($jadwals as $jadwal) {
-           if($jadwal->matkul->dosen->id == $user->id){
+            if ($jadwal->matkul->dosen->id == $user->id) {
                 $jadwalsSaya[] = $jadwal;
                 $jadwal->ruangan;
                 $jadwal->kelas;
                 $jadwal->jamkul;
                 $jadwal->ruangan;
-           }
+            }
         }
-        if(is_null($user)){
-            $user=null;
+        if (is_null($user)) {
+            $user = null;
         }
-        if(is_null($jadwalsSaya)){
-            $jadwalsSaya=null;
+        if (is_null($jadwalsSaya)) {
+            $jadwalsSaya = null;
         }
         // $kelas = Kelas::get()->all();
         return $this->sendResponse([
-            'jadwals'=>new UserResorces($jadwalsSaya),
+            'jadwals' => new UserResorces($jadwalsSaya),
         ], 'Product retrieved successfully.');
     }
 
@@ -95,11 +97,11 @@ class AbsensiController extends BaseController
         $jadwal = Jadwal::find($jadwal_id);
         // dd($jadwal_id);
         $absensi = $jadwal->absensi;
-        $absensi_aktif = $jadwal->absensi->where('keluar',null)->all();
+        $absensi_aktif = $jadwal->absensi->where('keluar', null)->all();
 
         return $this->sendResponse([
-            'absensi'=>new UserResorces($absensi),
-            'absensi_aktif'=>new UserResorces($absensi_aktif),
+            'absensi' => new UserResorces($absensi),
+            'absensi_aktif' => new UserResorces($absensi_aktif),
         ], 'Data Absensi retrieved successfully.');
     }
 
@@ -115,6 +117,7 @@ class AbsensiController extends BaseController
             'jadwal_id' => 'required',
             'lat_anda' => 'required',
             'long_anda' => 'required',
+            'jarak' => 'required',
         ]);
 
         $request['masuk'] = Carbon::now();
@@ -126,20 +129,19 @@ class AbsensiController extends BaseController
 
         $jarak = $this->distance($patokan_lat, $patokan_long, $request->lat_anda, $request->long_anda, "K");
 
-
         if ($request->metode == "Tatap Muka") {
-            if ($jarak * 1000 <= $patokan->jarak_min) {
+            if ($jarak * 1000  <= $patokan->jarak_min) {
                 $request['validasi'] = true;
-                $request['jarak'] = $jarak * 1000;
+                // $request['jarak'] = $jarak * 1000;
             } else {
-                Alert::error('Error Information', 'Absensi Tidak Valid, jarak anda terlalu jauh');
-                return redirect()->back();
+                return $this->sendError('Anda diluar jangkauan absensi, jarak anda ' . $jarak);
+                // return redirect()->back();
             }
         }
 
         if ($request->metode == "E-Class") {
             $request['validasi'] = true;
-            $request['jarak'] = $jarak * 1000;
+            // $request['jarak'] = $jarak;
         }
 
         $absensis = Absensi::where('jadwal_id', $request->jadwal_id)->count();
@@ -148,7 +150,7 @@ class AbsensiController extends BaseController
         $input = $request->all();
         $absensi = Absensi::create($input);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
@@ -170,7 +172,7 @@ class AbsensiController extends BaseController
             'long_anda' => 'required',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
@@ -183,21 +185,32 @@ class AbsensiController extends BaseController
         $jarak = $this->distance($patokan_lat, $patokan_long, $request->lat_anda, $request->long_anda, "K");
 
         if ($request->metode == "Tatap Muka") {
-            if ($jarak * 1000 <= $patokan->jarak_min) {
+            if ($jarak * 1000  <= $patokan->jarak_min) {
                 $request['validasi'] = true;
-                $request['jarak'] = $jarak * 1000;
+                // $request['jarak'] = $jarak * 1000;
             } else {
-                Alert::error('Error Information', 'Absensi Tidak Valid, jarak anda terlalu jauh');
-                return redirect()->back();
+                return $this->sendError('Anda diluar jangkauan absensi, jarak anda ' . $jarak);
             }
         }
         if ($request->metode == "E-Class") {
             $request['validasi'] = true;
-            $request['jarak'] = $jarak * 1000;
+            // $request['jarak'] = $jarak;
         }
 
         $absensi->update($request->all());
         return $this->sendResponse(new UserResorces($absensi), 'Absensi keluar successfully.');
+    }
+
+    public function getlocation()
+    {
+        $ref = Location::first();
+        $lat = $ref->location->getLat();
+        $long = $ref->location->getLng();
+        // dd($lat);
+        return $this->sendResponse([
+            'latitude' => $lat,
+            'longitude' => $long,
+        ], 'Data retrieved successfully.');
     }
 
     public function distance($lat1, $lon1, $lat2, $lon2, $unit)

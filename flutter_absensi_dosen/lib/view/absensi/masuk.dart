@@ -34,9 +34,9 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
 
   String _timeString;
 
-  Future _scan() async {
+  Future _scan(double lat, double long) async {
     await Permission.camera.request();
-    _getLocation();
+    _getLocation(lat, long);
     String barcode = await scanner.scan();
     if (barcode == null) {
       print('nothing return.');
@@ -56,22 +56,27 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
         });
   }
 
-  void _getLocation() async {
+  void _getLocation(double lat, double long) async {
     _requestPermissionLocation();
     await Geolocator.getCurrentPosition().then((value) => {
           setState(() {
             _akurasiLokasi = value.accuracy;
             latitude = value.latitude;
             longitude = value.longitude;
-            jarak = Geolocator.distanceBetween(
-                -6.9699184274322175, 108.52827343642505, latitude, longitude);
+            jarak = Geolocator.distanceBetween(lat, long, latitude, longitude);
           })
         });
   }
 
   void _uploadAbsensi() {
-    apiController.absensimasuk(DateTime.now().toString(), metode,
-        pembahasanController.text, widget.jadwal.id, latitude, longitude);
+    apiController.absensimasuk(
+        DateTime.now().toString(),
+        metode,
+        pembahasanController.text,
+        widget.jadwal.id,
+        latitude,
+        longitude,
+        jarak);
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => DashboardView()),
@@ -84,6 +89,8 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
   String _permissionLocation = 'Belum Scan Absensi';
   double _akurasiLokasi = 0;
   double latitude = 0;
+  double reflat;
+  double reflong;
   double longitude = 0;
   double jarak = 0;
   String metode;
@@ -91,6 +98,12 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
 
   @override
   void initState() {
+    apiController.getlocation().then((value) {
+      print(value['latitude']);
+      reflat = value['latitude'];
+      reflong = value['longitude'];
+      print('lat' + reflat.toString());
+    });
     _timeString = _formatDateTime(DateTime.now());
     // Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
     super.initState();
@@ -113,142 +126,145 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
         designWidth: MediaQuery.of(context).size.width,
         designHeight: MediaQuery.of(context).size.height);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Absensi Masuk'),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Card(
-                child: Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(spBlock * 1),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Text('Pertemuan ke '),
-                  Text('Mata Kuliah : ' + widget.matkul.name),
-                  Text('Kode : ' + widget.matkul.kode),
-                  Text('Dosen : ' + widget.matkul.dosen.name),
-                  Text('Tanggal : ' + _timeString),
-                  //   Text('Tanggal : 12 Januari 2021'),
-                ],
-              ),
-            )),
-            Card(
-                child: Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(spBlock * 1),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextFormField(
-                    controller: pembahasanController,
-                    maxLines: 2,
-                    textInputAction: TextInputAction.next,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: const BorderRadius.all(
-                            const Radius.circular(10.0),
+        appBar: AppBar(
+          title: Text('Absensi Masuk'),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Card(
+                  child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(spBlock * 1),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Text('Pertemuan ke '),
+                    Text('Mata Kuliah : ' + widget.matkul.name),
+                    Text('Kode : ' + widget.matkul.kode),
+                    Text('Dosen : ' + widget.matkul.dosen.name),
+                    Text('Tanggal : ' + _timeString),
+                    //   Text('Tanggal : 12 Januari 2021'),
+                  ],
+                ),
+              )),
+              Card(
+                  child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(spBlock * 1),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextFormField(
+                      controller: pembahasanController,
+                      maxLines: 2,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: const BorderRadius.all(
+                              const Radius.circular(10.0),
+                            ),
+                          ),
+                          labelText: 'Pembahasan',
+                          hintStyle: TextStyle(color: Colors.grey[800]),
+                          hintText: "Masukan Pembahasan",
+                          fillColor: Colors.white70),
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                        vertical: 10,
+                      ),
+                      width: double.infinity,
+                      decoration: ShapeDecoration(
+                        shape: RoundedRectangleBorder(
+                          side:
+                              BorderSide(width: 1.0, style: BorderStyle.solid),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        ),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: Container(
+                          margin: EdgeInsets.only(left: 10.0, right: 10.0),
+                          child: DropdownButton<String>(
+                            hint: Text('Pilih Metode'),
+                            value: metode,
+                            items: itemsMenu.map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                metode = value;
+                              });
+                            },
                           ),
                         ),
-                        filled: true,
-                        labelText: 'Pembahasan',
-                        hintStyle: TextStyle(color: Colors.grey[800]),
-                        hintText: "Masukan Pembahasan",
-                        fillColor: Colors.white70),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                      vertical: 10,
-                    ),
-                    width: double.infinity,
-                    decoration: ShapeDecoration(
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 1.0, style: BorderStyle.solid),
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       ),
                     ),
-                    child: DropdownButtonHideUnderline(
-                      child: Container(
-                        margin: EdgeInsets.only(left: 10.0, right: 10.0),
-                        child: DropdownButton<String>(
-                          hint: Text('Pilih Metode'),
-                          value: metode,
-                          items: itemsMenu.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              metode = value;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
+                  ],
+                ),
+              )),
+              Card(
+                  child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(spBlock * 1),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    (output == null)
+                        ? Text('Ruangan : Belum Melakukan Scan')
+                        : Text('Ruangan : ' + output),
+                    Text(_permissionLocation),
+                    Text('Latitude : ' + latitude.toString()),
+                    Text('Longitude : ' + longitude.toString()),
+                    Text('Jarak : ' +
+                        jarak.ceilToDouble().toString() +
+                        ' meter'),
+                    Text('Akurasi : ' +
+                        (100 - _akurasiLokasi.ceilToDouble()).toString() +
+                        ' %'),
+                  ],
+                ),
+              )),
+              Container(
+                width: double.infinity,
+                child: Card(
+                  color: Colors.transparent,
+                  elevation: 0,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _scan(reflat, reflong);
+                    },
+                    child: Text('Scan'),
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.amber, onPrimary: Colors.black),
                   ),
-                ],
-              ),
-            )),
-            Card(
-                child: Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(spBlock * 1),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  (output == null)
-                      ? Text('Ruangan : Belum Melakukan Scan')
-                      : Text('Ruangan : ' + output),
-                  Text(_permissionLocation),
-                  Text('Latitude : ' + latitude.toString()),
-                  Text('Longitude : ' + longitude.toString()),
-                  Text('Jarak : ' + jarak.ceilToDouble().toString() + ' meter'),
-                  Text('Akurasi : ' +
-                      (100 - _akurasiLokasi.ceilToDouble()).toString() +
-                      ' %'),
-                ],
-              ),
-            )),
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Colors.transparent,
-                elevation: 0,
-                child: ElevatedButton(
-                  onPressed: () {
-                    _scan();
-                  },
-                  child: Text('Scan'),
-                  style: ElevatedButton.styleFrom(
-                      primary: Colors.amber, onPrimary: Colors.black),
                 ),
               ),
-            ),
-            (output == null)
-                ? Text('Silahkan scan barcode absensi dikelas')
-                : Container(
-                    width: double.infinity,
-                    child: Card(
-                      color: Colors.transparent,
-                      elevation: 0,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _uploadAbsensi();
-                        },
-                        child: Text('Upload'),
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.lightGreen,
+              (output == null)
+                  ? Text('Silahkan scan barcode absensi dikelas')
+                  : Container(
+                      width: double.infinity,
+                      child: Card(
+                        color: Colors.transparent,
+                        elevation: 0,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            _uploadAbsensi();
+                          },
+                          child: Text('Upload'),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.lightGreen,
+                          ),
                         ),
                       ),
                     ),
-                  )
-          ],
-        ),
-      ),
-    );
+            ],
+          ),
+        ));
   }
 }
+
+// }
