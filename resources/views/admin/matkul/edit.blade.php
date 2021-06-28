@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Edit Ruangan')
+@section('title', 'Edit Matkul')
 
 @section('content_header')
-<h1>Edit Ruangan</h1>
+<h1>Edit Matkul</h1>
 @stop
 
 @section('content')
@@ -23,13 +23,13 @@
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Name :</strong>
-            {!! Form::text('name', null, ['class'=>'form-control', 'placeholder'=>'Nama Ruangan', 'required']) !!}
+            {!! Form::text('name', null, ['class'=>'form-control', 'placeholder'=>'Nama Matkul', 'required']) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Kode :</strong>
-            {!! Form::text('kode', null, ['class'=>'form-control', 'placeholder'=>'Kode Ruangan', 'required']) !!}
+            {!! Form::text('kode', null, ['class'=>'form-control', 'placeholder'=>'Kode Matkul', 'required']) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">

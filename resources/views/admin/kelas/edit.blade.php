@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Edit Product')
+@section('title', 'Edit Kelas')
 
 @section('content_header')
-<h1>Edit Fakultas</h1>
+<h1>Edit Kelas</h1>
 @stop
 
 @section('content')
@@ -34,7 +34,7 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Name:</strong>
+            <strong>Tahun Angkatan:</strong>
             {!! Form::text('tahun', null, ['class'=>'form-control', 'placeholder'=>'Nama Fakultas', 'required']) !!}
         </div>
     </div>

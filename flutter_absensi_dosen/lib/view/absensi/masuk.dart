@@ -201,9 +201,9 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
                               const Radius.circular(10.0),
                             ),
                           ),
-                          labelText: 'Pembahasan',
+                          labelText: 'Materi',
                           hintStyle: TextStyle(color: Colors.grey[800]),
-                          hintText: "Masukan Pembahasan",
+                          hintText: "Masukan Materi",
                           fillColor: Colors.white70),
                     ),
                     Container(
@@ -290,7 +290,7 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
                           onPressed: () {
                             _uploadAbsensi();
                           },
-                          child: Text('Upload'),
+                          child: Text('Submit'),
                           style: ElevatedButton.styleFrom(
                             primary: Colors.lightGreen,
                           ),

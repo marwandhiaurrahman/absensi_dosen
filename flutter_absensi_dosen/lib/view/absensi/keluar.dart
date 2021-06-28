@@ -178,9 +178,9 @@ class _AbsensiKeluarState extends State<AbsensiKeluar> {
                           ),
                         ),
                         filled: true,
-                        labelText: 'Pembahasan',
+                        labelText: 'Materi',
                         hintStyle: TextStyle(color: Colors.grey[800]),
-                        hintText: "Masukan Pembahasan",
+                        hintText: "Masukan Materi",
                         fillColor: Colors.white70),
                   ),
                   Container(
@@ -264,7 +264,7 @@ class _AbsensiKeluarState extends State<AbsensiKeluar> {
                         onPressed: () {
                           _uploadAbsensi();
                         },
-                        child: Text('Upload'),
+                        child: Text('Submit'),
                         style: ElevatedButton.styleFrom(
                           primary: Colors.lightGreen,
                         ),

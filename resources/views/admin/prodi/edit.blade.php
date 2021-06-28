@@ -3,7 +3,7 @@
 @section('title', 'Edit Program Studi')
 
 @section('content_header')
-<h1>Edit Program Studio</h1>
+<h1>Edit Program Studi</h1>
 @stop
 
 @section('content')
