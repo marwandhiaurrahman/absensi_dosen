@@ -12,8 +12,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ApiController {
 //   String serverUrl = "http://10.0.2.2:8000/api";
 //   String serverUrl = "http://192.168.1.102:8000/api";
-//   String serverUrl = "http://192.168.43.32:8000/api";
-  String serverUrl = "http://10.10.1.152:8000/api";
+  String serverUrl = "http://192.168.43.32:8000/api";
+//   String serverUrl = "http://10.10.2.240:8000/api";
   var status;
   var token;
 
@@ -21,9 +21,9 @@ class ApiController {
 
   Future<String> loginUser(LoginData loginData) async {
     try {
-      //   print('Login Info');
-      //   print('Name: ${loginData.name}');
-      //   print('Password: ${loginData.password}');
+      print('Login Info');
+      print('Name: ${loginData.name}');
+      print('Password: ${loginData.password}');
       String myUrl = "$serverUrl/login";
       final response = await http.post(Uri.parse(myUrl), headers: {
         'Accept': 'application/json'
@@ -53,13 +53,13 @@ class ApiController {
 
   Future dashboard() async {
     try {
-      //   final prefs = await SharedPreferences.getInstance();
-      //   final token = prefs.get('token') ?? 0;
-      //   print('Dashboard token :' + token.);
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.get('token') ?? 0;
+      //   print('Dashboard token :' + token.toString());
       String myUrl = "$serverUrl/dashboard";
       final response = await http.get(Uri.parse(myUrl), headers: {
         'Accept': 'application/json',
-        // 'Authorization': 'Bearer $token'
+        'Authorization': 'Bearer $token'
       }).timeout(Duration(seconds: 30));
       if (response.statusCode == 200) {
         print(response.body);
