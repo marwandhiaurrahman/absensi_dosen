@@ -12,8 +12,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ApiController {
 //   String serverUrl = "http://10.0.2.2:8000/api";
 //   String serverUrl = "http://192.168.1.102:8000/api";
-  String serverUrl = "http://192.168.43.32:8000/api";
-//   String serverUrl = "http://10.10.2.240:8000/api";
+//blk
+  String serverUrl = "http://192.168.100.199:8000/api";
+//   String serverUrl = "http://10.10.0.75:8000/api";
   var status;
   var token;
 

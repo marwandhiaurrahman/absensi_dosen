@@ -49,6 +49,10 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
     }
   }
 
+  void _lokasi() {
+    print('lokasi');
+  }
+
   void _requestPermissionLocation() async {
     await Permission.locationAlways.request().then((value) => {
           setState(() {
@@ -59,14 +63,17 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
 
   void _getLocation(double lat, double long) async {
     _requestPermissionLocation();
-    await Geolocator.getCurrentPosition().then((value) => {
-          setState(() {
-            _akurasiLokasi = value.accuracy;
-            latitude = value.latitude;
-            longitude = value.longitude;
-            jarak = Geolocator.distanceBetween(lat, long, latitude, longitude);
-          })
-        });
+    await Geolocator.getCurrentPosition()
+        .then((value) => {
+              setState(() {
+                _akurasiLokasi = value.accuracy;
+                latitude = value.latitude;
+                longitude = value.longitude;
+                jarak =
+                    Geolocator.distanceBetween(lat, long, latitude, longitude);
+              })
+            })
+        .whenComplete(() => print('object'));
   }
 
   void _uploadAbsensi() {
@@ -271,6 +278,21 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
                   elevation: 0,
                   child: ElevatedButton(
                     onPressed: () {
+                      _getLocation(reflat, reflong);
+                    },
+                    child: Text('Dapatkan Lokasi'),
+                    style: ElevatedButton.styleFrom(
+                        primary: Colors.amber, onPrimary: Colors.black),
+                  ),
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                child: Card(
+                  color: Colors.transparent,
+                  elevation: 0,
+                  child: ElevatedButton(
+                    onPressed: () {
                       _scan(reflat, reflong);
                     },
                     child: Text('Scan'),
@@ -302,5 +324,7 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
         ));
   }
 }
+
+
 
 // }

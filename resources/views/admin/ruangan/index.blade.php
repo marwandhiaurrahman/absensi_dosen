@@ -35,6 +35,7 @@
                                             <th>Lantai</th>
                                             <th>Gedung</th>
                                             <th>QR Code</th>
+                                            <th>Location</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -46,7 +47,8 @@
                                             <td>{{ $ruangan->name }}</td>
                                             <td>{{ $ruangan->lantai }}</td>
                                             <td>{{ $ruangan->gedung->name }}</td>
-                                            <td>{!! QrCode::size(75)->generate($ruangan->kode.' '.$ruangan->gedung->name) !!}</td>
+                                            <td>{!! QrCode::size(75)->generate($ruangan->kode) !!}</td>
+                                            <td>{{ $ruangan->location}}</td>
                                             <td>
                                                 @can('ruangan-setup')
                                                 <form action="{{ route('ruangan.destroy',$ruangan->id) }}"

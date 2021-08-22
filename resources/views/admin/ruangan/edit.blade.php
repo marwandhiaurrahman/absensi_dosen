@@ -23,23 +23,30 @@
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Name :</strong>
-            {!! Form::text('name', null, ['class'=>'form-control', 'placeholder'=>'Nama Ruangan', 'required']) !!}
+            {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Nama Ruangan', 'required']) !!}
         </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Lantai :</strong>
-            {!! Form::number('lantai', null, ['class'=>'form-control', 'placeholder'=>'Kode Ruangan', 'required']) !!}
+            {!! Form::number('lantai', null, ['class' => 'form-control', 'placeholder' => 'Kode Ruangan', 'required']) !!}
         </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <strong>Gedung :</strong>
-            {!! Form::select('gedung_id', $gedungs->pluck('name','id'), null, ['class'=>'form-control', 'placeholder'=>'Pilih Gedung', 'required']) !!}
+            {!! Form::select('gedung_id', $gedungs->pluck('name', 'id'), null, ['class' => 'form-control', 'placeholder' => 'Pilih Gedung', 'required']) !!}
+        </div>
+        <div class="form-group">
+            <strong>Koordinat Longitude :</strong>
+            {!! Form::text('longitude', $ruangan->location->getLng(), ['class' => 'form-control', 'placeholder' => 'Koordinat Longitude', 'required']) !!}
+            <span>Dapatkan koordinat longitute di Google Maps</span>
+        </div>
+        <div class="form-group">
+            <strong>Koordinat Latitude :</strong>
+            {!! Form::text('latitude', $ruangan->location->getLat(), ['class' => 'form-control', 'placeholder' => 'Koordinat Latitude', 'required']) !!}
+            <span>Dapatkan koordinat latidude di Google Maps</span>
+            <div class="d-block" id="locationanda"></div>
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-        {!! Form::submit('Submit', ['class'=>'btn btn-primary']) !!}
+        {!! Form::submit('Submit', ['class' => 'btn btn-primary']) !!}
     </div>
 </div>
 {!! Form::close() !!}

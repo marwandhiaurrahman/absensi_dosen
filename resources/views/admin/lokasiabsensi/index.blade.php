@@ -115,46 +115,46 @@
 <script type="text/javascript">
     var y = document.getElementById("locationanda");
 
-function getLocationAnda() {
-if (navigator.geolocation) {
-navigator.geolocation.getCurrentPosition(tampilPosition, tampilError);
-} else {
-y.innerHTML = "Geolocation is not supported by this browser.";
-}
-}
-
-function tampilPosition(position) {
-y.innerHTML = "Koordinat Lokasi Anda : ( " + position.coords.latitude +" , "  + position.coords.longitude + " )";
-}
-function tampilError(error) {
-switch(error.code) {
-case error.PERMISSION_DENIED:
-  y.innerHTML = "User denied the request for Geolocation."
-  break;
-case error.POSITION_UNAVAILABLE:
-  y.innerHTML = "Location information is unavailable."
-  break;
-case error.TIMEOUT:
-  y.innerHTML = "The request to get user location timed out."
-  break;
-case error.UNKNOWN_ERROR:
-  y.innerHTML = "An unknown error occurred."
-  break;
-}
-}
-
-function handlePermission() {
-  navigator.permissions.query({name:'geolocation'}).then(function(result) {
-    if (result.state == 'granted') {
-        navigator.geolocation.getCurrentPosition(tampilPosition, tampilError);
-    } else if (result.state == 'prompt') {
-        navigator.geolocation.getCurrentPosition(tampilPosition, tampilError);
-    } else if (result.state == 'denied') {
-        navigator.geolocation.getCurrentPosition(tampilPosition, tampilError);
+    function getLocationAnda() {
+    if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(tampilPosition, tampilError);
+    } else {
+    y.innerHTML = "Geolocation is not supported by this browser.";
+    }
     }
 
-  });
-}
+    function tampilPosition(position) {
+    y.innerHTML = "Koordinat Lokasi Anda : ( " + position.coords.latitude +" , "  + position.coords.longitude + " )";
+    }
+    function tampilError(error) {
+    switch(error.code) {
+    case error.PERMISSION_DENIED:
+    y.innerHTML = "User denied the request for Geolocation."
+    break;
+    case error.POSITION_UNAVAILABLE:
+    y.innerHTML = "Location information is unavailable."
+    break;
+    case error.TIMEOUT:
+    y.innerHTML = "The request to get user location timed out."
+    break;
+    case error.UNKNOWN_ERROR:
+    y.innerHTML = "An unknown error occurred."
+    break;
+    }
+    }
+
+    function handlePermission() {
+    navigator.permissions.query({name:'geolocation'}).then(function(result) {
+        if (result.state == 'granted') {
+            navigator.geolocation.getCurrentPosition(tampilPosition, tampilError);
+        } else if (result.state == 'prompt') {
+            navigator.geolocation.getCurrentPosition(tampilPosition, tampilError);
+        } else if (result.state == 'denied') {
+            navigator.geolocation.getCurrentPosition(tampilPosition, tampilError);
+        }
+
+    });
+    }
 </script>
 
 @stop

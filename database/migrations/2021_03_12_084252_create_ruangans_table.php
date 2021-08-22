@@ -18,6 +18,7 @@ class CreateRuangansTable extends Migration
             $table->string('name');
             $table->integer('lantai');
             $table->string('kode');
+            $table->point('location')->nullable();
             $table->foreignId('gedung_id')->unsigned()->references('id')->on('gedungs')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
