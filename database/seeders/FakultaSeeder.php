@@ -27,6 +27,13 @@ class FakultaSeeder extends Seeder
                 'name' => 'Fakultas Hukum',
                 'kode' => 'FH'
             ],
+            [
+                'name' => 'Fakultas Ilmu Keguruan Dan Pendidikan',
+                'kode' => 'FH'
+            ], [
+                'name' => 'Fakultas Kehutanan',
+                'kode' => 'FH'
+            ],
         ];
 
         foreach ($fakultas as $fakulta) {
