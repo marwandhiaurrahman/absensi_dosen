@@ -169,9 +169,11 @@ class AbsensiController extends BaseController
             'metode' => 'required',
             'tanggal' => 'required',
             'pembahasan' => 'required',
+            'ruangan' => 'required',
             'jadwal_id' => 'required',
             'lat_anda' => 'required',
             'long_anda' => 'required',
+            'jarak' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -180,25 +182,26 @@ class AbsensiController extends BaseController
 
         $request['keluar'] = Carbon::now()->toTimeString();
 
-        $patokan = Location::first();
-        $patokan_lat = $patokan->location->getLat();
-        $patokan_long = $patokan->location->getLng();
+        // $patokan = Location::first();
+        // $patokan_lat = $patokan->location->getLat();
+        // $patokan_long = $patokan->location->getLng();
 
-        $jarak = $this->distance($patokan_lat, $patokan_long, $request->lat_anda, $request->long_anda, "K");
+        // $jarak = $this->distance($patokan_lat, $patokan_long, $request->lat_anda, $request->long_anda, "K");
 
-        if ($request->metode == "Tatap Muka") {
-            if ($jarak * 1000  <= $patokan->jarak_min) {
-                $request['validasi'] = true;
-                // $request['jarak'] = $jarak * 1000;
-            } else {
-                return $this->sendError('Anda diluar jangkauan absensi, jarak anda ' . $jarak);
-            }
-        }
-        if ($request->metode == "E-Class") {
-            $request['validasi'] = true;
-            // $request['jarak'] = $jarak;
-        }
+        // if ($request->metode == "Tatap Muka") {
+        //     if ($jarak * 1000  <= $patokan->jarak_min) {
+        //         $request['validasi'] = true;
+        //         // $request['jarak'] = $jarak * 1000;
+        //     } else {
+        //         return $this->sendError('Anda diluar jangkauan absensi, jarak anda ' . $jarak);
+        //     }
+        // }
+        // if ($request->metode == "E-Class") {
+        //     $request['validasi'] = true;
+        //     // $request['jarak'] = $jarak;
+        // }
 
+        $request['validasi'] = true;
         $absensi->update($request->all());
         return $this->sendResponse(new UserResorces($absensi), 'Absensi keluar successfully.');
     }
