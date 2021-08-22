@@ -10,7 +10,6 @@ import 'package:responsive_size/responsive_size.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class AbsensiMasuk extends StatefulWidget {
   final Jadwal jadwal;
@@ -21,13 +20,13 @@ class AbsensiMasuk extends StatefulWidget {
 }
 
 class _AbsensiMasukState extends State<AbsensiMasuk> {
-  void _getTime() {
-    final DateTime now = DateTime.now();
-    final String formattedDateTime = _formatDateTime(now);
-    setState(() {
-      _timeString = formattedDateTime;
-    });
-  }
+//   void _getTime() {
+//     final DateTime now = DateTime.now();
+//     final String formattedDateTime = _formatDateTime(now);
+//     setState(() {
+//       _timeString = formattedDateTime;
+//     });
+//   }
 
   String _formatDateTime(DateTime dateTime) {
     return DateFormat('MM/dd/yyyy HH:mm:ss').format(dateTime);
@@ -37,20 +36,19 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
 
   Future _scan(double lat, double long) async {
     await Permission.camera.request();
-    _getLocation(lat, long);
     String barcode = await scanner.scan();
     if (barcode == null) {
       print('nothing return.');
     } else {
-      setState(() {
-        output = barcode;
-        print(barcode);
-      });
+      apiController.getRuangan(barcode).then((value) => setState(() {
+            ruangan = barcode;
+            reflat = value['latitude'];
+            reflong = value['longitude'];
+            jarak = Geolocator.distanceBetween(
+                reflat, reflong, longitude, latitude);
+            // print(ruangan + reflat.toString() + reflong.toString());
+          }));
     }
-  }
-
-  void _lokasi() {
-    print('lokasi');
   }
 
   void _requestPermissionLocation() async {
@@ -61,19 +59,15 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
         });
   }
 
-  void _getLocation(double lat, double long) async {
+  void _getLocation() async {
     _requestPermissionLocation();
-    await Geolocator.getCurrentPosition()
-        .then((value) => {
-              setState(() {
-                _akurasiLokasi = value.accuracy;
-                latitude = value.latitude;
-                longitude = value.longitude;
-                jarak =
-                    Geolocator.distanceBetween(lat, long, latitude, longitude);
-              })
-            })
-        .whenComplete(() => print('object'));
+    await Geolocator.getCurrentPosition().then((value) {
+      setState(() {
+        latitude = value.latitude;
+        longitude = value.longitude;
+        _akurasiLokasi = value.accuracy;
+      });
+    });
   }
 
   void _uploadAbsensi() {
@@ -83,8 +77,8 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
             metode,
             pembahasanController.text,
             widget.jadwal.id,
-            latitude,
-            longitude,
+            latitude.toDouble(),
+            longitude.toDouble(),
             jarak)
         .then((value) {
       print('value ' + value['success'].toString());
@@ -128,7 +122,7 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
 
   ApiController apiController = ApiController();
 
-  String output;
+  String ruangan;
   String _permissionLocation = 'Belum Scan Absensi';
   double _akurasiLokasi = 0;
   double latitude = 0;
@@ -141,14 +135,7 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
 
   @override
   void initState() {
-    apiController.getlocation().then((value) {
-      print(value['latitude']);
-      reflat = value['latitude'];
-      reflong = value['longitude'];
-      print('lat' + reflat.toString());
-    });
     _timeString = _formatDateTime(DateTime.now());
-    // Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
     super.initState();
   }
 
@@ -256,18 +243,26 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    (output == null)
-                        ? Text('Ruangan : Belum Melakukan Scan')
-                        : Text('Ruangan : ' + output),
-                    Text(_permissionLocation),
-                    Text('Latitude : ' + latitude.toString()),
-                    Text('Longitude : ' + longitude.toString()),
-                    Text('Jarak : ' +
-                        jarak.ceilToDouble().toString() +
-                        ' meter'),
+                    Text('Posisi Anda : (' +
+                        latitude.toString() +
+                        ', ' +
+                        longitude.toString() +
+                        ')'),
                     Text('Akurasi : ' +
                         (100 - _akurasiLokasi.ceilToDouble()).toString() +
                         ' %'),
+                    (ruangan == null)
+                        ? Text('Ruangan : Belum Melakukan Scan')
+                        : Text('Ruangan : ' +
+                            ruangan +
+                            ' (' +
+                            reflong.toString() +
+                            ', ' +
+                            reflat.toString() +
+                            ')'),
+                    Text('Jarak : ' +
+                        jarak.ceilToDouble().toString() +
+                        ' meter'),
                   ],
                 ),
               )),
@@ -278,7 +273,7 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
                   elevation: 0,
                   child: ElevatedButton(
                     onPressed: () {
-                      _getLocation(reflat, reflong);
+                      _getLocation();
                     },
                     child: Text('Dapatkan Lokasi'),
                     style: ElevatedButton.styleFrom(
@@ -301,7 +296,7 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
                   ),
                 ),
               ),
-              (output == null)
+              (ruangan == null)
                   ? Text('Silahkan scan barcode absensi dikelas')
                   : Container(
                       width: double.infinity,

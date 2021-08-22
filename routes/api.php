@@ -30,5 +30,5 @@ Route::middleware('auth:api')->group( function () {
     Route::post('absensi/masuk', [AbsensiController::class, 'masukabsensi']);
     Route::put('absensi/keluar/{id}', [AbsensiController::class, 'keluarabsensi']);
     Route::get('location', [AbsensiController::class, 'getlocation']);
-
+    Route::get('ruangan', [AbsensiController::class, 'getRuangan']);
 });

@@ -12,6 +12,7 @@ use App\Models\Jadwal;
 use App\Models\Kelas;
 use App\Models\Location;
 use App\Models\Product;
+use App\Models\Ruangan;
 use Carbon\Carbon;
 use Validator;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
@@ -233,5 +234,22 @@ class AbsensiController extends BaseController
                 return $miles;
             }
         }
+    }
+
+    public function getRuangan(Request $request)
+    {
+        $input = $request->all();
+        $validator = Validator::make($input, [
+            'kode' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+        $ruangan = Ruangan::where('kode', $request->kode)->first();
+        return $this->sendResponse([
+            'kode' => $ruangan->kode,
+            'longitude' => $ruangan->location->getLng(),
+            'latitude' => $ruangan->location->getLat(),
+        ], 'Data retrieved successfully.');
     }
 }

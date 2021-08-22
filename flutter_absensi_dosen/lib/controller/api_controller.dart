@@ -63,7 +63,7 @@ class ApiController {
         'Authorization': 'Bearer $token'
       }).timeout(Duration(seconds: 30));
       if (response.statusCode == 200) {
-        print(response.body);
+        print('dashboard ' + response.statusCode.toString());
         return dasboardFromJson(response.body);
       }
     } catch (e) {
@@ -81,9 +81,8 @@ class ApiController {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token'
       }).timeout(Duration(seconds: 30));
-      print(response.statusCode);
       if (response.statusCode == 200) {
-        // print(json.decode(response.body)['data']);
+        print('jadwal saya ' + response.statusCode.toString());
         return jadwalSayaFromJson(response.body);
       }
     } catch (e) {
@@ -101,9 +100,8 @@ class ApiController {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token'
       }).timeout(Duration(seconds: 30));
-      print(response.statusCode);
       if (response.statusCode == 200) {
-        // print('get absensi');
+        print('absensi matkul ' + response.statusCode.toString());
         return absensiFromJson(response.body);
       }
     } catch (e) {
@@ -201,6 +199,24 @@ class ApiController {
         'Authorization': 'Bearer $value'
       }).timeout(Duration(seconds: 30));
       print('Response body xx: ' + req.body);
+      return json.decode(req.body)['data'];
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future getRuangan(String kode) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final key = 'token';
+      final value = prefs.get(key) ?? 0;
+
+      String myUrl = "$serverUrl/ruangan?kode=$kode";
+      var req = await http.get(Uri.parse(myUrl), headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $value',
+      }).timeout(Duration(seconds: 30));
+      print('Respone get Ruangan: ' + req.body);
       return json.decode(req.body)['data'];
     } catch (e) {
       print(e);

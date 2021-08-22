@@ -29,7 +29,7 @@ class _JadwalViewState extends State<JadwalView> {
             );
           } else if (snapshot.connectionState == ConnectionState.done) {
             List<Jadwal> jadwals = snapshot.data.jadwals;
-            print(jadwals.length);
+            print('jumlah jadwal ' + jadwals.length.toString());
             return GroupedListView<Jadwal, String>(
               elements: jadwals,
               groupBy: (element) => element.hari,

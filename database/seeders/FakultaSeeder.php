@@ -29,10 +29,10 @@ class FakultaSeeder extends Seeder
             ],
             [
                 'name' => 'Fakultas Ilmu Keguruan Dan Pendidikan',
-                'kode' => 'FH'
+                'kode' => 'FKIP'
             ], [
                 'name' => 'Fakultas Kehutanan',
-                'kode' => 'FH'
+                'kode' => 'FHUT'
             ],
         ];
 

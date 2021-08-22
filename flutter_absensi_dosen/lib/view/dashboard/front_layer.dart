@@ -58,7 +58,7 @@ class _FrontLayerState extends State<FrontLayer> {
                         children: [
                           Text('Informasi'),
                           Text('Hari : ' +
-                              hari[DateTime.now().weekday] +
+                              hari[DateTime.now().weekday - 1] +
                               ' ,' +
                               _timeString),
                         ],
