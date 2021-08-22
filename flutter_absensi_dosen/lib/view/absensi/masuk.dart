@@ -34,7 +34,7 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
 
   String _timeString;
 
-  Future _scan(double lat, double long) async {
+  Future _scan() async {
     await Permission.camera.request();
     String barcode = await scanner.scan();
     if (barcode == null) {
@@ -54,7 +54,8 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
   void _requestPermissionLocation() async {
     await Permission.locationAlways.request().then((value) => {
           setState(() {
-            _permissionLocation = value.toString();
+            // _permissionLocation = value.toString();
+            print(value.toString());
           })
         });
   }
@@ -75,10 +76,11 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
         .absensimasuk(
             DateTime.now().toString(),
             metode,
+            ruangan,
             pembahasanController.text,
             widget.jadwal.id,
-            latitude.toDouble(),
-            longitude.toDouble(),
+            latitude,
+            longitude,
             jarak)
         .then((value) {
       print('value ' + value['success'].toString());
@@ -122,8 +124,7 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
 
   ApiController apiController = ApiController();
 
-  String ruangan;
-  String _permissionLocation = 'Belum Scan Absensi';
+  String ruangan = "E-Class";
   double _akurasiLokasi = 0;
   double latitude = 0;
   double reflat;
@@ -147,7 +148,7 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
 
   @override
   Widget build(BuildContext context) {
-    const itemsMenu = <String>[
+    const metodeMenu = <String>[
       'Tatap Muka',
       'E-Class',
     ];
@@ -200,39 +201,45 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
                           hintText: "Masukan Materi",
                           fillColor: Colors.white70),
                     ),
-                    Container(
-                      margin: EdgeInsets.symmetric(
-                        vertical: 10,
-                      ),
-                      width: double.infinity,
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          side:
-                              BorderSide(width: 1.0, style: BorderStyle.solid),
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        ),
-                      ),
-                      child: DropdownButtonHideUnderline(
-                        child: Container(
-                          margin: EdgeInsets.only(left: 10.0, right: 10.0),
-                          child: DropdownButton<String>(
-                            hint: Text('Pilih Metode'),
-                            value: metode,
-                            items: itemsMenu.map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                metode = value;
-                              });
-                            },
+                    (latitude == 0 && longitude == 0 && _akurasiLokasi == 0)
+                        ? Text(
+                            'Silahkan klik "Dapatkan Lokasi" untuk mendapatkan lokasi anda')
+                        : Container(
+                            margin: EdgeInsets.symmetric(
+                              vertical: 10,
+                            ),
+                            width: double.infinity,
+                            decoration: ShapeDecoration(
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    width: 1.0, style: BorderStyle.solid),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0)),
+                              ),
+                            ),
+                            child: DropdownButtonHideUnderline(
+                              child: Container(
+                                margin:
+                                    EdgeInsets.only(left: 10.0, right: 10.0),
+                                child: DropdownButton<String>(
+                                  hint: Text('Pilih Metode'),
+                                  value: metode,
+                                  items: metodeMenu.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      metode = value;
+                                      print(metode);
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               )),
@@ -251,18 +258,22 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
                     Text('Akurasi : ' +
                         (100 - _akurasiLokasi.ceilToDouble()).toString() +
                         ' %'),
-                    (ruangan == null)
-                        ? Text('Ruangan : Belum Melakukan Scan')
-                        : Text('Ruangan : ' +
-                            ruangan +
-                            ' (' +
-                            reflong.toString() +
-                            ', ' +
-                            reflat.toString() +
-                            ')'),
-                    Text('Jarak : ' +
-                        jarak.ceilToDouble().toString() +
-                        ' meter'),
+                    (metode == "Tatap Muka")
+                        ? (ruangan == "E-Class")
+                            ? Text('Ruangan : Belum Melakukan Scan')
+                            : Text('Ruangan : ' +
+                                ruangan +
+                                ' (' +
+                                reflong.toString() +
+                                ', ' +
+                                reflat.toString() +
+                                ')')
+                        : Text(''),
+                    (metode == "Tatap Muka")
+                        ? Text('Jarak : ' +
+                            jarak.ceilToDouble().toString() +
+                            ' meter')
+                        : Text('')
                   ],
                 ),
               )),
@@ -281,39 +292,66 @@ class _AbsensiMasukState extends State<AbsensiMasuk> {
                   ),
                 ),
               ),
-              Container(
-                width: double.infinity,
-                child: Card(
-                  color: Colors.transparent,
-                  elevation: 0,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      _scan(reflat, reflong);
-                    },
-                    child: Text('Scan'),
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.amber, onPrimary: Colors.black),
-                  ),
-                ),
-              ),
-              (ruangan == null)
-                  ? Text('Silahkan scan barcode absensi dikelas')
-                  : Container(
-                      width: double.infinity,
-                      child: Card(
-                        color: Colors.transparent,
-                        elevation: 0,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _uploadAbsensi();
-                          },
-                          child: Text('Submit'),
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.lightGreen,
+              (latitude == 0 && longitude == 0 && _akurasiLokasi == 0)
+                  ? Text(
+                      'Silahkan klik "Dapatkan Lokasi" untuk mendapatkan lokasi anda')
+                  : (metode == "Tatap Muka")
+                      ? Container(
+                          width: double.infinity,
+                          child: Card(
+                            color: Colors.transparent,
+                            elevation: 0,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                _scan();
+                              },
+                              child: Text('Scan'),
+                              style: ElevatedButton.styleFrom(
+                                  primary: Colors.amber,
+                                  onPrimary: Colors.black),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
+                        )
+                      : (metode == "E-Class")
+                          ? Container(
+                              width: double.infinity,
+                              child: Card(
+                                color: Colors.transparent,
+                                elevation: 0,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    _uploadAbsensi();
+                                  },
+                                  child: Text('Submit Absensi E-Class'),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.lightGreen,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Text("Silahkan memilih metode"),
+              (metode == "Tatap Muka")
+                  ? (ruangan == "E-Class")
+                      ? Text('Silahkan scan barcode absensi dikelas')
+                      : (jarak <= 5)
+                          ? Container(
+                              width: double.infinity,
+                              child: Card(
+                                color: Colors.transparent,
+                                elevation: 0,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    _uploadAbsensi();
+                                  },
+                                  child: Text('Submit Absensi Tatap Muka'),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.lightGreen,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Text('Jarak anda terlalu jauh dari ruangan')
+                  : Text(''),
             ],
           ),
         ));

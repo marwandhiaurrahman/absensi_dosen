@@ -29,6 +29,7 @@ class AbsensiElement {
     @required this.pertemuan,
     @required this.tanggal,
     @required this.metode,
+    @required this.ruangan,
     @required this.pembahasan,
     @required this.masuk,
     @required this.keluar,
@@ -42,6 +43,7 @@ class AbsensiElement {
   String pertemuan;
   DateTime tanggal;
   String metode;
+  String ruangan;
   String pembahasan;
   String masuk;
   String keluar;
@@ -55,6 +57,7 @@ class AbsensiElement {
         pertemuan: json["pertemuan"],
         tanggal: DateTime.parse(json["tanggal"]),
         metode: json["metode"],
+        ruangan: json["ruangan"],
         pembahasan: json["pembahasan"],
         masuk: json["masuk"],
         keluar: json["keluar"] == null ? null : json["keluar"],
@@ -70,6 +73,7 @@ class AbsensiElement {
         "tanggal":
             "${tanggal.year.toString().padLeft(4, '0')}-${tanggal.month.toString().padLeft(2, '0')}-${tanggal.day.toString().padLeft(2, '0')}",
         "metode": metode,
+        "ruangan": ruangan,
         "pembahasan": pembahasan,
         "masuk": masuk,
         "keluar": keluar == null ? null : keluar,

@@ -17,6 +17,7 @@ class CreateAbsensisTable extends Migration
             $table->id();
             $table->string('pertemuan');
             $table->date('tanggal');
+            $table->string('ruangan');
             $table->string('metode');
             $table->string('pembahasan');
             $table->time('masuk');

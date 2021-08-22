@@ -112,6 +112,7 @@ class ApiController {
   Future absensimasuk(
     String tanggal,
     String metode,
+    String ruangan,
     String pembahasan,
     int jadwalid,
     double latitude,
@@ -129,13 +130,14 @@ class ApiController {
       }, body: {
         "tanggal": tanggal,
         "metode": metode,
+        "ruangan": ruangan,
         "pembahasan": pembahasan,
         "jadwal_id": jadwalid.toString(),
         "lat_anda": latitude.toString(),
         "long_anda": longitude.toString(),
         "jarak": jarak.toString(),
       }).timeout(Duration(seconds: 30));
-      print('Response status absensi masuk : ${req.statusCode}');
+      print('Response status absensi masuk : ${req.body}');
       if (req.statusCode == 200) {
         return json.decode(req.body);
       } else {

@@ -115,47 +115,48 @@ class AbsensiController extends BaseController
             'metode' => 'required',
             'tanggal' => 'required',
             'pembahasan' => 'required',
+            'ruangan' => 'required',
             'jadwal_id' => 'required',
             'lat_anda' => 'required',
             'long_anda' => 'required',
             'jarak' => 'required',
         ]);
-
-        $request['masuk'] = Carbon::now();
-        $request['keluar'] = null;
-
-        $patokan = Location::first();
-        $patokan_lat = $patokan->location->getLat();
-        $patokan_long = $patokan->location->getLng();
-
-        $jarak = $this->distance($patokan_lat, $patokan_long, $request->lat_anda, $request->long_anda, "K");
-
-        if ($request->metode == "Tatap Muka") {
-            if ($jarak * 1000  <= $patokan->jarak_min) {
-                $request['validasi'] = true;
-                // $request['jarak'] = $jarak * 1000;
-            } else {
-                return $this->sendError('Anda diluar jangkauan absensi, jarak anda ' . $jarak);
-                // return redirect()->back();
-            }
-        }
-
-        if ($request->metode == "E-Class") {
-            $request['validasi'] = true;
-            // $request['jarak'] = $jarak;
-        }
-
-        $absensis = Absensi::where('jadwal_id', $request->jadwal_id)->count();
-
-        $request['pertemuan'] = $absensis + 1;
-        $input = $request->all();
-        $absensi = Absensi::create($input);
-
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
 
-        return $this->sendResponse(new UserResorces($absensi), 'Product created successfully.');
+
+        $request['masuk'] = Carbon::now();
+        $request['keluar'] = null;
+
+        // $patokan = Location::first();
+        // $patokan_lat = $patokan->location->getLat();
+        // $patokan_long = $patokan->location->getLng();
+
+        // $jarak = $this->distance($patokan_lat, $patokan_long, $request->lat_anda, $request->long_anda, "K");
+
+        // if ($request->metode == "Tatap Muka") {
+        //     if ($jarak * 1000  <= $patokan->jarak_min) {
+        //         $request['validasi'] = true;
+        //         // $request['jarak'] = $jarak * 1000;
+        //     } else {
+        //         return $this->sendError('Anda diluar jangkauan absensi, jarak anda ' . $jarak);
+        //         // return redirect()->back();
+        //     }
+        // }
+
+        // if ($request->metode == "E-Class") {
+        //     // $request['jarak'] = $jarak;
+        // }
+
+        $absensis = Absensi::where('jadwal_id', $request->jadwal_id)->count();
+        $request['validasi'] = true;
+        $request['pertemuan'] = $absensis + 1;
+        $input = $request->all();
+        // dd($input);
+        $absensi = Absensi::create($input);
+
+        return $this->sendResponse(new UserResorces($absensi), 'Absensi created successfully.');
     }
 
     public function keluarabsensi(Request $request, int $id)

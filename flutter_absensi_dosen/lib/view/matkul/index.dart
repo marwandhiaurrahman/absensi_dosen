@@ -185,6 +185,9 @@ const kTableColumns = <DataColumn>[
     label: Text('Metode'),
   ),
   DataColumn(
+    label: Text('Ruangan'),
+  ),
+  DataColumn(
     label: Text('Pembahasan'),
   ),
   DataColumn(
@@ -217,6 +220,7 @@ class AbsensiDataSource extends DataTableSource {
       DataCell(Text('Pertemuan ' + absensi.pertemuan.toString())),
       DataCell(Text(DateFormat('d MMMM yyyy').format(absensi.tanggal))),
       DataCell(Text(absensi.metode.toString())),
+      DataCell(Text(absensi.ruangan.toString())),
       DataCell(Text(absensi.pembahasan.toString())),
       DataCell(Text(absensi.masuk.toString())),
       DataCell(Text(absensi.keluar.toString())),

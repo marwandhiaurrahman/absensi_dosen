@@ -41,6 +41,7 @@
                                         <th width="50px">Pertemuan</th>
                                         <th width="100px">Tanggal</th>
                                         <th width="100px">Metode</th>
+                                        <th width="100px">Ruangan</th>
                                         <th width="100px">Jam Masuk</th>
                                         <th width="100px">Jam Keluar</th>
                                         <th width="100px">Jarak</th>
@@ -53,6 +54,7 @@
                                         <td>{{$absensi->pertemuan}}</td>
                                         <td>{{$absensi->tanggal}}</td>
                                         <td>{{$absensi->metode}}</td>
+                                        <td>{{$absensi->ruangan}}</td>
                                         <td>{{$absensi->masuk}}</td>
                                         <td>
                                             @if (is_null($absensi->keluar))
